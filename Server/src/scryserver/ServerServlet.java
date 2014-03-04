@@ -60,7 +60,7 @@ public class ServerServlet extends HttpServlet {
 		}
 		return ret_user;
 	}
-	/*
+	
 	public static void updateTaskList(User user){
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try{
@@ -89,12 +89,12 @@ public class ServerServlet extends HttpServlet {
 			User ret_user1 = pm.getObjectById(User.class, user1.getEmail());
 			User ret_user2 = pm.getObjectById(User.class, user2.getEmail());
 			//SHOULD FRIENDS LIST BE MADE UP OF USERS, EMAILS, OR FRIENDS
-			 * FRIENDS WOULD JUST HAVE EMAIL, NAME, AND TASKS
-			ret_user1.getFriendsList().add(user2);
-			ret_user2.getFriendsList().add(user1);
+			// * FRIENDS WOULD JUST HAVE EMAIL, NAME, AND TASKS
+			ret_user1.addFriend(user2);
+			ret_user2.addFriend(user1);
 		}
 		finally{
 			pm.close();
 		}
-	}*/
+	}
 }
