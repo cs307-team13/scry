@@ -1,7 +1,8 @@
-package scryserver;
+package edu.purdue.cs307.scry;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import java.util.ArrayList;
 
 /*Persistence is what will enable the google app engine to write instances of
  * classes to the datastore, which is the database we will be using through the 
@@ -30,6 +31,9 @@ public class User {
 	
 	@Persistent
 	private String name;
+	
+	@Persistent
+	private ArrayList<Task> tasklist;
 	
 	@PrimaryKey
 	@Persistent

@@ -3,11 +3,11 @@ package scryserver;
 import java.io.IOException;
 
 import javax.jdo.PersistenceManager;
-import javax.jdo.PersistenceManagerFactory;
 import javax.servlet.http.*;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import edu.purdue.cs307.scry.User;
 
 @SuppressWarnings("serial")
 public class ServerServlet extends HttpServlet {
