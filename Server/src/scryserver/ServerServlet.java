@@ -7,7 +7,7 @@ import javax.servlet.http.*;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import edu.purdue.cs307.scry.User;
+//import edu.purdue.cs307.scry;
 
 @SuppressWarnings("serial")
 public class ServerServlet extends HttpServlet {
@@ -61,7 +61,7 @@ public class ServerServlet extends HttpServlet {
 		return ret_user;
 	}
 	
-	public static void updateTaskList(User user){
+	/*public static void updateTaskList(User user){
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try{
 			User u = pm.getObjectById(User.class, user.getEmail());
@@ -96,5 +96,5 @@ public class ServerServlet extends HttpServlet {
 		finally{
 			pm.close();
 		}
-	}
+	}*/
 }
