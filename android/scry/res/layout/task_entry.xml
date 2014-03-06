@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Button
+        android:id="@+id/entertaskbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/viewlistbutton"
+        android:layout_alignTop="@+id/viewlistbutton"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="28dp"
+        android:layout_toLeftOf="@+id/viewlistbutton"
+        android:text="Enter Task" />
+
+    <Button
+        android:id="@+id/viewlistbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="145dp"
+        android:layout_marginRight="48dp"
+        android:text="View List" />
+
+    <EditText
+        android:id="@+id/etxt_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/entertaskbutton"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="86dp"
+        android:ems="10"
+        android:hint="Enter task here" />
+
+    <EditText
+        android:id="@+id/category_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/entertaskbutton"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="41dp"
+        android:ems="10"
+        android:hint="Category" />
+
+</RelativeLayout>
