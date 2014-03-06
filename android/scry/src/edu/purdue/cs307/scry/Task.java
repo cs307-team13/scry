@@ -36,53 +36,65 @@ public class Task implements java.io.Serializable {
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyy", Locale.US);
 
     public Task() {
-	date = new Date();
-	entry_date = dateFormat.format(date);
-	adj_date = dateFormat.format(date);
+    	date = new Date();
+		entry_date = dateFormat.format(date);
+		adj_date = dateFormat.format(date);
     }
 
     public Task(String s, String cat, double lat, double lon, String email) {
-	title = s;
-	category = cat;
-	lat_location = lat;
-	long_location = lon;
-	useremail = email;
+    	title = s;
+    	category = cat;
+    	lat_location = lat;
+    	long_location = lon;
+    	useremail = email;
 
-	date = new Date();
-	entry_date = dateFormat.format(date);
-	adj_date = dateFormat.format(date);
+    	date = new Date();
+    	entry_date = dateFormat.format(date);
+		adj_date = dateFormat.format(date);
     }
 
     public Task(String s, String email) {
-	title = s;
-	useremail = email;
+    	title = s;
+    	useremail = email;
 
-	date = new Date();
+    	date = new Date();
 
-	entry_date = dateFormat.format(date);
-	adj_date = dateFormat.format(date);
+    	entry_date = dateFormat.format(date);
+    	adj_date = dateFormat.format(date);
     }
 
     public void setTask(String s) {
-	this.title = s;
-	this.date = new Date();
-	this.adj_date = dateFormat.format(date);
+    	this.title = s;
+    	this.date = new Date();
+    	this.adj_date = dateFormat.format(date);
     }
 
     public String getOwnerEmail() {
-	return this.useremail;
+    	return this.useremail;
     }
 
     public String getEntryDate() {
-	return this.entry_date;
+    	return this.entry_date;
+    }
+    
+    public String getCategory() {
+    	return this.category;
     }
 
     public String getAdjustmentDate() {
-	return this.adj_date;
+    	return this.adj_date;
     }
 
+    /*Use getDetails() for more information on a task*/
+    public String getDetails(){
+    	String description;
+    	description = "Category: " + this.getCategory() + "\n";
+    	description += "Entry Date: " + this.getEntryDate();
+    	return description;
+    }
     @Override
     public String toString() {
-	return title;
+    	
+    	return title;
     }
 }
