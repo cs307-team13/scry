@@ -12,7 +12,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:ems="10"
-        android:hint="Enter task here" >
+        android:hint="Enter task here"
+        android:textColor="#FFFFFF" >
 
         <requestFocus />
     </EditText>
@@ -24,7 +25,8 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@id/etxt_title"
         android:ems="10"
-        android:hint="Category" />
+        android:hint="Category"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/btn_create"
