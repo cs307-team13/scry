@@ -74,4 +74,8 @@ public class Task implements java.io.Serializable{
 	public String getAdjustmentDate(){
 		return this.adj_date;
 	}
+	
+	public String toString(){
+		return this.descrip;
+	}
 }
