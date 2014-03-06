@@ -13,30 +13,7 @@ import android.widget.TextView;
 
 public class CreateTaskFragment extends Fragment {
     public static String TAG = "CreateTaskFragment";
-    private TaskDataSource datasource;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-
-	datasource = new TaskDataSource(this.getActivity()
-	        .getApplicationContext());
-	datasource.open();
-    }
-
-
-
-    @Override
-    public void onResume() {
-	datasource.open();
-	super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-	datasource.close();
-	super.onPause();
-    }
+    
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,6 +22,17 @@ public class CreateTaskFragment extends Fragment {
 	        .inflate(R.layout.create_task, null);
 
 	Button b = (Button) v.findViewById(R.id.btn_create);
+	Button list = (Button) v.findViewById(R.id.btn_openlist);
+	
+	list.setOnClickListener(new OnClickListener() {
+
+	    @Override
+            public void onClick(View v) {
+	        ((MainActivity) getActivity()).pushListFragment();
+            }
+	    
+	});
+	
 
 	b.setOnClickListener(new OnClickListener() {
 
@@ -62,7 +50,7 @@ public class CreateTaskFragment extends Fragment {
 
 		    @Override
 		    protected Void doInBackground(Void... arg0) {
-			Task t = datasource.createComment(title, category);
+			Task t = ((TaskDatasourceActivity) getActivity()).getDataSource().createComment(title, category);
 			
 			return null;
 		    }

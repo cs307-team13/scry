@@ -35,7 +35,7 @@
         android:text="Enter Task" />
 
     <Button
-        android:id="@+id/viewlistbutton"
+        android:id="@+id/btn_openlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@id/etxt_category"

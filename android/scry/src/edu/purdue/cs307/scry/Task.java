@@ -19,7 +19,7 @@ public class Task implements java.io.Serializable {
 
     @Persistent
     public String category;
-    
+
     @Persistent
     public double lat_location, long_location;
 
@@ -79,5 +79,10 @@ public class Task implements java.io.Serializable {
 
     public String getAdjustmentDate() {
 	return this.adj_date;
+    }
+
+    @Override
+    public String toString() {
+	return title;
     }
 }

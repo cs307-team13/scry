@@ -52,7 +52,7 @@ public class TaskDataSource {
 	return newTask;
     }
 
-    public List<Task> getAllComments() {
+    public List<Task> getAllTasks() {
 	List<Task> comments = new ArrayList<Task>();
 
 	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
@@ -67,6 +67,16 @@ public class TaskDataSource {
 	// make sure to close the cursor
 	cursor.close();
 	return comments;
+}
+    
+    public Cursor getAllTasksAsCursor() {
+	
+	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
+			allColumns, null, null, null, null, null);
+
+	cursor.moveToFirst();
+	
+	return cursor;
 }
     
     private Task cursorToTask(Cursor cursor)
