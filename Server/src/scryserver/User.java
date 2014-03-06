@@ -9,31 +9,31 @@ import javax.jdo.annotations.PrimaryKey;
 @PersistenceCapable
 public class User {
 	@Persistent
-	private int phone_number;
+	private long phone_number;
 	
 	@Persistent
 	private String name;
 	
-	@Persistent
+	/*@Persistent
 	private ArrayList<Task> tasklist;
-	
-	@Persistent
+	*/
+	/*@Persistent
 	private ArrayList<User> friendsList;
-	
+	*/
 	@PrimaryKey
 	@Persistent
 	private String email;
 	
 	
-	public User(int num, String nam, String em){
+	public User(long num, String nam, String em){
 		phone_number = num;
 		name = nam;
 		email = em;
-		tasklist = new ArrayList<Task>();
-		friendsList = new ArrayList<User>();
+		//tasklist = new ArrayList<Task>();
+		//friendsList = new ArrayList<User>();
 	}
 	
-	public int getPhone(){
+	public long getPhone(){
 		return this.phone_number;
 	}
 	
@@ -45,7 +45,7 @@ public class User {
 		return this.email;
 	}
 	
-	public ArrayList<Task> getTaskList(){
+	/*public ArrayList<Task> getTaskList(){
 		return this.tasklist;
 	}
 	
@@ -69,7 +69,7 @@ public class User {
 	
 	public void addFriend(User friend){
 		this.getFriendsList().add(friend);
-	}
+	}*/
 	
 	public String toString(){
 		String info = "";

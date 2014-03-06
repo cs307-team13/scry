@@ -30,6 +30,9 @@ public class Task implements java.io.Serializable {
 
     @Persistent
     private String adj_date;
+    
+    @Persistent
+    private boolean complete;
 
     private Date date;
 
@@ -47,6 +50,7 @@ public class Task implements java.io.Serializable {
     	lat_location = lat;
     	long_location = lon;
     	useremail = email;
+    	complete = false;
 
     	date = new Date();
     	entry_date = dateFormat.format(date);
@@ -69,6 +73,10 @@ public class Task implements java.io.Serializable {
     	this.adj_date = dateFormat.format(date);
     }
 
+    public boolean isComplete(){
+    	return this.complete;
+    }
+    
     public String getOwnerEmail() {
     	return this.useremail;
     }
