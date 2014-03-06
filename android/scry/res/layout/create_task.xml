@@ -1,47 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/RelativeLayout1"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_scroll"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_vertical" >
+    android:layout_height="match_parent" >
 
-    <EditText
-        android:id="@+id/etxt_title"
+    <RelativeLayout
+        android:id="@+id/RelativeLayout1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:ems="10"
-        android:hint="Enter task here"
-        android:textColor="#FFFFFF" >
+        android:layout_height="match_parent"
+        android:gravity="center_vertical" >
 
-        <requestFocus />
-    </EditText>
+        <EditText
+            android:id="@+id/etxt_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:ems="10"
+            android:hint="Enter task here"
+            android:textColor="#FFFFFF" >
 
-    <EditText
-        android:id="@+id/etxt_category"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/etxt_title"
-        android:ems="10"
-        android:hint="Category"
-        android:textColor="#FFFFFF" />
+            <requestFocus />
+        </EditText>
 
-    <Button
-        android:id="@+id/btn_create"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/etxt_category"
-        android:text="Enter Task" />
+        <EditText
+            android:id="@+id/etxt_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/etxt_title"
+            android:ems="10"
+            android:hint="Category"
+            android:textColor="#FFFFFF" />
 
-    <Button
-        android:id="@+id/btn_openlist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@id/etxt_category"
-        android:layout_below="@id/etxt_category"
-        android:text="View List" />
+        <Button
+            android:id="@+id/btn_create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/etxt_category"
+            android:text="Enter Task" />
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/btn_openlist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@id/etxt_category"
+            android:layout_below="@id/etxt_category"
+            android:text="View List" />
+    </RelativeLayout>
+
+</ScrollView>
