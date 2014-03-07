@@ -16,15 +16,12 @@ public class TaskListFragment extends ListFragment {
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
-	
-
     	super.onCreate(savedInstanceState);
 	
     	TaskArrayAdapter adapter = new TaskArrayAdapter(getActivity().getApplicationContext(),
 		        0, ((TaskDatasourceActivity) getActivity()).getDataSource()
 	            .getAllTasks());
-        setListAdapter(adapter);
-        
+        setListAdapter(adapter);        
     }
     
     @Override
