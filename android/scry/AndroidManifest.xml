@@ -26,7 +26,7 @@
                 android:value=".ItemListActivity" />
         </activity>
         <activity
-            android:name="edu.purdue.cs307.scry.StupidStuff"
+            android:name="edu.purdue.cs307.scry.SignInActivity"
             android:label="@string/title_activity_main" >
         </activity>
         <activity
