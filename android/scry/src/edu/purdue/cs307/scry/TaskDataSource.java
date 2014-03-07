@@ -89,4 +89,11 @@ public class TaskDataSource {
 	
 	return task;
     }
+    
+    public void deleteTask(Task task) {
+	long id = task.getId();
+	System.out.println("Task deleted with id: " + id);
+	database.delete(TaskStoreContract.TaskEntry.TABLE_NAME, TaskStoreContract.TaskEntry._ID
+			+ " = " + id, null);
+}
 }

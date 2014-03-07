@@ -35,11 +35,11 @@ public class Task implements java.io.Serializable {
     private boolean complete;
 
     
-    private double _id; 
+    private int _id; 
     
     private Date date;
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyy", Locale.US);
+    SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
 
     public Task() {
     	date = new Date();
@@ -76,12 +76,12 @@ public class Task implements java.io.Serializable {
     	this.adj_date = dateFormat.format(date);
     }
 
-    public void setId(double id)
+    public void setId(int id)
     {
 	_id = id; 
     }
     
-    public double getId()
+    public int getId()
     {
 	return _id; 
     }
