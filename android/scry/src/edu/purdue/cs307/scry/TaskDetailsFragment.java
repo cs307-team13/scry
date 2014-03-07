@@ -20,12 +20,31 @@ public class TaskDetailsFragment extends Fragment {
 	public String adj_date;
 	public Task task1;
 	
+	public TaskDetailsFragment newInstance(Task t) {
+		task1 = t;
+	    TaskDetailsFragment f = new TaskDetailsFragment();
+	    Bundle args = new Bundle();
+	    title = t.toString();
+		category = t.getCategory();
+	    args.putString("title", title);
+	    args.putString("category", category);
+	    f.setArguments(args);
+	    return f;
+	}
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		Bundle args = getArguments();
+	    //title = args.getString("title");
+	    //category = args.getString("category");
+	}
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 		    Bundle savedInstanceState) {
 		final View v = inflater
 		        .inflate(R.layout.fragment_item_properties, null);
-
+	    
 		TextView text_title = (TextView)v.findViewById(R.id.title);
 		text_title.setText(title);
 		TextView text_category = (TextView)v.findViewById(R.id.category);
@@ -57,15 +76,5 @@ public class TaskDetailsFragment extends Fragment {
 			}
 		});
 		return v;
-	}
-		
-
-	
-	public void getDetails(Task t){
-		Log.wtf("This Sucks", "in get details");
-		title = t.toString();
-		category = t.getCategory();
-		task1 = t;
-		
 	}
 }
