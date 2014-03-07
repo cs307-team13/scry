@@ -28,49 +28,56 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Title"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge" 
+                android:textColor="#FFFFFF"/>
 
             <TextView
                 android:id="@+id/category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Category"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#FFFFFF" />
 
             <TextView
                 android:id="@+id/owner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Michael and Bryan"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#FFFFFF" />
 
             <TextView
                 android:id="@+id/view_lat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#FFFFFF" />
 
             <TextView
                 android:id="@+id/view_long"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#FFFFFF" />
 
             <TextView
                 android:id="@+id/created_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3/7/2014"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium" 
+                android:textColor="#FFFFFF"/>
 
             <TextView
                 android:id="@+id/adj_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3/7/2014"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#FFFFFF" />
 
             <Button
                 android:id="@+id/edit"
