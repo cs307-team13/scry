@@ -38,6 +38,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="edu.purdue.cs307.scry.SignInActivity"
+            android:label="@string/title_activity_sign_in" >
+        </activity>
     </application>
 
 </manifest>
