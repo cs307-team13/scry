@@ -90,6 +90,10 @@ public class Task implements java.io.Serializable {
     	return this.complete;
     }
     
+    public void setComplete(){
+    	this.complete = true;
+    }
+    
     public String getOwnerEmail() {
     	return this.useremail;
     }
