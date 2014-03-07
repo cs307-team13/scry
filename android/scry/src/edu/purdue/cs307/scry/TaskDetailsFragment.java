@@ -62,6 +62,7 @@ public class TaskDetailsFragment extends Fragment {
 
 	
 	public void getDetails(Task t){
+		Log.wtf("This Sucks", "in get details");
 		title = t.toString();
 		category = t.getCategory();
 		task1 = t;

@@ -3,6 +3,8 @@ package edu.purdue.cs307.scry;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
+import android.util.Log;
+
 import java.util.Date;
 import java.util.Locale;
 import java.text.SimpleDateFormat;
@@ -91,6 +93,7 @@ public class Task implements java.io.Serializable {
     }
     
     public void setComplete(){
+    	Log.wtf("This Sucks", "in set completed");
     	this.complete = true;
     }
     
