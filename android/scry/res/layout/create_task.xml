@@ -48,6 +48,16 @@
             android:layout_alignRight="@id/etxt_category"
             android:layout_below="@id/etxt_category"
             android:text="View List" />
+
+        <Button
+            android:id="@+id/btn_tstlogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:onClick="loginmothafucka"
+            android:text="Goto Login" />
+
     </RelativeLayout>
 
 </ScrollView>

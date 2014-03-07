@@ -14,6 +14,7 @@ import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.google.android.gms.plus.model.people.PersonBuffer;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -21,7 +22,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -31,7 +31,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class SigninActivity extends FragmentActivity implements
+public class SigninActivity extends Activity implements
 		ConnectionCallbacks, OnConnectionFailedListener,
 		ResultCallback<People.LoadPeopleResult>, View.OnClickListener {
 
@@ -82,7 +82,7 @@ public class SigninActivity extends FragmentActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fragment_signin);
+		setContentView(R.layout.activity_signin);
 
 		mSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
 		mSignInButton.setOnClickListener(this);
