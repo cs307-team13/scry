@@ -34,6 +34,9 @@ public class Task implements java.io.Serializable {
     @Persistent
     private boolean complete;
 
+    
+    private double _id; 
+    
     private Date date;
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyy", Locale.US);
@@ -73,6 +76,16 @@ public class Task implements java.io.Serializable {
     	this.adj_date = dateFormat.format(date);
     }
 
+    public void setId(double id)
+    {
+	_id = id; 
+    }
+    
+    public double getId()
+    {
+	return _id; 
+    }
+    
     public boolean isComplete(){
     	return this.complete;
     }
