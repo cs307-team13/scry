@@ -4,37 +4,39 @@
     android:layout_height="match_parent" 
     android:clickable="true"
     android:longClickable="true"
-    android:background="#000000">
+    android:background="@android:color/white">
 
     <CheckBox
         android:id="@+id/task_completed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:clickable="false"
+        android:layout_alignParentRight="true"
+        android:clickable="true"
         android:longClickable="false"
-        android:padding="16dp" />
+        android:paddingRight="10dp"
+        android:paddingTop="40dp" />
 
     <TextView
         android:id="@+id/task_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/task_completed"
-        android:layout_toRightOf="@+id/task_completed"
+        android:layout_alignParentLeft="true"
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:paddingTop="10dp"
+        android:text="Title Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/black" />
 
     <TextView
         android:id="@+id/task_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/task_name"
+        android:layout_alignParentLeft="true"
         android:layout_below="@+id/task_name"
-        android:padding="16dp"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:paddingLeft="10dp"
+        android:text="Subtitle Text"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/common_signin_btn_text_light" />
 
 </RelativeLayout>

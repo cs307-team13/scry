@@ -18,10 +18,7 @@
             android:layout_alignParentTop="true"
             android:ems="10"
             android:hint="Enter task here"
-            android:textColor="#FFFFFF" >
-
-            <requestFocus />
-        </EditText>
+            android:textColor="@android:color/black" />
 
         <EditText
             android:id="@+id/etxt_category"
@@ -31,7 +28,7 @@
             android:layout_below="@id/etxt_title"
             android:ems="10"
             android:hint="Category"
-            android:textColor="#FFFFFF" />
+            android:textColor="@android:color/black" />
 
         <Button
             android:id="@+id/btn_create"
@@ -49,14 +46,16 @@
             android:layout_below="@id/etxt_category"
             android:text="View List" />
 
-        <!-- <Button
+        <!--
+             <Button
             android:id="@+id/btn_tstlogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:onClick="loginmothafucka"
-            android:text="Goto Login" /> -->
+            android:text="Goto Login" />
+        -->
 
     </RelativeLayout>
 

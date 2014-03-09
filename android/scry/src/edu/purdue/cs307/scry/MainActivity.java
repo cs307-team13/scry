@@ -22,7 +22,7 @@ public class MainActivity extends Activity implements TaskDatasourceActivity{
 	
 	FragmentManager fm = getFragmentManager();
 	fm.beginTransaction()
-	        .add(R.id.fragment_pane, new CreateTaskFragment()).commit();
+	        .add(R.id.fragment_pane, new CreateTaskFragment()).addToBackStack("CreateTaskFragment").commit();
 
     }
 
@@ -34,7 +34,7 @@ public class MainActivity extends Activity implements TaskDatasourceActivity{
     }
     
     public void loginmothafucka(View v){
-    	Intent intent = new Intent(this, SignInActivity.class);
+    	Intent intent = new Intent(this, SigninActivity.class);
     	startActivity(intent);
     }
 
@@ -58,12 +58,22 @@ public class MainActivity extends Activity implements TaskDatasourceActivity{
     public void pushListFragment() {
 	FragmentManager fm = getFragmentManager();
 	fm.beginTransaction()
-	        .replace(R.id.fragment_pane, new TaskListFragment()).commit();
+	        .add(R.id.fragment_pane, new TaskListFragment()).addToBackStack("TaskListFragment").commit();
     }
     
-    public void pushTaskDetailsFragment() {
+    public void pushTaskDetailsFragment(Task t) {
     	FragmentManager fm = getFragmentManager();
     	fm.beginTransaction()
-    	        .replace(R.id.fragment_pane, new TaskDetailsFragment()).commit();
+    	        .add(R.id.fragment_pane, TaskDetailsFragment.newInstance(t)).addToBackStack("TaskDetailsFragment").commit();
+    }
+    
+    @Override 
+    public void onBackPressed()
+    {
+	FragmentManager fm = getFragmentManager();
+	if(fm.getBackStackEntryCount() > 2)
+	    fm.popBackStack();
+	else 
+	    super.onBackPressed();
     }
 }
