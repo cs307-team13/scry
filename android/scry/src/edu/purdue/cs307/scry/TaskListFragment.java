@@ -19,7 +19,7 @@ public class TaskListFragment extends ListFragment {
     	super.onCreate(savedInstanceState);
 	
     	TaskArrayAdapter adapter = new TaskArrayAdapter(getActivity().getApplicationContext(),
-		        0, ((TaskDatasourceActivity) getActivity()).getDataSource()
+		        R.layout.fragment_task_list, ((TaskDatasourceActivity) getActivity()).getDataSource()
 	            .getAllTasks(), this);
         setListAdapter(adapter);        
     }

@@ -12,6 +12,8 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 public class TaskArrayAdapter extends ArrayAdapter<Task> {
@@ -66,6 +68,14 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 		} else {
 			completed.setChecked(false);
 		}
+		
+		completed.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		    
+		    @Override
+		    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			t.setComplete(isChecked);
+		    }
+		});
 		task_name.setText(t.toString());
 		task_category.setText(t.getCategory());
 		
@@ -74,9 +84,7 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 			@Override
 			public void onClick(View v) {
 				Log.wtf("This Sucks", "in on click");
-				TaskDetailsFragment helper = new TaskDetailsFragment();
-				helper.newInstance(t);
-				((MainActivity) frag.getActivity()).pushTaskDetailsFragment();
+				((MainActivity) frag.getActivity()).pushTaskDetailsFragment(t);
 			}
 		});
 		

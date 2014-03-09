@@ -24,6 +24,7 @@ import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -31,7 +32,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class SignInActivity extends Activity implements
+public class SigninActivity extends Activity implements
 		ConnectionCallbacks, OnConnectionFailedListener,
 		ResultCallback<People.LoadPeopleResult>, View.OnClickListener {
 
@@ -93,6 +94,19 @@ public class SignInActivity extends Activity implements
 		}
 
 		mGoogleApiClient = buildGoogleApiClient();
+		
+		
+		Button bypass = (Button) findViewById(R.id.btn_bypass);
+		bypass.setOnClickListener(new OnClickListener() {
+
+		    @Override
+                    public void onClick(View v) {
+	                Intent i = new Intent(SigninActivity.this, MainActivity.class);
+	                startActivity(i);
+	                finish();
+                    }
+		    
+		});
 	}
 
 	private GoogleApiClient buildGoogleApiClient() {
