@@ -34,7 +34,7 @@ public class MainActivity extends Activity implements TaskDatasourceActivity{
     }
     
     public void loginmothafucka(View v){
-    	Intent intent = new Intent(this, StupidStuff.class);
+    	Intent intent = new Intent(this, SignInActivity.class);
     	startActivity(intent);
     }
 
@@ -59,5 +59,11 @@ public class MainActivity extends Activity implements TaskDatasourceActivity{
 	FragmentManager fm = getFragmentManager();
 	fm.beginTransaction()
 	        .replace(R.id.fragment_pane, new TaskListFragment()).commit();
+    }
+    
+    public void pushTaskDetailsFragment() {
+    	FragmentManager fm = getFragmentManager();
+    	fm.beginTransaction()
+    	        .replace(R.id.fragment_pane, new TaskDetailsFragment()).commit();
     }
 }

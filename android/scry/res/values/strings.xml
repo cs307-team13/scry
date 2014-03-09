@@ -7,5 +7,6 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="signin_activity">Signin</string>
+    <string name="title_activity_sign_in">SignInActivity</string>
 
 </resources>
