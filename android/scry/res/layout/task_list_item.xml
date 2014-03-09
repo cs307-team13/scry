@@ -36,7 +36,7 @@
         android:layout_below="@+id/task_name"
         android:paddingLeft="10dp"
         android:text="Subtitle Text"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/common_signin_btn_text_light" />
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+	
 
 </RelativeLayout>

@@ -30,117 +30,52 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Title"
-<<<<<<< HEAD
-<<<<<<< HEAD
-                android:textAppearance="?android:attr/textAppearanceLarge" 
-                android:textColor="#FFFFFF"/>
-=======
-                android:textAppearance="?android:attr/textAppearanceLarge" />
->>>>>>> 88480a2fcc2765c24a5b3e139f83c478aa742e12
-=======
                 android:textAppearance="?android:attr/textAppearanceLarge"/>
->>>>>>> master
 
             <TextView
                 android:id="@+id/category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Category"
-<<<<<<< HEAD
-<<<<<<< HEAD
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#FFFFFF" />
-=======
-                android:textAppearance="?android:attr/textAppearanceMedium" />
->>>>>>> 88480a2fcc2765c24a5b3e139f83c478aa742e12
-=======
                 android:textAppearance="?android:attr/textAppearanceMedium"/>
->>>>>>> master
 
             <TextView
                 android:id="@+id/owner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-<<<<<<< HEAD
-                android:text="Michael and Bryan"
-<<<<<<< HEAD
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#FFFFFF" />
-=======
                 android:text="Owner"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
->>>>>>> 88480a2fcc2765c24a5b3e139f83c478aa742e12
-=======
-                android:textAppearance="?android:attr/textAppearanceMedium" />
->>>>>>> master
 
             <TextView
                 android:id="@+id/view_lat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-<<<<<<< HEAD
-                android:text="0"
-<<<<<<< HEAD
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#FFFFFF" />
-=======
                 android:text="Lat"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
->>>>>>> 88480a2fcc2765c24a5b3e139f83c478aa742e12
-=======
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
->>>>>>> master
+
 
             <TextView
                 android:id="@+id/view_long"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-<<<<<<< HEAD
-                android:text="0"
-<<<<<<< HEAD
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#FFFFFF" />
-=======
                 android:text="Long"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
->>>>>>> 88480a2fcc2765c24a5b3e139f83c478aa742e12
-=======
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
->>>>>>> master
+
 
             <TextView
                 android:id="@+id/created_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-<<<<<<< HEAD
-                android:text="3/7/2014"
-<<<<<<< HEAD
-                android:textAppearance="?android:attr/textAppearanceMedium" 
-                android:textColor="#FFFFFF"/>
-=======
                 android:text="Entry Date"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
->>>>>>> 88480a2fcc2765c24a5b3e139f83c478aa742e12
-=======
-                android:textAppearance="?android:attr/textAppearanceMedium" />
->>>>>>> master
+
 
             <TextView
                 android:id="@+id/adj_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-<<<<<<< HEAD
-                android:text="3/7/2014"
-<<<<<<< HEAD
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#FFFFFF" />
-=======
                 android:text="Adjusted Date"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
->>>>>>> 88480a2fcc2765c24a5b3e139f83c478aa742e12
-=======
-                android:textAppearance="?android:attr/textAppearanceMedium" />
->>>>>>> master
 
             <Button
                 android:id="@+id/edit"
@@ -156,20 +91,14 @@
                 android:text="Remove" />
 
             <Button
-<<<<<<< HEAD
+
                 android:id="@+id/completed"
-=======
-                android:id="@+id/back"
->>>>>>> 88480a2fcc2765c24a5b3e139f83c478aa742e12
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="76dp"
                 android:layout_marginRight="21dp"
-<<<<<<< HEAD
                 android:text="Completed" />
-=======
-                android:text="Back" />
->>>>>>> 88480a2fcc2765c24a5b3e139f83c478aa742e12
+
         </LinearLayout>
     </ScrollView>
 
