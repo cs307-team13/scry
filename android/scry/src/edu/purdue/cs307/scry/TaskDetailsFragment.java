@@ -12,22 +12,13 @@ import android.widget.TextView;
 
 public class TaskDetailsFragment extends Fragment {
 
-    public String title;
-    public String category;
-    public double lat_location, long_location;
-    public String useremail;
-    public String entry_date;
-    public String adj_date;
     public Task task1;
 
     public static TaskDetailsFragment newInstance(Task t) {
 
 	TaskDetailsFragment f = new TaskDetailsFragment();
 	Bundle args = new Bundle();
-	String title = t.toString();
-	String category = t.getCategory();
-	args.putString("title", title);
-	args.putString("category", category);
+	args.putParcelable("task", t);
 	f.setArguments(args);
 	return f;
     }
@@ -36,8 +27,7 @@ public class TaskDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	Bundle args = getArguments();
-	title = args.getString("title");
-	category = args.getString("category");
+	task1 = args.getParcelable("task");
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,9 +36,9 @@ public class TaskDetailsFragment extends Fragment {
 	        .inflate(R.layout.fragment_item_properties, null);
 
 	TextView text_title = (TextView) v.findViewById(R.id.title);
-	text_title.setText(title);
+	text_title.setText(task1.toString());
 	TextView text_category = (TextView) v.findViewById(R.id.category);
-	text_category.setText(category);
+	text_category.setText(task1.getCategory());
 
 	Button remove = (Button) v.findViewById(R.id.remove);
 	Button edit = (Button) v.findViewById(R.id.edit);
@@ -72,7 +62,7 @@ public class TaskDetailsFragment extends Fragment {
 	complete.setOnClickListener(new OnClickListener() {
 	    @Override
 	    public void onClick(View v) {
-		task1.setComplete();
+		task1.setComplete(true);
 	    }
 	});
 	return v;

@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="#000000" >
+    android:background="@android:color/white" >
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -29,56 +29,49 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Title"
-                android:textAppearance="?android:attr/textAppearanceLarge" 
-                android:textColor="#FFFFFF"/>
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
 
             <TextView
                 android:id="@+id/category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Category"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#FFFFFF" />
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
 
             <TextView
                 android:id="@+id/owner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Michael and Bryan"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#FFFFFF" />
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
                 android:id="@+id/view_lat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#FFFFFF" />
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
 
             <TextView
                 android:id="@+id/view_long"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#FFFFFF" />
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
 
             <TextView
                 android:id="@+id/created_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3/7/2014"
-                android:textAppearance="?android:attr/textAppearanceMedium" 
-                android:textColor="#FFFFFF"/>
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
                 android:id="@+id/adj_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3/7/2014"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#FFFFFF" />
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <Button
                 android:id="@+id/edit"

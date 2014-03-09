@@ -12,6 +12,8 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 public class TaskArrayAdapter extends ArrayAdapter<Task> {
@@ -66,6 +68,14 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 		} else {
 			completed.setChecked(false);
 		}
+		
+		completed.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		    
+		    @Override
+		    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			t.setComplete(isChecked);
+		    }
+		});
 		task_name.setText(t.toString());
 		task_category.setText(t.getCategory());
 		
