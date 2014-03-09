@@ -31,7 +31,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class SignInActivity extends Activity implements
+public class SigninActivity extends Activity implements
 		ConnectionCallbacks, OnConnectionFailedListener,
 		ResultCallback<People.LoadPeopleResult>, View.OnClickListener {
 
