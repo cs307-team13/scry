@@ -61,9 +61,9 @@ public class MainActivity extends Activity implements TaskDatasourceActivity{
 	        .replace(R.id.fragment_pane, new TaskListFragment()).commit();
     }
     
-    public void pushTaskDetailsFragment() {
+    public void pushTaskDetailsFragment(Task t) {
     	FragmentManager fm = getFragmentManager();
     	fm.beginTransaction()
-    	        .replace(R.id.fragment_pane, new TaskDetailsFragment()).commit();
+    	        .add(R.id.fragment_pane, TaskDetailsFragment.newInstance(t)).commit();
     }
 }

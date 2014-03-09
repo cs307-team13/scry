@@ -74,9 +74,7 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 			@Override
 			public void onClick(View v) {
 				Log.wtf("This Sucks", "in on click");
-				TaskDetailsFragment helper = new TaskDetailsFragment();
-				helper.newInstance(t);
-				((MainActivity) frag.getActivity()).pushTaskDetailsFragment();
+				((MainActivity) frag.getActivity()).pushTaskDetailsFragment(t);
 			}
 		});
 		
