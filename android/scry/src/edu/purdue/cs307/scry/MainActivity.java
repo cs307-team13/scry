@@ -58,13 +58,13 @@ public class MainActivity extends Activity implements TaskDatasourceActivity{
     public void pushListFragment() {
 	FragmentManager fm = getFragmentManager();
 	fm.beginTransaction()
-	        .add(R.id.fragment_pane, new TaskListFragment()).addToBackStack("TaskListFragment").commit();
+	        .replace(R.id.fragment_pane, new TaskListFragment()).addToBackStack("TaskListFragment").commit();
     }
     
     public void pushTaskDetailsFragment(Task t) {
     	FragmentManager fm = getFragmentManager();
     	fm.beginTransaction()
-    	        .add(R.id.fragment_pane, TaskDetailsFragment.newInstance(t)).addToBackStack("TaskDetailsFragment").commit();
+    	        .replace(R.id.fragment_pane, TaskDetailsFragment.newInstance(t)).addToBackStack("TaskDetailsFragment").commit();
     }
     
     @Override 
