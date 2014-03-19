@@ -72,7 +72,7 @@ public class TaskDetailsFragment extends Fragment {
 		complete.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v){
-				task1.setComplete();
+				//task1.setComplete();
 			}
 		});
 		return v;
