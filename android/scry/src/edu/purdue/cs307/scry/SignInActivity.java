@@ -32,7 +32,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class SigninActivity extends Activity implements
+public class SignInActivity extends Activity implements
 		ConnectionCallbacks, OnConnectionFailedListener,
 		ResultCallback<People.LoadPeopleResult>, View.OnClickListener {
 
@@ -101,7 +101,7 @@ public class SigninActivity extends Activity implements
 
 		    @Override
                     public void onClick(View v) {
-	                Intent i = new Intent(SigninActivity.this, MainActivity.class);
+	                Intent i = new Intent(SignInActivity.this, MainActivity.class);
 	                startActivity(i);
 	                finish();
                     }
