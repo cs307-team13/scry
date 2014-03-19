@@ -19,7 +19,7 @@ public class MainActivity extends Activity implements TaskDatasourceActivity{
 	datasource = new TaskDataSource(this
 	        .getApplicationContext());
 	datasource.open();
-	
+
 	FragmentManager fm = getFragmentManager();
 	fm.beginTransaction()
 	        .add(R.id.fragment_pane, new CreateTaskFragment()).addToBackStack("CreateTaskFragment").commit();
