@@ -34,7 +34,7 @@ public class MainActivity extends Activity implements TaskDatasourceActivity{
     }
     
     public void loginmothafucka(View v){
-    	Intent intent = new Intent(this, SignInActivity.class);
+    	Intent intent = new Intent(this, SigninActivity.class);
     	startActivity(intent);
     }
 
