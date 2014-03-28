@@ -20,7 +20,7 @@
             android:hint="Enter task here"
             android:textColor="@android:color/black" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/etxt_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,6 +28,8 @@
             android:layout_below="@id/etxt_title"
             android:ems="10"
             android:hint="Category"
+            android:imeOptions="actionSearch"
+            android:inputType="textAutoComplete|textAutoCorrect"
             android:textColor="@android:color/black" />
 
         <Button
@@ -46,16 +48,7 @@
             android:layout_below="@id/etxt_category"
             android:text="View List" />
 
-        <!--
-             <Button
-            android:id="@+id/btn_tstlogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:onClick="loginmothafucka"
-            android:text="Goto Login" />
-        -->
+        
 
         <Button
             android:id="@+id/test"
@@ -64,7 +57,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:text="Button" />
-
+        
     </RelativeLayout>
 
 </ScrollView>
