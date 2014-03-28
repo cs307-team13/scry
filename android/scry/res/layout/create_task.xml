@@ -57,6 +57,14 @@
             android:text="Goto Login" />
         -->
 
+        <Button
+            android:id="@+id/test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="Button" />
+
     </RelativeLayout>
 
 </ScrollView>
