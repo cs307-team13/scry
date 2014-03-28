@@ -9,6 +9,7 @@ import android.database.CharArrayBuffer;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.util.Log;
 
 public class TaskDataSource {
@@ -81,6 +82,11 @@ public class TaskDataSource {
 	return cursor;
     }
 
+    public void purge() {
+	Log.d("SQLite", "Purging all values fron database");
+	database.delete(TaskStoreContract.TaskEntry.TABLE_NAME, null, null);
+    }
+
     public List<String> getCategories() {
 	// Cursor cursor = database.query(true, TaskStoreContract.TaskEntry.TABLE_NAME,
 	// new String[] { TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY }, null,
@@ -106,7 +112,7 @@ public class TaskDataSource {
 	return list;
     }
 
-    private Task cursorToTask(Cursor cursor) {
+    public Task cursorToTask(Cursor cursor) {
 	Task task = new Task();
 	task.lat_location = cursor
 	        .getDouble(cursor
@@ -129,5 +135,31 @@ public class TaskDataSource {
 	System.out.println("Task deleted with id: " + id);
 	database.delete(TaskStoreContract.TaskEntry.TABLE_NAME,
 	        TaskStoreContract.TaskEntry._ID + " = " + id, null);
+    }
+
+    public Cursor getWordMatches(String query, String[] columns) {
+	String selection = TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_TITLE
+	        + " LIKE ?";
+	String[] selectionArgs = new String[] { "%" + query + "%" };
+
+	return query(selection, selectionArgs, columns);
+    }
+
+    private Cursor query(String selection, String[] selectionArgs,
+	    String[] columns) {
+
+	Cursor cursor = database.query(true,
+	        TaskStoreContract.TaskEntry.TABLE_NAME, new String[] {
+	                TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY,
+	                TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_TITLE },
+	        selection, selectionArgs, null, null, null, null);
+	
+	if (cursor == null) {
+	    return null;
+	} else if (!cursor.moveToFirst()) {
+	    cursor.close();
+	    return null;
+	}
+	return cursor;
     }
 }

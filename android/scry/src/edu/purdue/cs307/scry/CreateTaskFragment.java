@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -29,7 +31,8 @@ public class CreateTaskFragment extends Fragment {
 	Button list = (Button) v.findViewById(R.id.btn_openlist);
 	Button categories = (Button) v.findViewById(R.id.test);
 
-	final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(),
+	final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+	        this.getActivity(),
 	        android.R.layout.simple_dropdown_item_1line,
 	        ((TaskDatasourceActivity) getActivity()).getDataSource()
 	                .getCategories());
@@ -41,11 +44,8 @@ public class CreateTaskFragment extends Fragment {
 
 	    @Override
 	    public void onClick(View v) {
-		List<String> l = ((TaskDatasourceActivity) getActivity())
-		        .getDataSource().getCategories();
-		for (String s : l) {
-		    Log.d("SQL", s);
-		}
+		((TaskDatasourceActivity) getActivity()).getDataSource()
+		        .purge();
 	    }
 
 	});
@@ -54,6 +54,15 @@ public class CreateTaskFragment extends Fragment {
 
 	    @Override
 	    public void onClick(View v) {
+		InputMethodManager inputManager = (InputMethodManager) CreateTaskFragment.this
+		        .getActivity().getSystemService(
+		                Context.INPUT_METHOD_SERVICE);
+		View view = CreateTaskFragment.this.getActivity()
+		        .getCurrentFocus();
+		if (view != null) {
+		    inputManager.hideSoftInputFromWindow(view.getWindowToken(),
+			    InputMethodManager.HIDE_NOT_ALWAYS);
+		}
 		((MainActivity) getActivity()).pushListFragment();
 	    }
 
