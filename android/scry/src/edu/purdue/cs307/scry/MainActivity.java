@@ -103,7 +103,15 @@ public class MainActivity extends Activity implements TaskDatasourceActivity {
 	        .replace(R.id.fragment_pane, TaskDetailsFragment.newInstance(t))
 	        .addToBackStack("TaskDetailsFragment").commit();
     }
-
+    
+    public void pushMapFragment() {
+	FragmentManager fm = getFragmentManager();
+	fm.beginTransaction()
+	        .replace(R.id.fragment_pane, new TaskMapFragment())
+	        .addToBackStack("TaskMapFragment").commit();
+    }
+    
+    
     @Override
     public void onBackPressed() {
 	FragmentManager fm = getFragmentManager();

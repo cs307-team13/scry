@@ -32,32 +32,36 @@
             android:inputType="textAutoComplete|textAutoCorrect"
             android:textColor="@android:color/black" />
 
-        <Button
-            android:id="@+id/btn_create"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_below="@id/etxt_category"
-            android:text="Enter Task" />
+            android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/btn_openlist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignRight="@id/etxt_category"
-            android:layout_below="@id/etxt_category"
-            android:text="View List" />
+            <Button
+                android:id="@+id/btn_create"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enter Task" />
 
-        
+            <Button
+                android:id="@+id/btn_openlist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View List" />
 
-        <Button
-            android:id="@+id/test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:text="Delete all!" />
-        
+            <Button
+                android:id="@+id/test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete all!" />
+
+            <Button
+                android:id="@+id/btn_open_map"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Open map" />
+        </LinearLayout>
     </RelativeLayout>
 
 </ScrollView>
