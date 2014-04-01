@@ -115,7 +115,7 @@ public class SigninActivity extends Activity implements
 		// app uses and which OAuth 2.0 scopes our app requests.
 		return new GoogleApiClient.Builder(this).addConnectionCallbacks(this)
 				.addOnConnectionFailedListener(this).addApi(Plus.API, null)
-				.addScope(Plus.SCOPE_PLUS_LOGIN).build();
+				.addScope(Plus.SCOPE_PLUS_LOGIN).addScope(Plus.SCOPE_PLUS_PROFILE).build();
 	}
 
 	@Override
@@ -155,7 +155,7 @@ public class SigninActivity extends Activity implements
 
 	public void onConnected(Bundle connectionHint) {
 		// Reaching onConnected means we consider the user signed in.
-		Log.i(TAG, "onConnected");
+		Log.wtf(TAG, "SOMEBODY CONNECTED!!!!!!!!!!");
 
 		// Update the user interface to reflect that the user is signed in.
 		mSignInButton.setEnabled(false);

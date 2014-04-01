@@ -48,7 +48,7 @@ public class TaskDetailsFragment extends Fragment {
 
 	    @Override
 	    public void onClick(View v) {
-		Log.wtf("What's Up?", "Remove Clicked");
+	    	((TaskDatasourceActivity) getActivity()).getDataSource().deleteTask(task1);
 	    }
 	});
 
