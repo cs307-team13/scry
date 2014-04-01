@@ -6,6 +6,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Key;
+
 @PersistenceCapable
 public class User {
 	@Persistent
@@ -24,6 +26,8 @@ public class User {
 	@Persistent
 	private String email;
 	
+	private Key key;
+	
 	
 	public User(long num, String nam, String em){
 		phone_number = num;
@@ -31,6 +35,14 @@ public class User {
 		email = em;
 		//tasklist = new ArrayList<Task>();
 		//friendsList = new ArrayList<User>();
+	}
+	
+	public void setKey(Key k){
+		this.key = k;
+	}
+	
+	public Key getKey(){
+		return this.key;
 	}
 	
 	public long getPhone(){
@@ -49,7 +61,16 @@ public class User {
 		return this.tasklist;
 	}
 	
-	public void setTaskList(ArrayList<Task> list){
+	public void addTask(Task task){
+		this.tasklist.add(task);
+	}
+	
+	public String taskListtoString(){
+		String tasks = "Sample task";
+		return tasks;
+	}
+	
+	/*public void setTaskList(ArrayList<Task> list){
 		this.tasklist.clear();
 		this.tasklist = list;
 	}
@@ -63,9 +84,7 @@ public class User {
 		this.friendsList = list;
 	}
 	
-	public void addTask(Task task){
-		this.getTaskList().add(task);
-	}
+	
 	
 	public void addFriend(User friend){
 		this.getFriendsList().add(friend);
@@ -76,6 +95,7 @@ public class User {
 		info += "Name: " + this.getName();
 		info += "\nPhone: " + this.getPhone();
 		info += "\nEmail: " + this.getEmail();
+		//info += "\nTasks: " + this.taskListtoString();
 		return info;
 	}
 	public static void main(){
