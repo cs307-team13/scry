@@ -9,5 +9,7 @@
     <string name="signin_activity">Signin</string>
     <string name="title_activity_sign_in">SignInActivity</string>
     <string name="title_activity_signin">Signin</string>
+    <string name="search_title">Search Scry</string>
+    <string name="search_hint">Search Tasks</string>
 
 </resources>
