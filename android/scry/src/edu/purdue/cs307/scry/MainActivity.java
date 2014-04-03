@@ -1,20 +1,35 @@
 package edu.purdue.cs307.scry;
 
+
+import java.util.ArrayList;
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.SearchView;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
-public class MainActivity extends Activity implements TaskDatasourceActivity {
+
+public class MainActivity extends FragmentActivity implements TaskDatasourceActivity, 
+	ActionBar.TabListener {
 
     private TaskDataSource datasource;
+    static ViewPager viewPager;
+	private TabsPageAdapter mAdapter;
+	private ActionBar actionBar;
+	//private static ArrayList<TabInfo> tabs = new ArrayList<TabInfo>();
+	private String tab[] = new String[] {"Tasks", "Friends", "Map"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +38,51 @@ public class MainActivity extends Activity implements TaskDatasourceActivity {
 
 	datasource = new TaskDataSource(this.getApplicationContext());
 	datasource.open();
+	
+	/*
+	 * I commented out the original opening to the create task screen
+	 * since this will now be opened up by a button
+	 */
+	//FragmentManager fm = getFragmentManager();
+		//fm.beginTransaction()
+		//        .add(R.id.fragment_pane, new CreateTaskFragment()).addToBackStack("CreateTaskFragment").commit();
+		
+		//Initialization of tab management
+		viewPager = (ViewPager) findViewById(R.id.pager);
+		actionBar = getActionBar();
+		mAdapter = new TabsPageAdapter(getSupportFragmentManager());
+		
+		viewPager.setAdapter(mAdapter);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		
+		for(int i = 0; i < 3; i++){
+			actionBar.addTab(
+	                actionBar.newTab()
+	                        .setText(tab[i])
+	                        .setTabListener(this));
+		}
+		
+		// Adding Tabs
+		//tabs.add(new TabInfo(null, "Tasks"));
+		//tabs.add(new TabInfo(null, "Friends"));
+		//tabs.add(new TabInfo(null, "Map"));
+		
+		 // on swiping the viewpager make respective tab selected
+		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-	FragmentManager fm = getFragmentManager();
-	fm.beginTransaction().add(R.id.fragment_pane, new CreateTaskFragment())
-	        .addToBackStack("CreateTaskFragment").commit();
-
+			@Override
+			public void onPageSelected(int position) {
+				// on changing the page
+				// make respected tab selected
+				actionBar.setSelectedNavigationItem(position);
+			}
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+			}
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+			}
+		});
 	handleIntent(getIntent());
     }
 
@@ -91,33 +146,72 @@ public class MainActivity extends Activity implements TaskDatasourceActivity {
     }
 
     public void pushListFragment() {
-	FragmentManager fm = getFragmentManager();
+	FragmentManager fm = getSupportFragmentManager();
 	fm.beginTransaction()
 	        .replace(R.id.fragment_pane, new TaskListFragment())
 	        .addToBackStack("TaskListFragment").commit();
     }
+    
 
-    public void pushTaskDetailsFragment(Task t) {
-	FragmentManager fm = getFragmentManager();
-	fm.beginTransaction()
-	        .replace(R.id.fragment_pane, TaskDetailsFragment.newInstance(t))
-	        .addToBackStack("TaskDetailsFragment").commit();
-    }
     
-    public void pushMapFragment() {
-	FragmentManager fm = getFragmentManager();
-	fm.beginTransaction()
-	        .replace(R.id.fragment_pane, new TaskMapFragment())
-	        .addToBackStack("TaskMapFragment").commit();
-    }
-    
-    
-    @Override
-    public void onBackPressed() {
-	FragmentManager fm = getFragmentManager();
-	if (fm.getBackStackEntryCount() > 2)
+    @Override 
+    public void onBackPressed()
+    {
+	FragmentManager fm = getSupportFragmentManager();
+	if(fm.getBackStackEntryCount() > 2)
 	    fm.popBackStack();
 	else
 	    super.onBackPressed();
     }
+    
+    //Chip Leinen original code
+    /*public static void NavigateTo(FragmentManager fm, Fragment frag) {
+		if (tabs.get(viewPager.getCurrentItem()).getFragmentManager() == null) {
+			tabs.get(viewPager.getCurrentItem()).setFragmentManager(fm);
+		}
+		FragmentTransaction ft = tabs.get(viewPager.getCurrentItem()).getFragmentManager().beginTransaction();
+        ft.replace(R.id.mainlayout,frag, frag.getClass().toString() );
+        ft.addToBackStack(frag.getClass().toString());
+        ft.commitAllowingStateLoss();
+        
+	}
+    
+    //Chip Leinen original code
+    public class TabInfo {
+    	private FragmentManager fm;
+    	private String tabName;
+    	
+    	public TabInfo(FragmentManager _fm, String _tabName) {
+    		fm = _fm;
+    		tabName = _tabName;
+    	}
+    	
+    	public void setFragmentManager(FragmentManager _fm) {
+    		fm = _fm;
+    	}
+    	public FragmentManager getFragmentManager() {
+    		return fm;
+    	}
+    	public void setTabname(String _tabName) {
+    		tabName = _tabName;
+    	}
+    	public String getTabname() {
+    		return tabName;
+    	}
+    }*/
+    
+    @Override
+	public void onTabReselected(Tab tab, FragmentTransaction ft) {
+	}
+
+	@Override
+	public void onTabSelected(Tab tab, FragmentTransaction ft) {
+		// on tab selected
+		// show respected fragment view
+		viewPager.setCurrentItem(tab.getPosition());
+	}
+
+	@Override
+	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+	}
 }

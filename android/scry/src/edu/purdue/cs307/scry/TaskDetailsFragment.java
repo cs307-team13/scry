@@ -1,6 +1,6 @@
 package edu.purdue.cs307.scry;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,7 +48,7 @@ public class TaskDetailsFragment extends Fragment {
 
 	    @Override
 	    public void onClick(View v) {
-		Log.wtf("What's Up?", "Remove Clicked");
+	    	((TaskDatasourceActivity) getActivity()).getDataSource().deleteTask(task1);
 	    }
 	});
 
