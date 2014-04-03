@@ -73,6 +73,15 @@ public class ServerServlet extends HttpServlet {
 
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		String key = req.getParameter("key");
+		String name = req.getParameter("name");
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Entity test = new Entity("TestEntry", "test1");
+		Key k = KeyFactory.createKey("TestEntry", "test1");
+		test.setProperty("Name", name);
+		test.setProperty("Key", key);
+		datastore.put(test);
+		
 		/*String channelKey = req.getParameter("channelKey");
 		String message = req.getParameter("message");
 

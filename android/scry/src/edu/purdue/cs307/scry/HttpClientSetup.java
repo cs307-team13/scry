@@ -7,6 +7,7 @@ import org.apache.http.Header;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import android.content.Context;
 import android.util.Log;
@@ -50,8 +51,11 @@ public class HttpClientSetup {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		client.post(this.context, "http://1-dot-scryserver.appspot.com/server", se,
-				"application/json", handler);
+		RequestParams params = new RequestParams();
+		params.put("key", "value");
+		params.put("name", "Shanaenae");
+		client.post("http://1-dot-scryserver.appspot.com/server", params, handler); //post(this.context, "http://1-dot-scryserver.appspot.com/server", se,
+			//	"application/json", handler);
 		Log.d("debug", client.toString());
 	}
 }
