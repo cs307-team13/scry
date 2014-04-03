@@ -30,9 +30,6 @@ public class CreateTaskFragment extends Fragment {
 	Button b = (Button) v.findViewById(R.id.btn_create);
 	Button list = (Button) v.findViewById(R.id.btn_openlist);
 	Button categories = (Button) v.findViewById(R.id.test);
-	Button openMap = (Button) v.findViewById(R.id.btn_open_map);
-	
-	
 
 	final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 	        this.getActivity(),
@@ -71,23 +68,6 @@ public class CreateTaskFragment extends Fragment {
 
 	});
 	
-	openMap.setOnClickListener(new OnClickListener() {
-
-	    @Override
-	    public void onClick(View v) {
-		InputMethodManager inputManager = (InputMethodManager) CreateTaskFragment.this
-		        .getActivity().getSystemService(
-		                Context.INPUT_METHOD_SERVICE);
-		View view = CreateTaskFragment.this.getActivity()
-		        .getCurrentFocus();
-		if (view != null) {
-		    inputManager.hideSoftInputFromWindow(view.getWindowToken(),
-			    InputMethodManager.HIDE_NOT_ALWAYS);
-		}
-		((MainActivity) getActivity()).pushMapFragment();
-	    }
-
-	});
 	
 	b.setOnClickListener(new OnClickListener() {
 
