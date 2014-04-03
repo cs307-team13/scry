@@ -723,7 +723,7 @@ public class ChannelAPI {
      * the connection is closed.
      * @param xhr
      */
-    private void connect(XHR xhr) {
+    public void connect(XHR xhr) {
         if (xhr.isSuccess()) {
             this.clientId = xhr.getResponseText();
             this.readyState = ReadyState.OPEN;
@@ -838,7 +838,7 @@ public class ChannelAPI {
      * @return XHR, nice responses from httpRequests
      * @throws IOException
      */
-    private XHR sendGet(String url) throws IOException {
+    public XHR sendGet(String url) throws IOException {
         HttpGet httpGet = new HttpGet(url);
         return new XHR(httpClient.execute(httpGet));
     }

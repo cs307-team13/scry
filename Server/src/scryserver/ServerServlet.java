@@ -27,6 +27,7 @@ public class ServerServlet extends HttpServlet {
 	ChannelService channelService = ChannelServiceFactory.getChannelService();
 	static Key key;
 	
+	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("text/plain");
 		resp.getWriter().println("This is the server for the Scry Android application. Coming April 2014.");
@@ -70,8 +71,9 @@ public class ServerServlet extends HttpServlet {
 		}*/
 	}
 
+	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String channelKey = req.getParameter("channelKey");
+		/*String channelKey = req.getParameter("channelKey");
 		String message = req.getParameter("message");
 
 		// Send a message based on the 'channelKey' any channel with this key
@@ -79,7 +81,7 @@ public class ServerServlet extends HttpServlet {
 		ChannelService channelService = ChannelServiceFactory
 				.getChannelService();
 
-		channelService.sendMessage(new ChannelMessage(channelKey, message));
+		channelService.sendMessage(new ChannelMessage(channelKey, message));*/
 	}
 	
 	
