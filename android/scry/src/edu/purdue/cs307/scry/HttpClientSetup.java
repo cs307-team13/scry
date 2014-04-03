@@ -45,7 +45,7 @@ public class HttpClientSetup {
 		};
 
 		try {
-			se = new StringEntity("hello"); //r.toJSON().toString());
+			se = new StringEntity("{\"name\": \"value\"}"); //r.toJSON().toString());
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
