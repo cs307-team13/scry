@@ -1,4 +1,4 @@
-/*package edu.purdue.cs307.scry;
+package edu.purdue.cs307.scry;
 
 import android.widget.ArrayAdapter;
 import android.app.Activity;
@@ -49,4 +49,4 @@ public class TaskListActivity extends Activity {
 		}
     	return true;
     }
-}*/
+}

@@ -2,7 +2,8 @@ package edu.purdue.cs307.scry;
 
 import java.util.List;
 
-import android.app.Fragment;
+//import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -84,7 +85,7 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 			@Override
 			public void onClick(View v) {
 				Log.wtf("This Sucks", "in on click");
-				((MainActivity) frag.getActivity()).pushTaskDetailsFragment(t);
+				//((MainActivity) frag.getActivity()).pushTaskDetailsFragment(t);
 			}
 		});
 		
