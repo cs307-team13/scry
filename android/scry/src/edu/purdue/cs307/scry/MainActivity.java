@@ -39,6 +39,13 @@ public class MainActivity extends FragmentActivity implements TaskDatasourceActi
 	datasource = new TaskDataSource(this.getApplicationContext());
 	datasource.open();
 	
+	String userID = getSharedPreferences("pref_profile",0).getString("userID", null);
+	String userEmail = getSharedPreferences("pref_profile",0).getString("email", null);
+	String userName = getSharedPreferences("pref_profile",0).getString("name", null);
+	
+	User currentUser = new User(userID, userName, userEmail);
+	Log.wtf("NEW USER", currentUser.toString());
+	
 	/*
 	 * I commented out the original opening to the create task screen
 	 * since this will now be opened up by a button
