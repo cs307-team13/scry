@@ -124,7 +124,8 @@ public class ServerServlet extends HttpServlet {
 	}
 	
 	private static void editTask(HttpServletRequest req){
-		
+		//Key k = stringToKey(req.getParameter("Key"));
+		//Entity task = datastore.get(k);
 	}
 	
 	private static void deleteTask(HttpServletRequest req){
