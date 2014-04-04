@@ -9,30 +9,15 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import android.content.Context;
 import android.util.Log;
 
 public class HttpClientSetup {
-	private Context context;
 	private String URL = "http://1-dot-scryserver.appspot.com/server";
-	AsyncHttpClient client;
-
-	public HttpClientSetup() {
-		client = new AsyncHttpClient();
-	}
-
+	
+	
 	public void sendRequest() { //SAMPLE, DELETE LATER
 		AsyncHttpClient client = new AsyncHttpClient();
 
-		/*
-		 * String time = java.text.DateFormat.getDateTimeInstance().format(
-		 * Calendar.getInstance().getTime()); String userName = "John Smith";
-		 * 
-		 * Requester r = new Requester(userName + (int) (Math.random() * 1000),
-		 * time, "219-555-1242", "Not Urgent", start_lat, start_long, end_lat,
-		 * end_long);
-		 */
-		// Log.d("json", r.toJSON().toString());
 		StringEntity se = null;
 
 		AsyncHttpResponseHandler handler = new AsyncHttpResponseHandler() {
@@ -64,6 +49,7 @@ public class HttpClientSetup {
 	}
 
 	public void addUser(User user) {
+		AsyncHttpClient client = new AsyncHttpClient();
 		AsyncHttpResponseHandler handler = new AsyncHttpResponseHandler() {
 			public void onSuccess(String suc) {
 				Log.d("response", suc);
@@ -80,10 +66,11 @@ public class HttpClientSetup {
 		params.put("Method", "addUser");
 		params.put("Id", user.getEmail());
 		params.put("Name", user.getName());
-		this.client.post(URL, params, handler);
+		client.post(URL, params, handler);
 	}
 	
 	public void addTask(Task task){
+		AsyncHttpClient client = new AsyncHttpClient();
 		AsyncHttpResponseHandler handler = new AsyncHttpResponseHandler();
 		RequestParams params = new RequestParams();
 		params.put("Method", "addTask");
@@ -91,7 +78,7 @@ public class HttpClientSetup {
 		params.put("Description", task.toString());
 		params.put("Category", task.getCategory());
 		params.put("Complete", task.isComplete());
-		this.client.post(URL, params, handler);
+		client.post(URL, params, handler);
 	}
 	
 	public void editTask(Task task){
