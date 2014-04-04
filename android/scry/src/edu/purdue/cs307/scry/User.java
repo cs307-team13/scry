@@ -1,4 +1,4 @@
-package edu.purdue.cs307.scry;
+/*package edu.purdue.cs307.scry;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * For Eclipse 4.3: https://developers.google.com/eclipse/docs/install-eclipse-4.3
  * If not using 4.3, just change version number in URL to version you are using
  * */
-
+/*
 @PersistenceCapable
 public class User {
 	@Persistent
@@ -99,3 +99,4 @@ public class User {
 	public static void main(){
 	}
 }
+*/

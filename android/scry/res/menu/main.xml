@@ -11,5 +11,11 @@
         android:icon="@android:drawable/ic_menu_search"
         android:showAsAction="collapseActionView|ifRoom"
         android:title="@string/search_title"/>
-
+	<item 
+	    android:id="@+id/action_add"
+	    android:orderInCategory="200"
+	    android:title="@string/action_add"
+	    android:showAsAction="never"
+	    android:icon="@drawable/ic_action_new"
+	    />
 </menu>

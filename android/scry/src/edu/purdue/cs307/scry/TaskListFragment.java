@@ -14,11 +14,11 @@ import android.widget.ListView;
 
 
 public class TaskListFragment extends ListFragment {
-	
+    public static String TAG = "TaskListFragment";
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
-	
+    	
     	TaskArrayAdapter adapter = new TaskArrayAdapter(getActivity().getApplicationContext(),
 		        R.layout.fragment_task_list, ((TaskDatasourceActivity) getActivity()).getDataSource()
 	            .getAllTasks(), this);

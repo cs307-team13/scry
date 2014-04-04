@@ -34,18 +34,18 @@ public class TabsPageAdapter extends FragmentPagerAdapter {
 	public Fragment getItem(int index) {
 		if(index >= 0 && index <= 2)	
 			return frags.get(index);
-		/*switch (index) {
+		switch (index) {
 		case 0:
 			// TODO: Change this
 			// Task List fragment activity
-			return frags.get(0);
+			return new TaskListFragment();
 		case 1:
 			// Friends fragment activity
 			return new FriendsFragment();
 		case 2:
 			// Maps fragment activity
 			return new MapsFragment();
-		}*/
+		}
 
 		return null;
 	}

@@ -2,22 +2,25 @@ package edu.purdue.cs307.scry;
 
 
 import java.util.ArrayList;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+//import android.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.SearchView;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 
@@ -112,7 +115,7 @@ public class MainActivity extends FragmentActivity implements TaskDatasourceActi
     public boolean onCreateOptionsMenu(Menu menu) {
 	// Inflate the menu; this adds items to the action bar if it is present.
 	getMenuInflater().inflate(R.menu.main, menu);
-
+	
 	// Associate searchable configuration with the SearchView
 	SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 	SearchView searchView = (SearchView) menu.findItem(R.id.search)
@@ -213,5 +216,31 @@ public class MainActivity extends FragmentActivity implements TaskDatasourceActi
 
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+
+	    // Handle item selection
+		//FragmentManager fragmentManager = getSupportFragmentManager();
+	//	CreateTaskFragment add = new CreateTaskFragment();
+	//	android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+	    switch (item.getItemId()) {	
+	        case R.id.action_settings:
+	        	//create action_settings intent menu
+	            return true;
+	        case R.id.action_add:
+	    		FragmentManager fm = getSupportFragmentManager();
+	    		android.support.v4.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
+	    		CreateTaskFragment task = new CreateTaskFragment();
+	    		viewPager.setId(R.id.fragment_pane);
+	    		fragmentTransaction.add(R.id.fragment_pane, task);
+	    		fragmentTransaction.commit();
+	    		//fm.beginTransaction()
+	    		//        .add(R.id.fragment_pane, new CreateTaskFragment()).addToBackStack("CreateTaskFragment").commit();
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 }
