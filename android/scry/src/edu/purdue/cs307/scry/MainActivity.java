@@ -55,15 +55,6 @@ public class MainActivity extends FragmentActivity implements
 	HttpClientSetup client = new HttpClientSetup();
 	client.addUser(currentUser);
 	System.out.println("User added to server");
-	
-	/*
-	 * I commented out the original opening to the create task screen
-	 * since this will now be opened up by a button
-	 */
-	// FragmentManager fm = getFragmentManager();
-	// fm.beginTransaction()
-	// .add(R.id.fragment_pane, new
-	// CreateTaskFragment()).addToBackStack("CreateTaskFragment").commit();
 
 	// Initialization of tab management
 	viewPager = (ViewPager) findViewById(R.id.pager);
@@ -77,11 +68,6 @@ public class MainActivity extends FragmentActivity implements
 	    actionBar.addTab(actionBar.newTab().setText(tab[i])
 		    .setTabListener(this));
 	}
-
-	// Adding Tabs
-	// tabs.add(new TabInfo(null, "Tasks"));
-	// tabs.add(new TabInfo(null, "Friends"));
-	// tabs.add(new TabInfo(null, "Map"));
 
 	// on swiping the viewpager make respective tab selected
 	viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -168,6 +154,10 @@ public class MainActivity extends FragmentActivity implements
         	TaskListFragment frag = ((TaskListFragment) mAdapter.getItem(0));
 		frag.refreshData();
         	return true; 
+            case R.id.action_create:
+            	Intent i = new Intent(this,CreateTaskActivity.class);
+            	startActivity(i);
+            	return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
