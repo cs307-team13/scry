@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.text.SimpleDateFormat;
 
+import com.google.appengine.api.datastore.Key;
+
 public class Task implements Parcelable {
 
 	public String title;
@@ -19,6 +21,7 @@ public class Task implements Parcelable {
 	private boolean complete;
 	private int _id;
 	private Date date;
+	private Key key;
 
 	SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
 
@@ -127,6 +130,14 @@ public class Task implements Parcelable {
 
 	public String getAdjustmentDate() {
 		return this.adj_date;
+	}
+	
+	public void setKey(Key key){
+		this.key = key;
+	}
+	
+	public Key getKey(){
+		return this.key;
 	}
 
 	/* Use getDetails() for more information on a task */
