@@ -55,6 +55,20 @@ public class TaskDataSource {
 	return newTask;
     }
 
+    public long commitTask(Task t)
+    {
+	ContentValues values = new ContentValues();
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_TITLE, t.title);
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY, t.category);
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_LOC_LAT, t.lat_location);
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_LOC_LONG, t.long_location);
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID, t.ownerId);
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_DATE_CREATED, t.getEntryDate());
+	
+	return database.insert(TaskStoreContract.TaskEntry.TABLE_NAME,
+	        null, values);
+    }
+
     public List<Task> getAllTasks() {
 	List<Task> comments = new ArrayList<Task>();
 
@@ -153,7 +167,7 @@ public class TaskDataSource {
 	                TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY,
 	                TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_TITLE },
 	        selection, selectionArgs, null, null, null, null);
-	
+
 	if (cursor == null) {
 	    return null;
 	} else if (!cursor.moveToFirst()) {

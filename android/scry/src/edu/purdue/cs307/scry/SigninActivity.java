@@ -1,5 +1,9 @@
 package edu.purdue.cs307.scry;
 
+import com.google.android.gms.auth.GoogleAuthException;
+import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.auth.GooglePlayServicesAvailabilityException;
+import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
@@ -8,10 +12,12 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.plus.Account;
 import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.People.LoadPeopleResult;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.google.android.gms.plus.model.people.Person.Name;
 import com.google.android.gms.plus.model.people.PersonBuffer;
 
 import android.app.Activity;
@@ -21,6 +27,7 @@ import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +37,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class SigninActivity extends Activity implements
@@ -163,12 +174,30 @@ public class SigninActivity extends Activity implements
 		// Retrieve some profile information to personalize our app for the
 		// user.
 		Person currentUser = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-
+		
+		
 		Plus.PeopleApi.loadVisible(mGoogleApiClient, null).setResultCallback(
-				this);
+				this);;
+		
+		String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
+		String displayName = currentUser.getDisplayName();
+		String userID = currentUser.getId();
+		Log.wtf("Display Name -------", displayName);
+		Log.wtf("Account -------", email);
+		Log.wtf("Used ID -------", userID);
+		
+		//Pushing info to shared preferences
+		SharedPreferences settings= getSharedPreferences("pref_profile", 0);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putString("userID", userID).commit();
+		editor.putString("email", email).commit();
+		editor.putString("name", displayName).commit();
 
 		// Indicate that the sign in process is complete.
 		mSignInProgress = STATE_DEFAULT;
+		Intent i = new Intent(SigninActivity.this, MainActivity.class);
+        startActivity(i);
+        finish();		
 	}
 
 	@Override

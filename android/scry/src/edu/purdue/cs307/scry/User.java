@@ -26,33 +26,29 @@ import java.util.ArrayList;
 
 @PersistenceCapable
 public class User {
-	@Persistent
-	private int phone_number;
 	
-	@Persistent
 	private String name;
 	
-	@Persistent
+	@PrimaryKey
+	private String userID;
+	
 	private ArrayList<Task> tasklist;
 	
-	@Persistent
 	private ArrayList<User> friendsList;
 	
-	@PrimaryKey
-	@Persistent
 	private String email;
 	
 	
-	public User(int num, String nam, String em){
-		phone_number = num;
+	public User(String ID, String nam, String em){
+		userID = ID;
 		name = nam;
 		email = em;
 		tasklist = new ArrayList<Task>();
 		friendsList = new ArrayList<User>();
 	}
 	
-	public int getPhone(){
-		return this.phone_number;
+	public String getUserID(){
+		return this.userID;
 	}
 	
 	public String getName(){
@@ -92,7 +88,7 @@ public class User {
 	public String toString(){
 		String info = "";
 		info += "Name: " + this.getName();
-		info += "\nPhone: " + this.getPhone();
+		info += "\nUser ID: " + this.getUserID();
 		info += "\nEmail: " + this.getEmail();
 		return info;
 	}
