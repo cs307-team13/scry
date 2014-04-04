@@ -3,7 +3,7 @@ package edu.purdue.cs307.scry;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -79,15 +79,19 @@ public class CreateTaskFragment extends Fragment {
 		        .findViewById(R.id.etxt_category);
 
 		final String title = txttitle.getText().toString();
-		final String category = txtcat.getText().toString();
+	    String category = txtcat.getText().toString();
+		if(category.equals("")){
+			Parse p = new Parse();
+			category = p.parse(title);
+			}
 
-		AsyncTask<Void, Void, Void> saveData = new AsyncTask<Void, Void, Void>() {
+		AsyncTask<String, Void, Void> saveData = new AsyncTask<String, Void, Void>() {
 
 		    @Override
-		    protected Void doInBackground(Void... arg0) {
+		    protected Void doInBackground(String... arg0) {
 			Task t = ((TaskDatasourceActivity) getActivity())
-			        .getDataSource().createComment(title, category);
-			adapter.add(category);
+			        .getDataSource().createComment(arg0[0], arg0[1]);
+			adapter.add(arg0[1]);
 			return null;
 		    }
 
@@ -95,11 +99,11 @@ public class CreateTaskFragment extends Fragment {
 		    protected void onPostExecute(Void o) {
 			txttitle.setText("");
 			txtcat.setText("");
+			getActivity().finish();
 		    }
 
 		};
-		saveData.execute();
-
+		saveData.execute(title, category);
 	    }
 
 	});

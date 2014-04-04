@@ -11,5 +11,20 @@
         android:icon="@android:drawable/ic_menu_search"
         android:showAsAction="collapseActionView|ifRoom"
         android:title="@string/search_title"/>
+    <item
+        android:id="@+id/action_create"
+        android:icon="@drawable/ic_action_new"
+        android:showAsAction="ifRoom"
+        android:title="add"/>
+    <item
+        android:id="@+id/action_populate"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Fill Random Data"/>
+    <item
+        android:id="@+id/action_delete"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Delete All Tasks"/>
 
 </menu>

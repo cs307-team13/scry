@@ -1,0 +1,55 @@
+﻿Merge branch 'master' of https://github.com/cs307-team13/scry
+
+Conflicts:
+	android/scry/src/edu/purdue/cs307/scry/User.java
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 1 and 28 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# All conflicts fixed but you are still merging.
+#   (use "git commit" to conclude merge)
+#
+# Changes to be committed:
+#
+#	modified:   Server/src/scryserver/ServerServlet.java
+#	modified:   android/scry/AndroidManifest.xml
+#	modified:   android/scry/project.properties
+#	new file:   android/scry/res/drawable-hdpi/ic_action_new.png
+#	new file:   android/scry/res/drawable-mdpi/ic_action_new.png
+#	new file:   android/scry/res/drawable-xhdpi/ic_action_new.png
+#	new file:   android/scry/res/drawable-xxhdpi/ic_action_new.png
+#	modified:   android/scry/res/layout/fragment_map.xml
+#	deleted:    android/scry/res/layout/map.xml
+#	modified:   android/scry/res/menu/main.xml
+#	new file:   android/scry/src/edu/purdue/cs307/scry/CreateTaskActivity.java
+#	modified:   android/scry/src/edu/purdue/cs307/scry/CreateTaskFragment.java
+#	new file:   android/scry/src/edu/purdue/cs307/scry/HttpClientSetup.java
+#	modified:   android/scry/src/edu/purdue/cs307/scry/MainActivity.java
+#	deleted:    android/scry/src/edu/purdue/cs307/scry/MapsFragment.java
+#	modified:   android/scry/src/edu/purdue/cs307/scry/Parse.java
+#	modified:   android/scry/src/edu/purdue/cs307/scry/SigninActivity.java
+#	modified:   android/scry/src/edu/purdue/cs307/scry/TabsPageAdapter.java
+#	modified:   android/scry/src/edu/purdue/cs307/scry/Task.java
+#	modified:   android/scry/src/edu/purdue/cs307/scry/TaskArrayAdapter.java
+#	modified:   android/scry/src/edu/purdue/cs307/scry/TaskDataSource.java
+#	modified:   android/scry/src/edu/purdue/cs307/scry/TaskListFragment.java
+#	modified:   android/scry/src/edu/purdue/cs307/scry/TaskMapFragment.java
+#	modified:   android/scry/src/edu/purdue/cs307/scry/User.java
+#	new file:   android/scry/src/edu/purdue/cs307/scry/dev/DummyDataCreator.java
+#	modified:   java-channels-api/src/edu/purdue/cs307/channel/api/ChannelAPI.java
+#	modified:   libraries/google_play_services/libproject/google-play-services_lib/project.properties
+#	new file:   libraries/jar files/android-async-http-1.4.4.jar
+#	new file:   libraries/jar files/httpcore-4.3.2.jar
+#	new file:   libraries/jar files/json-20090211.jar
+#
+

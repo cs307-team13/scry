@@ -99,6 +99,8 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 		});
 		return taskView;
 	}
+	
+	
 
 
 }

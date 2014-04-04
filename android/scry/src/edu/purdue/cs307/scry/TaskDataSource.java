@@ -3,6 +3,8 @@ package edu.purdue.cs307.scry;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.loopj.android.http.AsyncHttpClient;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.CharArrayBuffer;
@@ -13,6 +15,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.util.Log;
 
 public class TaskDataSource {
+    
     private SQLiteDatabase database;
     private TaskStoreDbHelper dbHelper;
     private String[] allColumns = { TaskStoreContract.TaskEntry._ID,
@@ -51,13 +54,32 @@ public class TaskDataSource {
 	        null, null, null, null);
 	cursor.moveToFirst();
 	Task newTask = cursorToTask(cursor);
+	HttpClientSetup client = new HttpClientSetup();
+	client.addTask(newTask);
 	cursor.close();
 	return newTask;
     }
 
+    public long commitTask(Task t)
+    {
+	ContentValues values = new ContentValues();
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_TITLE, t.title);
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY, t.category);
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_LOC_LAT, t.lat_location);
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_LOC_LONG, t.long_location);
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID, t.ownerId);
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_DATE_CREATED, t.getEntryDate());
+	
+	HttpClientSetup client = new HttpClientSetup();
+	client.addTask(t);
+	
+	return database.insert(TaskStoreContract.TaskEntry.TABLE_NAME,
+	        null, values);
+    }
+
     public List<Task> getAllTasks() {
 	List<Task> comments = new ArrayList<Task>();
-
+	open();
 	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
 	        allColumns, null, null, null, null, null);
 
@@ -153,7 +175,7 @@ public class TaskDataSource {
 	                TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY,
 	                TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_TITLE },
 	        selection, selectionArgs, null, null, null, null);
-	
+
 	if (cursor == null) {
 	    return null;
 	} else if (!cursor.moveToFirst()) {
