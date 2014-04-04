@@ -27,9 +27,13 @@ public class MainActivity extends FragmentActivity implements
         TaskDatasourceActivity, ActionBar.TabListener {
 
     private TaskDataSource datasource;
-    static ViewPager viewPager;
-    private TabsPageAdapter mAdapter;
+    public static ViewPager viewPager;
+    public static TabsPageAdapter mAdapter;
+    
+    public static FragmentManager fragmentManager; 
+    
     private ActionBar actionBar;
+    
     // private static ArrayList<TabInfo> tabs = new ArrayList<TabInfo>();
     private String tab[] = new String[] { "Tasks", "Friends", "Map" };
 
@@ -37,7 +41,8 @@ public class MainActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.activity_main);
-
+	fragmentManager = getSupportFragmentManager(); 
+	
 	datasource = new TaskDataSource(this.getApplicationContext());
 	datasource.open();
 

@@ -99,11 +99,11 @@ public class CreateTaskFragment extends Fragment {
 		    protected void onPostExecute(Void o) {
 			txttitle.setText("");
 			txtcat.setText("");
+			getActivity().finish();
 		    }
 
 		};
 		saveData.execute(title, category);
-
 	    }
 
 	});

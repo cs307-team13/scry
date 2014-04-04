@@ -13,6 +13,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.util.Log;
 
 public class TaskDataSource {
+    
     private SQLiteDatabase database;
     private TaskStoreDbHelper dbHelper;
     private String[] allColumns = { TaskStoreContract.TaskEntry._ID,
@@ -71,7 +72,7 @@ public class TaskDataSource {
 
     public List<Task> getAllTasks() {
 	List<Task> comments = new ArrayList<Task>();
-
+	open();
 	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
 	        allColumns, null, null, null, null, null);
 
