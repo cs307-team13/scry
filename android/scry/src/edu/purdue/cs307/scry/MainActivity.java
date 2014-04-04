@@ -44,7 +44,12 @@ public class MainActivity extends FragmentActivity implements TaskDatasourceActi
 	String userName = getSharedPreferences("pref_profile",0).getString("name", null);
 	
 	User currentUser = new User(userID, userName, userEmail);
+	
 	Log.wtf("NEW USER", currentUser.toString());
+	
+	HttpClientSetup client = new HttpClientSetup();
+	client.addUser(currentUser);
+	System.out.println("User added to server");
 	
 	/*
 	 * I commented out the original opening to the create task screen

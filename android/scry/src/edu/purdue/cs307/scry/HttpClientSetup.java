@@ -64,7 +64,8 @@ public class HttpClientSetup {
 		};
 		RequestParams params = new RequestParams();
 		params.put("Method", "addUser");
-		params.put("Id", user.getEmail());
+		params.put("Id", user.getUserID());
+		params.put("Email", user.getEmail());
 		params.put("Name", user.getName());
 		client.post(URL, params, handler);
 	}

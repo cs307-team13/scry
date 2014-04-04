@@ -101,7 +101,9 @@ public class ServerServlet extends HttpServlet {
 	private static void addUser(HttpServletRequest req){
 		Entity user = new Entity("User", req.getParameter("Id"));
 		String name = req.getParameter("Name");
+		String email = req.getParameter("Email");
 		user.setProperty("Name", name);
+		user.setProperty("Email", email);
 		datastore.put(user);
 	}
 	
