@@ -24,28 +24,28 @@ import com.google.appengine.api.datastore.KeyFactory;
 
 @SuppressWarnings("serial")
 public class ServerServlet extends HttpServlet {
-	ChannelService channelService = ChannelServiceFactory.getChannelService();
-	static Key key;
+	
+	static DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("text/plain");
 		resp.getWriter().println("This is the server for the Scry Android application. Coming April 2014.");
 		
-		String channelkey = "key"; //req.getParameter("c");  //RETURNING NULL
-		String token = channelService.createChannel(channelkey);
+		//String channelkey = "key"; //req.getParameter("c");  //RETURNING NULL
+		//String token = channelService.createChannel(channelkey);
 		
 		
 		// Send the client the 'token' + the 'channelKey' this way the client
 		// can start using the new channel
-		resp.setContentType("text/html");
+		/*resp.setContentType("text/html");
 		StringBuffer sb = new StringBuffer();
 		sb.append("{\"channelkey\": \"");
 		sb.append(channelkey);
 		sb.append("\", \"token\": \"");
 		sb.append(token);
 		sb.append("\"}");
-		resp.getWriter().write(sb.toString());
+		resp.getWriter().write(sb.toString());*/
 		
 		
 		
@@ -73,28 +73,61 @@ public class ServerServlet extends HttpServlet {
 
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String key = req.getParameter("key");
+		String method_call = req.getParameter("Method");
+		switch(method_call){
+		case "addUser":
+			addUser(req);
+			break;
+		case "addTask":
+			addTask(req);
+			break;
+		case "editTask":
+			editTask(req);
+			break;
+		case "deleteTask":
+			deleteTask(req);
+			break;
+		}
+		/*String key = req.getParameter("key");
 		String name = req.getParameter("name");
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Entity test = new Entity("TestEntry", "test1");
 		Key k = KeyFactory.createKey("TestEntry", "test1");
 		test.setProperty("Name", name);
 		test.setProperty("Key", key);
-		datastore.put(test);
-		
-		/*String channelKey = req.getParameter("channelKey");
-		String message = req.getParameter("message");
-
-		// Send a message based on the 'channelKey' any channel with this key
-		// will receive the message
-		ChannelService channelService = ChannelServiceFactory
-				.getChannelService();
-
-		channelService.sendMessage(new ChannelMessage(channelKey, message));*/
+		datastore.put(test);*/
 	}
 	
+	private static void addUser(HttpServletRequest req){
+		Entity user = new Entity("User", req.getParameter("Id"));
+		String name = req.getParameter("Name");
+		user.setProperty("Name", name);
+		datastore.put(user);
+	}
 	
+	private static void addTask(HttpServletRequest req){
+		Entity task = new Entity("Task");
+		task.setProperty("Description", req.getParameter("Description"));
+		task.setProperty("Category", req.getParameter("Category"));
+		task.setProperty("Owner", req.getParameter("Owner"));
+		String comp = req.getParameter("Complete");
+		boolean bool;
+		if(comp.equals("true"))
+			bool = true;
+		else
+			bool = false;
+		task.setProperty("Complete", bool);
+		Key key = task.getKey();
+		datastore.put(task);
+	}
 	
+	private static void editTask(HttpServletRequest req){
+		
+	}
+	
+	private static void deleteTask(HttpServletRequest req){
+		
+	}
 	
 	public static void createDemoUsers(HttpServletResponse resp) throws IOException{
 		createAndStoreEmily(resp);
@@ -117,9 +150,9 @@ public class ServerServlet extends HttpServlet {
 	}
 	public static void retrieveAndPrintEmily(HttpServletResponse resp) throws IOException, EntityNotFoundException{
 		//User emily = getUserInfo(key);
-		Entity emily = getUserInfo(key);
+		//Entity emily = getUserInfo(key);
 		resp.getWriter().println("Emily's info:");
-		resp.getWriter().println(emily.toString());
+		//resp.getWriter().println(emily.toString());
 	}
 	/*public static void createAndStorePhil(HttpServletResponse resp) throws IOException {
 		User phil = new User(1338675309L, "Phil Bilson", "phillyb@coolguys.net");
@@ -156,7 +189,7 @@ public class ServerServlet extends HttpServlet {
 		Entity info = new Entity("User", user.getEmail());
 		Key k = KeyFactory.createKey("User", user.getEmail());
 		user.setKey(k);
-		key = k;
+		//key = k;
 		info.setProperty("Name", user.getName());
 		info.setProperty("Email", user.getEmail());
 		info.setProperty("Phone Number", user.getPhone());
