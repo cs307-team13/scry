@@ -1,7 +1,5 @@
 package edu.purdue.cs307.scry;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+
 import java.util.ArrayList;
 
 /*Persistence is what will enable the google app engine to write instances of
@@ -24,12 +22,11 @@ import java.util.ArrayList;
  * If not using 4.3, just change version number in URL to version you are using
  * */
 
-@PersistenceCapable
+
 public class User {
 	
 	private String name;
 	
-	@PrimaryKey
 	private String userID;
 	
 	private ArrayList<Task> tasklist;
