@@ -111,15 +111,15 @@ public class ServerServlet extends HttpServlet {
 		Entity task = new Entity("Task");
 		task.setProperty("Description", req.getParameter("Description"));
 		task.setProperty("Category", req.getParameter("Category"));
-		task.setProperty("Owner", req.getParameter("Owner"));
-		String comp = req.getParameter("Complete");
+		//task.setProperty("Owner", req.getParameter("Owner"));
+		/*String comp = req.getParameter("Complete");
 		boolean bool;
 		if(comp.equals("true"))
 			bool = true;
 		else
 			bool = false;
 		task.setProperty("Complete", bool);
-		Key key = task.getKey();
+		Key key = task.getKey();*/
 		datastore.put(task);
 	}
 	

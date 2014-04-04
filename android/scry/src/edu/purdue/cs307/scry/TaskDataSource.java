@@ -3,6 +3,8 @@ package edu.purdue.cs307.scry;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.loopj.android.http.AsyncHttpClient;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.CharArrayBuffer;
@@ -52,6 +54,8 @@ public class TaskDataSource {
 	        null, null, null, null);
 	cursor.moveToFirst();
 	Task newTask = cursorToTask(cursor);
+	HttpClientSetup client = new HttpClientSetup();
+	client.addTask(newTask);
 	cursor.close();
 	return newTask;
     }
@@ -65,6 +69,9 @@ public class TaskDataSource {
 	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_LOC_LONG, t.long_location);
 	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID, t.ownerId);
 	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_DATE_CREATED, t.getEntryDate());
+	
+	HttpClientSetup client = new HttpClientSetup();
+	client.addTask(t);
 	
 	return database.insert(TaskStoreContract.TaskEntry.TABLE_NAME,
 	        null, values);

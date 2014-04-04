@@ -75,10 +75,10 @@ public class HttpClientSetup {
 		AsyncHttpResponseHandler handler = new AsyncHttpResponseHandler();
 		RequestParams params = new RequestParams();
 		params.put("Method", "addTask");
-		params.put("Owner", task.getOwner());
+		//params.put("Owner", task.getOwner());
 		params.put("Description", task.toString());
 		params.put("Category", task.getCategory());
-		params.put("Complete", task.isComplete());
+		//params.put("Complete", task.isComplete());
 		client.post(URL, params, handler);
 	}
 	
