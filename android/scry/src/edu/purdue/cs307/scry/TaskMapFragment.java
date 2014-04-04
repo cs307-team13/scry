@@ -51,11 +51,14 @@ public class TaskMapFragment extends Fragment {
 	// Do a null check to confirm that we have not already instantiated the map.
 	if (mMap == null) {
 	    // Try to obtain the map from the SupportMapFragment.
-	    
-	    mMap = ((SupportMapFragment)((TaskMapFragment) MainActivity.mAdapter.getItem(2)).getChildFragmentManager().findFragmentById(R.id.location_map)).getMap();
-	    
-	    //mMap = ((MapFragment) MainActivity.fragmentManager
-		//    .findFragmentById(R.id.location_map)).getMap();
+	    try {
+		mMap = ((SupportMapFragment) ((TaskMapFragment) MainActivity.mAdapter
+		        .getItem(2)).getChildFragmentManager()
+		        .findFragmentById(R.id.location_map)).getMap();
+	    } catch (RuntimeException re) {
+	    }
+	    // mMap = ((MapFragment) MainActivity.fragmentManager
+	    // .findFragmentById(R.id.location_map)).getMap();
 	    // Check if we were successful in obtaining the map.
 	    if (mMap != null)
 		setUpMap();
@@ -89,9 +92,12 @@ public class TaskMapFragment extends Fragment {
 
 	if (mMap == null) {
 	    // Try to obtain the map from the SupportMapFragment.
-
-	    mMap = ((SupportMapFragment)((TaskMapFragment) MainActivity.mAdapter.getItem(2)).getChildFragmentManager().findFragmentById(R.id.location_map)).getMap();
-	    
+	    try {
+		mMap = ((SupportMapFragment) ((TaskMapFragment) MainActivity.mAdapter
+		        .getItem(2)).getChildFragmentManager()
+		        .findFragmentById(R.id.location_map)).getMap();
+	    } catch (RuntimeException re) {
+	    }
 	    // Check if we were successful in obtaining the map.
 	    if (mMap != null)
 		setUpMap();
