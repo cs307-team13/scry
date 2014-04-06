@@ -1,11 +1,6 @@
 package edu.purdue.cs307.scry;
 
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-=======
 
->>>>>>> cfc2fcb31cd4fa8ee5d420a50933d11cb84b90d8
 import java.util.ArrayList;
 
 /*Persistence is what will enable the google app engine to write instances of
@@ -28,28 +23,6 @@ import java.util.ArrayList;
  * If not using 4.3, just change version number in URL to version you are using
  * */
 
-
-@PersistenceCapable
-public class User {
-	@Persistent
-	private int phone_number;
-	
-	@Persistent
-	private String name;
-	
-	@Persistent
-	private ArrayList<Task> tasklist;
-	
-	@Persistent
-	private ArrayList<User> friendsList;
-	
-	@PrimaryKey
-	@Persistent
-	private String email;
-	
-	
-	public User(int num, String nam, String em){
-		phone_number = num;
 
 
 public class User {
@@ -75,9 +48,6 @@ public class User {
 	}
 	
 
-	public int getPhone(){
-		return this.phone_number;
-=======
 	public String getUserID(){
 		return this.userID;
 
@@ -121,13 +91,9 @@ public class User {
 		String info = "";
 		info += "Name: " + this.getName();
 
-		info += "\nPhone: " + this.getPhone();
-
 		info += "\nUser ID: " + this.getUserID();
 
 		info += "\nEmail: " + this.getEmail();
 		return info;
-	}
-	public static void main(){
 	}
 }
