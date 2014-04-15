@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class CreateTaskFragment extends Fragment {
@@ -28,8 +29,7 @@ public class CreateTaskFragment extends Fragment {
 	final View v = inflater.inflate(R.layout.create_task, null);
 
 	Button b = (Button) v.findViewById(R.id.btn_create);
-	Button list = (Button) v.findViewById(R.id.btn_openlist);
-	Button categories = (Button) v.findViewById(R.id.test);
+	Button expand = (Button) v.findViewById(R.id.btn_more);
 
 	final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 	        this.getActivity(),
@@ -40,30 +40,19 @@ public class CreateTaskFragment extends Fragment {
 	        .findViewById(R.id.etxt_category);
 	textView.setAdapter(adapter);
 
-	categories.setOnClickListener(new OnClickListener() {
+	expand.setOnClickListener(new OnClickListener() {
+	    boolean areVisible = false;
 
 	    @Override
-	    public void onClick(View v) {
-		((TaskDatasourceActivity) getActivity()).getDataSource()
-		        .purge();
-	    }
+	    public void onClick(View view) {
 
-	});
-
-	list.setOnClickListener(new OnClickListener() {
-
-	    @Override
-	    public void onClick(View v) {
-		InputMethodManager inputManager = (InputMethodManager) CreateTaskFragment.this
-		        .getActivity().getSystemService(
-		                Context.INPUT_METHOD_SERVICE);
-		View view = CreateTaskFragment.this.getActivity()
-		        .getCurrentFocus();
-		if (view != null) {
-		    inputManager.hideSoftInputFromWindow(view.getWindowToken(),
-			    InputMethodManager.HIDE_NOT_ALWAYS);
+		LinearLayout extras = (LinearLayout) v
+		        .findViewById(R.id.extras);
+		for (int i = 0; i < extras.getChildCount(); i++) {
+		    extras.getChildAt(i).setVisibility(
+			    (areVisible) ? View.GONE : View.VISIBLE);
 		}
-		((MainActivity) getActivity()).pushListFragment();
+		areVisible = (areVisible) ? false : true;
 	    }
 
 	});
