@@ -22,7 +22,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class TaskMapFragment extends Fragment {
+public class TaskMapFragment extends SupportMapFragment {
 
     private static View view;
     /**
@@ -30,20 +30,23 @@ public class TaskMapFragment extends Fragment {
      * available.
      */
 
-    private static GoogleMap mMap;
-    private static Double latitude, longitude;
     private TaskDataSource data;
 
     @Override
     public void onResume() {
+	super.onResume();
 	Log.d("Map", "onResume()");
 	data = ((TaskDatasourceActivity) getActivity()).getDataSource();
-	super.onResume();
-	populateTasks(); 
+	populateTasks();
+
+	// For zooming automatically to the Dropped PIN Location
+	getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
+		40.426853, -86.923538), 12.0f));
     }
 
     private void populateTasks() {
 	// TODO Auto-generated method stub
+	getMap().clear();
 	Log.v("Map", "Populating map");
 	AsyncTask<Void, Integer, List<Task>> task = new AsyncTask<Void, Integer, List<Task>>() {
 
@@ -64,12 +67,12 @@ public class TaskMapFragment extends Fragment {
 	    public void onPostExecute(List<Task> locTasks) {
 		Log.d("Map", "onPostExecute()");
 		for (Task t : locTasks) {
-		    if (mMap != null)
-		    {
-			Log.d("Adding Tasks", "Task " + t.title + " added");
-			mMap.addMarker(new MarkerOptions().position(
-			        t.getLocation()).title(t.title));
-		    }
+
+		    Log.d("Adding Tasks", "Task " + t.title + " added");
+		    getMap().addMarker(
+			    new MarkerOptions().position(t.getLocation())
+			            .title(t.title));
+
 		}
 	    }
 
@@ -80,65 +83,9 @@ public class TaskMapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	    Bundle savedInstanceState) {
+	view = super.onCreateView(inflater, container, savedInstanceState);
 	Log.d("Map", "onCreateView()");
-	if (view == null) {
-	    if (container == null) {
-		return null;
-	    }
-	    view = (RelativeLayout) inflater.inflate(R.layout.fragment_map,
-		    container, false);
-	    // Passing harcoded values for latitude & longitude. Please change as
-	    // per your
-	    // need. This is just used to drop a Marker on the Map
-	    latitude = 26.78;
-	    longitude = 72.56;
-	} else {
-	    ((ViewGroup) view.getParent()).removeView(view);
-	}
+
 	return view;
-    }
-
-    /***** Sets up the map if it is possible to do so *****/
-    public void setUpMapIfNeeded() {
-	Log.d("Map", "setUpMapIfNeeded()");
-	// Do a null check to confirm that we have not already instantiated the
-	// map.
-	if (mMap == null) {
-	    // Try to obtain the map from the SupportMapFragment.
-	    try {
-		FragmentManager fm = this.getChildFragmentManager(); 
-		Fragment f = fm.findFragmentById(R.id.location_map);
-		mMap = ((SupportMapFragment) f).getMap();
-	    } catch (RuntimeException re) {
-		Log.e("Map", "Map not found!", re);
-	    }
-	    // mMap = ((MapFragment) MainActivity.fragmentManager
-	    // .findFragmentById(R.id.location_map)).getMap();
-	    // Check if we were successful in obtaining the map.
-	    if (mMap != null)
-		setUpMap();
-	} else
-	    setUpMap();
-    }
-
-    /**
-     * This is where we can add markers or lines, add listeners or move the
-     * camera.
-     * <p>
-     * This should only be called once and when we are sure that {@link #mMap} is not
-     * null.
-     */
-    private void setUpMap() {
-	Log.d("Map", "-------------Setting up Map!!!!");
-	// For showing a move to my loction button
-	mMap.setMyLocationEnabled(true);
-	// For dropping a marker at a point on the Map
-	mMap.addMarker(new MarkerOptions()
-	        .position(new LatLng(latitude, longitude)).title("My Home")
-	        .snippet("Home Address"));
-	// For zooming automatically to the Dropped PIN Location
-	mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
-	        latitude, longitude), 12.0f));
-	populateTasks();
     }
 }
