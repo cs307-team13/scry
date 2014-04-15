@@ -21,6 +21,8 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterManager;
 
 public class TaskMapFragment extends SupportMapFragment {
 
@@ -31,6 +33,7 @@ public class TaskMapFragment extends SupportMapFragment {
      */
 
     private TaskDataSource data;
+    protected ClusterManager<Task> mClusterManager;
 
     @Override
     public void onResume() {
@@ -40,8 +43,9 @@ public class TaskMapFragment extends SupportMapFragment {
 	populateTasks();
 
 	// For zooming automatically to the Dropped PIN Location
-	getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
-		40.426853, -86.923538), 12.0f));
+	getMap().animateCamera(
+	        CameraUpdateFactory.newLatLngZoom(new LatLng(40.426853,
+	                -86.923538), 12.0f));
     }
 
     private void populateTasks() {
@@ -66,14 +70,18 @@ public class TaskMapFragment extends SupportMapFragment {
 	    @Override
 	    public void onPostExecute(List<Task> locTasks) {
 		Log.d("Map", "onPostExecute()");
-		for (Task t : locTasks) {
 
-		    Log.d("Adding Tasks", "Task " + t.title + " added");
-		    getMap().addMarker(
-			    new MarkerOptions().position(t.getLocation())
-			            .title(t.title));
+		mClusterManager = new ClusterManager<Task>(
+		        TaskMapFragment.this.getActivity(), getMap());
+		getMap().setOnCameraChangeListener(mClusterManager);
+		
+		mClusterManager.addItems(locTasks);
+		/*
+	         * getMap().addMarker(
+	         * new MarkerOptions().position(t.getLocation())
+	         * .title(t.title));
+	         */
 
-		}
 	    }
 
 	};

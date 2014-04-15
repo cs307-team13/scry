@@ -8,10 +8,11 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 import java.text.SimpleDateFormat;
+import com.google.maps.android.clustering.ClusterItem;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class Task implements Parcelable {
+public class Task implements Parcelable, ClusterItem {
 
 	public String title;
 	public String category;
@@ -161,5 +162,10 @@ public class Task implements Parcelable {
 		return new LatLng(lat_location, long_location);
 	    }
 	    return null;
+        }
+
+	@Override
+        public LatLng getPosition() {
+	    return getLocation();
         }
 }
