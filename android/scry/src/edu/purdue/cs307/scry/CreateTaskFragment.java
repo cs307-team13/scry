@@ -67,8 +67,7 @@ public class CreateTaskFragment extends Fragment {
 	    }
 
 	});
-	
-	
+
 	b.setOnClickListener(new OnClickListener() {
 
 	    @Override
@@ -79,18 +78,19 @@ public class CreateTaskFragment extends Fragment {
 		        .findViewById(R.id.etxt_category);
 
 		final String title = txttitle.getText().toString();
-	    String category = txtcat.getText().toString();
-		if(category.equals("")){
-			Parse p = new Parse();
-			category = p.parse(title);
-			}
+		String category = txtcat.getText().toString();
+		if (category.equals("")) {
+		    Parse p = new Parse();
+		    category = p.parse(title);
+		}
 
 		AsyncTask<String, Void, Void> saveData = new AsyncTask<String, Void, Void>() {
 
 		    @Override
 		    protected Void doInBackground(String... arg0) {
 			Task t = ((TaskDatasourceActivity) getActivity())
-			        .getDataSource().createComment(arg0[0], arg0[1]);
+			        .getDataSource()
+			        .createComment(arg0[0], arg0[1]);
 			adapter.add(arg0[1]);
 			return null;
 		    }

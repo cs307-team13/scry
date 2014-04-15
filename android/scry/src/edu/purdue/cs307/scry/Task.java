@@ -9,11 +9,13 @@ import java.util.Locale;
 import java.util.UUID;
 import java.text.SimpleDateFormat;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class Task implements Parcelable {
 
 	public String title;
 	public String category;
-	public double lat_location, long_location;
+	public double lat_location = Double.NaN, long_location = Double.NaN;
 	public String ownerId;
 	private String entry_date;
 	private String adj_date;
@@ -152,4 +154,12 @@ public class Task implements Parcelable {
 
 		return title;
 	}
+
+	public LatLng getLocation() {
+	    if(lat_location != Double.NaN && long_location != Double.NaN)
+	    {
+		return new LatLng(lat_location, long_location);
+	    }
+	    return null;
+        }
 }
