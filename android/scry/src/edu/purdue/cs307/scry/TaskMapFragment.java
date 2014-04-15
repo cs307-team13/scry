@@ -31,19 +31,23 @@ public class TaskMapFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		if (container == null) {
-			return null;
-		}
-		view = (RelativeLayout) inflater.inflate(R.layout.fragment_map,
-				container, false);
-		// Passing harcoded values for latitude & longitude. Please change as
-		// per your
-		// need. This is just used to drop a Marker on the Map
-		latitude = 26.78;
-		longitude = 72.56;
-
-		setUpMapIfNeeded(); // For setting up the MapFragment
-
+	    	if (view == null)
+	    	{
+        		if (container == null) {
+        			return null;
+        		}
+        		view = (RelativeLayout) inflater.inflate(R.layout.fragment_map,
+        				container, false);
+        		// Passing harcoded values for latitude & longitude. Please change as
+        		// per your
+        		// need. This is just used to drop a Marker on the Map
+        		latitude = 26.78;
+        		longitude = 72.56;
+	    	} else {
+	    	    ((ViewGroup)view.getParent()).removeView(view);
+	    	}
+        	setUpMapIfNeeded(); // For setting up the MapFragment
+	    	
 		return view;
 	}
 
