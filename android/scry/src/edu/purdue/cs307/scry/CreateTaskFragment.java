@@ -10,11 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class CreateTaskFragment extends Fragment {
     public static String TAG = "CreateTaskFragment";
@@ -47,9 +50,10 @@ public class CreateTaskFragment extends Fragment {
 	        android.R.layout.simple_dropdown_item_1line,
 	        ((TaskDatasourceActivity) getActivity()).getDataSource()
 	                .getCategories());
-	AutoCompleteTextView textView = (AutoCompleteTextView) v
+	final AutoCompleteTextView textView = (AutoCompleteTextView) v
 	        .findViewById(R.id.etxt_category);
 	textView.setAdapter(adapter);
+	
 	return adapter;
     }
 
@@ -94,8 +98,10 @@ public class CreateTaskFragment extends Fragment {
 
 		    @Override
 		    protected Void doInBackground(String... arg0) {
-			Task task = new Task(arg0[0], arg0[1]);
-
+			Task task = new Task();
+			task.title = arg0[0]; 
+			task.category = arg0[1]; 
+			
 			String loc = location.getText().toString();
 			try {
 			    String[] latlng = loc.split(", ");
