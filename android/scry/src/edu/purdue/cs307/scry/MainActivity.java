@@ -98,7 +98,6 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     protected void onNewIntent(Intent intent) {
-
 	handleIntent(intent);
     }
 
