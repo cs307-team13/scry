@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,7 +27,8 @@ public class TaskMapFragment extends SupportMapFragment implements
         ClusterManager.OnClusterClickListener<Task>,
         ClusterManager.OnClusterInfoWindowClickListener<Task>,
         ClusterManager.OnClusterItemClickListener<Task>,
-        ClusterManager.OnClusterItemInfoWindowClickListener<Task> {
+        ClusterManager.OnClusterItemInfoWindowClickListener<Task>,
+        OnMapClickListener, OnMapLongClickListener {
 
     private static View view;
     /**
@@ -46,6 +50,9 @@ public class TaskMapFragment extends SupportMapFragment implements
 	getMap().animateCamera(
 	        CameraUpdateFactory.newLatLngZoom(new LatLng(40.426853,
 	                -86.923538), 12.0f));
+	getMap().setOnMapClickListener(this);
+	getMap().setOnMapLongClickListener(this);
+	
     }
 
     private void populateTasks() {
@@ -160,6 +167,20 @@ public class TaskMapFragment extends SupportMapFragment implements
 	    // Always render clusters.
 	    return cluster.getSize() > 4;
 	}
+    }
+
+    @Override
+    public void onMapLongClick(LatLng point) {
+	// TODO Auto-generated method stub
+	Intent i = new Intent(this.getActivity(), CreateTaskActivity.class);
+	i.putExtra("location", point);
+	startActivity(i);
+    }
+
+    @Override
+    public void onMapClick(LatLng point) {
+	// TODO Auto-generated method stub
+	
     }
 
 }

@@ -122,8 +122,10 @@ public class TaskDataSource {
 	List<String> list = new ArrayList<String>();
 
 	while (!cursor.isAfterLast()) {
-	    list.add(cursor.getString(cursor
-		    .getColumnIndex(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY)));
+	    String cat = cursor.getString(cursor
+		    .getColumnIndex(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY));
+	    if(cat != null)
+		list.add(cat); 
 	    cursor.moveToNext();
 	}
 
