@@ -1,6 +1,7 @@
 package edu.purdue.cs307.scry;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.purdue.cs307.scry.dev.DummyDataCreator;
 import android.app.ActionBar;
@@ -105,14 +106,10 @@ public class MainActivity extends FragmentActivity implements
 
 	if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 	    String query = intent.getStringExtra(SearchManager.QUERY);
-	    // use the query to search your data somehow
-	    datasource.open();
-	    Cursor c = datasource.getWordMatches(query, null);
-	    while (!c.isAfterLast()) {
-		Log.d("Search", c.getString(c.getColumnCount() - 1));
-		c.moveToNext();
-	    }
-	    datasource.close();
+	    Intent mapIntent = new Intent(MainActivity.this, SearchActivity.class);
+	    
+	    mapIntent.putExtra("query", query);
+	    startActivity(mapIntent);
 	}
     }
 

@@ -159,7 +159,7 @@ public class TaskDataSource {
 	        TaskStoreContract.TaskEntry._ID + " = " + id, null);
     }
 
-    public Cursor getWordMatches(String query, String[] columns) {
+    public List<Task> getTaskMatches(String query, String[] columns) {
 	String selection = TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_TITLE
 	        + " LIKE ?";
 	String[] selectionArgs = new String[] { "%" + query + "%" };
@@ -167,13 +167,11 @@ public class TaskDataSource {
 	return query(selection, selectionArgs, columns);
     }
 
-    private Cursor query(String selection, String[] selectionArgs,
+    private List<Task> query(String selection, String[] selectionArgs,
 	    String[] columns) {
 
 	Cursor cursor = database.query(true,
-	        TaskStoreContract.TaskEntry.TABLE_NAME, new String[] {
-	                TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY,
-	                TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_TITLE },
+	        TaskStoreContract.TaskEntry.TABLE_NAME, allColumns,
 	        selection, selectionArgs, null, null, null, null);
 
 	if (cursor == null) {
@@ -182,6 +180,16 @@ public class TaskDataSource {
 	    cursor.close();
 	    return null;
 	}
-	return cursor;
+	List<Task> tasks = new ArrayList<Task>(); 
+	
+	cursor.moveToFirst();
+	while (!cursor.isAfterLast()) {
+	    Task comment = cursorToTask(cursor);
+	    tasks.add(comment);
+	    cursor.moveToNext();
+	}
+	
+	
+	return tasks;
     }
 }
