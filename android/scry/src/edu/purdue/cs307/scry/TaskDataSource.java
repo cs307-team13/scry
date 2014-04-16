@@ -3,15 +3,12 @@ package edu.purdue.cs307.scry;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.loopj.android.http.AsyncHttpClient;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.CharArrayBuffer;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.util.Log;
 
 public class TaskDataSource {

@@ -6,16 +6,11 @@ import java.util.List;
 
 import android.support.v4.app.ListFragment;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 
 public class TaskListFragment extends ListFragment {
 
@@ -45,9 +40,8 @@ public class TaskListFragment extends ListFragment {
 	    ((TaskArrayAdapter) getListAdapter())
 		    .addAll(((TaskDatasourceActivity) getActivity())
 		            .getDataSource().getAllTasks());
-	} else if (ada instanceof ArrayAdapter<?>)
-	{
-	    ((ArrayAdapter<String>) ada).clear(); 
+	} else if (ada instanceof ArrayAdapter<?>) {
+	    ((ArrayAdapter<String>) ada).clear();
 	    List<String> categories = ((TaskDatasourceActivity) getActivity())
 		    .getDataSource().getCategories();
 	    ((ArrayAdapter<String>) ada).addAll(categories);
@@ -63,10 +57,10 @@ public class TaskListFragment extends ListFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 	inflater.inflate(R.menu.list, menu);
-	MenuItem item = menu.getItem(menu.size()-1);
-	if(item.getItemId() == R.id.action_sort)
-	{
-	    item.setTitle((isSortedByCategories) ? "Show all tasks" : "Sort by Category" );
+	MenuItem item = menu.getItem(menu.size() - 1);
+	if (item.getItemId() == R.id.action_sort) {
+	    item.setTitle((isSortedByCategories) ? "Show all tasks"
+		    : "Sort by Category");
 	}
     }
 

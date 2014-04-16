@@ -1,24 +1,17 @@
 package edu.purdue.cs307.scry;
 
-import java.util.List;
-
-import android.app.Activity;
 import android.support.v4.app.Fragment;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 public class CreateTaskFragment extends Fragment {
     public static String TAG = "CreateTaskFragment";
