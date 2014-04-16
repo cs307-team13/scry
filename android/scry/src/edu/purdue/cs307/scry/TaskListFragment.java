@@ -3,6 +3,7 @@ package edu.purdue.cs307.scry;
 // import android.app.ListFragment;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import android.support.v4.app.ListFragment;
 import android.os.Bundle;
@@ -16,10 +17,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-public class TaskListFragment extends ListFragment implements BackPressedFragment {
+public class TaskListFragment extends ListFragment implements
+        BackPressedFragment {
 
     TaskArrayAdapter adapter;
     boolean isSortedByCategories = false;
+    Stack<ListAdapter> adapterStack = new Stack<ListAdapter>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,7 @@ public class TaskListFragment extends ListFragment implements BackPressedFragmen
 
 	adapter = new TaskArrayAdapter(getActivity().getApplicationContext(),
 	        R.layout.fragment_task_list, new ArrayList<Task>(), this);
+	adapterStack.push(getListAdapter());
 	setListAdapter(adapter);
 	setHasOptionsMenu(true);
     }
@@ -76,6 +80,8 @@ public class TaskListFragment extends ListFragment implements BackPressedFragmen
 		    setListAdapter(adapter);
 		    item.setTitle("Sort by Category");
 		    isSortedByCategories = false;
+		    adapterStack.pop();
+		    adapterStack.push(getListAdapter());
 		} else {
 		    List<String> categories = ((TaskDatasourceActivity) getActivity())
 			    .getDataSource().getCategories();
@@ -93,15 +99,20 @@ public class TaskListFragment extends ListFragment implements BackPressedFragmen
 				    String category = (String) t.getText();
 				    List<Task> tasks = ((TaskDatasourceActivity) getActivity())
 				            .getDataSource()
-				            .getTasksInCategory(
-				                    category);
-				     setListAdapter( new TaskArrayAdapter(getActivity().getApplicationContext(),
-					        R.layout.fragment_task_list, tasks, TaskListFragment.this) );
+				            .getTasksInCategory(category);
+				    setListAdapter(new TaskArrayAdapter(
+				            getActivity()
+				                    .getApplicationContext(),
+				            R.layout.fragment_task_list, tasks,
+				            TaskListFragment.this));
+				    adapterStack.push(getListAdapter());
 			        }
 			    });
 		    setListAdapter(catAdapter);
 		    item.setTitle("Show all tasks");
 		    isSortedByCategories = true;
+		    adapterStack.pop();
+		    adapterStack.push(getListAdapter());
 		}
 		return true;
 	}
@@ -111,8 +122,13 @@ public class TaskListFragment extends ListFragment implements BackPressedFragmen
     @Override
     public boolean onBackPressed() {
 	Log.v("TaskListFragment", "Make this pop the adapter stack!!!!!!");
-	
-	return false; 
+	adapterStack.pop();
+	if (adapterStack.empty())
+	    return false;
+	else {
+	    setListAdapter(adapterStack.peek());
+	    return true;
+	}
     }
 
 }
