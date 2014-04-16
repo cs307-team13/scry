@@ -5,6 +5,7 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.SearchManager;
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -192,11 +193,16 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     public void onBackPressed() {
-	FragmentManager fm = getSupportFragmentManager();
-	if (fm.getBackStackEntryCount() > 2)
-	    fm.popBackStack();
-	else
-	    super.onBackPressed();
+	Fragment f = mAdapter.getItem(viewPager.getCurrentItem());
+	if(f instanceof BackPressedFragment)
+	{
+	    boolean handled = ((BackPressedFragment) f).onBackPressed();
+	    if(handled)
+		return;
+	    else 
+		super.onBackPressed();
+	}
+	super.onBackPressed();
     }
 
     // Chip Leinen original code

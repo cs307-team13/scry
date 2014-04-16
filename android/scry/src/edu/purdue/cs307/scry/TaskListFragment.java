@@ -6,13 +6,17 @@ import java.util.List;
 
 import android.support.v4.app.ListFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
+import android.widget.TextView;
 
-public class TaskListFragment extends ListFragment {
+public class TaskListFragment extends ListFragment implements BackPressedFragment {
 
     TaskArrayAdapter adapter;
     boolean isSortedByCategories = false;
@@ -78,6 +82,23 @@ public class TaskListFragment extends ListFragment {
 		    ArrayAdapter<String> catAdapter = new ArrayAdapter<String>(
 			    getActivity(), android.R.layout.simple_list_item_1,
 			    categories);
+		    getListView().setOnItemClickListener(
+			    new AdapterView.OnItemClickListener() {
+
+			        @Override
+			        public void onItemClick(AdapterView<?> parent,
+			                View view, int position, long id) {
+				    TextView t = (TextView) view
+				            .findViewById(android.R.id.text1);
+				    String category = (String) t.getText();
+				    List<Task> tasks = ((TaskDatasourceActivity) getActivity())
+				            .getDataSource()
+				            .getTasksInCategory(
+				                    category);
+				     setListAdapter( new TaskArrayAdapter(getActivity().getApplicationContext(),
+					        R.layout.fragment_task_list, tasks, TaskListFragment.this) );
+			        }
+			    });
 		    setListAdapter(catAdapter);
 		    item.setTitle("Show all tasks");
 		    isSortedByCategories = true;
@@ -85,6 +106,13 @@ public class TaskListFragment extends ListFragment {
 		return true;
 	}
 	return false;
+    }
+
+    @Override
+    public boolean onBackPressed() {
+	Log.v("TaskListFragment", "Make this pop the adapter stack!!!!!!");
+	
+	return false; 
     }
 
 }

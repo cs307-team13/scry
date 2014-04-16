@@ -95,7 +95,6 @@ public class TaskDataSource {
 
 	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
 	        allColumns, null, null, null, null, null);
-
 	cursor.moveToFirst();
 
 	return cursor;
@@ -156,6 +155,16 @@ public class TaskDataSource {
 	        TaskStoreContract.TaskEntry._ID + " = " + id, null);
     }
 
+    public List<Task> getTasksInCategory(String category)
+    {
+	String selection = TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY
+	        + " LIKE ?";
+	String[] selectionArgs = new String[] { category };
+
+	return query(selection, selectionArgs, null);
+    }
+    
+    
     public List<Task> getTaskMatches(String query, String[] columns) {
 	String selection = TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_TITLE
 	        + " LIKE ?";
