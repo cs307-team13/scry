@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import com.google.android.gms.internal.is;
+
 import android.support.v4.app.ListFragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +25,7 @@ public class TaskListFragment extends ListFragment implements
     TaskArrayAdapter adapter;
     boolean isSortedByCategories = false;
     Stack<ListAdapter> adapterStack = new Stack<ListAdapter>();
+    MenuItem item; 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,7 +68,7 @@ public class TaskListFragment extends ListFragment implements
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 	inflater.inflate(R.menu.list, menu);
-	MenuItem item = menu.getItem(menu.size() - 1);
+	item = menu.getItem(menu.size() - 1);
 	if (item.getItemId() == R.id.action_sort) {
 	    item.setTitle((isSortedByCategories) ? "Show all tasks"
 		    : "Sort by Category");
@@ -124,7 +127,16 @@ public class TaskListFragment extends ListFragment implements
 	Log.v("TaskListFragment", "Make this pop the adapter stack!!!!!!");
 	adapterStack.pop();
 	if (adapterStack.empty())
-	    return false;
+	    if(isSortedByCategories)
+	    {
+		setListAdapter(adapter);
+		adapterStack.push(adapter);
+		isSortedByCategories = false; 
+		item.setTitle("Sort by Category");
+		return true; 
+	    }
+	    else
+		return false;
 	else {
 	    setListAdapter(adapterStack.peek());
 	    return true;
