@@ -25,7 +25,8 @@ public class TaskListFragment extends ListFragment implements
     TaskArrayAdapter adapter;
     boolean isSortedByCategories = false;
     Stack<ListAdapter> adapterStack = new Stack<ListAdapter>();
-    MenuItem item; 
+    MenuItem item;
+    protected String viewingCategory; 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,7 @@ public class TaskListFragment extends ListFragment implements
 	    ((TaskArrayAdapter) getListAdapter()).clear();
 	    ((TaskArrayAdapter) getListAdapter())
 		    .addAll(((TaskDatasourceActivity) getActivity())
-		            .getDataSource().getAllTasks());
+		            .getDataSource().getAllUnfinishedTasks());
 	} else if (ada instanceof ArrayAdapter<?>) {
 	    ((ArrayAdapter<String>) ada).clear();
 	    List<String> categories = ((TaskDatasourceActivity) getActivity())
@@ -99,10 +100,10 @@ public class TaskListFragment extends ListFragment implements
 			                View view, int position, long id) {
 				    TextView t = (TextView) view
 				            .findViewById(android.R.id.text1);
-				    String category = (String) t.getText();
+				    viewingCategory = (String) t.getText();
 				    List<Task> tasks = ((TaskDatasourceActivity) getActivity())
 				            .getDataSource()
-				            .getTasksInCategory(category);
+				            .getTasksInCategory(viewingCategory);
 				    setListAdapter(new TaskArrayAdapter(
 				            getActivity()
 				                    .getApplicationContext(),

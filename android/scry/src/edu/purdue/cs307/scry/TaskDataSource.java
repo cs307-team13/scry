@@ -82,15 +82,42 @@ public class TaskDataSource {
 	long id = database.insert(TaskStoreContract.TaskEntry.TABLE_NAME, null,
 	        values);
 	t.setId(id);
-	return id; 
+	return id;
     }
 
     public List<Task> getAllTasks() {
-	List<Task> comments = new ArrayList<Task>();
 	open();
 	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
 	        allColumns, null, null, null, null, null);
 
+	List<Task> comments = getAllTasksFromCursor(cursor);
+	return comments;
+    }
+
+    public List<Task> getAllUnfinishedTasks() {
+	open();
+	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
+	        allColumns,
+	        TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED + "=?",
+	        new String[] { "0" }, null, null, null);
+
+	List<Task> comments = getAllTasksFromCursor(cursor);
+	return comments;
+    }
+    
+    public List<Task> getAllCompletedTasks() {
+	open();
+	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
+	        allColumns,
+	        TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED + "=?",
+	        new String[] { "1" }, null, null, null);
+
+	List<Task> comments = getAllTasksFromCursor(cursor);
+	return comments;
+    }
+
+    private List<Task> getAllTasksFromCursor(Cursor cursor) {
+	List<Task> comments = new ArrayList<Task>();
 	cursor.moveToFirst();
 	while (!cursor.isAfterLast()) {
 	    Task comment = cursorToTask(cursor);

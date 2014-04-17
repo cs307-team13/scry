@@ -79,7 +79,6 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 	}
 
 	completed.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-	    boolean checkedState;
 
 	    @Override
 	    public void onCheckedChanged(CompoundButton buttonView,
@@ -102,7 +101,6 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 					    .notifyDataSetChanged();
 				}
 			    }
-
 			}
 		    }, 1000);
 		}
