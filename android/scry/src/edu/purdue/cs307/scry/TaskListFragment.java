@@ -26,7 +26,8 @@ public class TaskListFragment extends ListFragment implements
     boolean isSortedByCategories = false;
     Stack<ListAdapter> adapterStack = new Stack<ListAdapter>();
     MenuItem item;
-    protected String viewingCategory; 
+    protected String viewingCategory;
+    private boolean isShowingUnfinished = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -119,6 +120,26 @@ public class TaskListFragment extends ListFragment implements
 		    adapterStack.push(getListAdapter());
 		}
 		return true;
+	    case R.id.action_completed:
+		if (isShowingUnfinished) {
+		    List<Task> completedTasks = ((TaskDatasourceActivity) getActivity())
+			    .getDataSource().getAllCompletedTasks();
+		    setListAdapter(new TaskArrayAdapter(getActivity()
+			    .getApplicationContext(),
+			    R.layout.fragment_task_list, completedTasks,
+			    TaskListFragment.this));
+		    adapterStack.push(getListAdapter());
+		    item.setTitle("Show unfinished tasks");
+		    isShowingUnfinished = false;
+		} else {
+		    setListAdapter(adapter);
+		    item.setTitle("Show completed tasks");
+		    isShowingUnfinished = true;
+		    adapterStack.pop();
+		    adapterStack.push(getListAdapter());
+		}
+		return true;
+
 	}
 	return false;
     }
@@ -128,15 +149,13 @@ public class TaskListFragment extends ListFragment implements
 	Log.v("TaskListFragment", "Make this pop the adapter stack!!!!!!");
 	adapterStack.pop();
 	if (adapterStack.empty())
-	    if(isSortedByCategories)
-	    {
+	    if (isSortedByCategories) {
 		setListAdapter(adapter);
 		adapterStack.push(adapter);
-		isSortedByCategories = false; 
+		isSortedByCategories = false;
 		item.setTitle("Sort by Category");
-		return true; 
-	    }
-	    else
+		return true;
+	    } else
 		return false;
 	else {
 	    setListAdapter(adapterStack.peek());
