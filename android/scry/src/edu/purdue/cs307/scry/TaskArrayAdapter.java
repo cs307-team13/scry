@@ -106,34 +106,6 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 			}
 		    }, 1000);
 		}
-		/*
-	         * checkedState = isChecked;
-	         * AsyncTask<Void, Void, Boolean> completionTask = new AsyncTask<Void,
-	         * Void, Boolean>() {
-	         * 
-	         * @Override
-	         * protected Boolean doInBackground(Void... params) {
-	         * Log.v("Checked", "doInBackground()");
-	         * t.setComplete(isChecked);
-	         * ((TaskDatasourceActivity) f.getActivity())
-	         * .getDataSource().deleteTask(t);
-	         * ((TaskDatasourceActivity) f.getActivity())
-	         * .getDataSource().commitTask(t);
-	         * 
-	         * return isChecked;
-	         * }
-	         * 
-	         * @Override
-	         * public void onPostExecute(final Boolean isChecked) {
-	         * Log.v("Checked", "onPostExecute()");
-	         * if (isChecked) {
-	         * 
-	         * }
-	         * }
-	         * 
-	         * };
-	         * completionTask.execute();
-	         */
 	    }
 	});
 	task_name.setText(t.toString());
