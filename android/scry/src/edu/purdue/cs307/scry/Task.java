@@ -20,7 +20,7 @@ public class Task implements Parcelable, ClusterItem {
     private String entry_date;
     private String adj_date;
     private boolean complete;
-    private int _id;
+    private long _id;
     private Date date;
     private UUID key;
 
@@ -63,7 +63,7 @@ public class Task implements Parcelable, ClusterItem {
 	out.writeString(entry_date);
 	out.writeString(adj_date);
 	out.writeByte((byte) ((complete) ? 1 : 0));
-	out.writeInt(_id);
+	out.writeLong(_id);
 	out.writeLong(date.getTime());
     }
 
@@ -101,11 +101,11 @@ public class Task implements Parcelable, ClusterItem {
 	}
     };
 
-    public void setId(int id) {
+    public void setId(long id) {
 	_id = id;
     }
 
-    public int getId() {
+    public long getId() {
 	return _id;
     }
 

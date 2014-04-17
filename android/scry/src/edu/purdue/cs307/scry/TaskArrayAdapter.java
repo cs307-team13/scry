@@ -2,6 +2,9 @@ package edu.purdue.cs307.scry;
 
 import java.util.List;
 
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 // import android.app.Fragment;
 import android.support.v4.app.Fragment;
 import android.content.Context;
@@ -20,6 +23,7 @@ import android.widget.TextView;
 public class TaskArrayAdapter extends ArrayAdapter<Task> {
 
     private final Context context;
+    private Fragment f;
 
     public TaskArrayAdapter(Context context, int resource) {
 	super(context, resource);
@@ -47,6 +51,7 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 	    Fragment f) {
 	super(context, resource, objects);
 	this.context = context;
+	this.f = f;
     }
 
     public TaskArrayAdapter(Context context, int resource,
@@ -74,11 +79,61 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 	}
 
 	completed.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+	    boolean checkedState;
 
 	    @Override
 	    public void onCheckedChanged(CompoundButton buttonView,
-		    boolean isChecked) {
+		    final boolean isChecked) {
+		Log.v("Checked", "onCheckedChanged()");
 		t.setComplete(isChecked);
+		if (t.isComplete()) {
+		    Handler handler = new Handler();
+		    handler.postDelayed(new Runnable() {
+			public void run() {
+			    if (t.isComplete()) {
+				Log.v("Checked", "run()");
+				if (t.isComplete()) {
+				    ((TaskDatasourceActivity) f.getActivity())
+					    .getDataSource().deleteTask(t);
+				    ((TaskDatasourceActivity) f.getActivity())
+					    .getDataSource().commitTask(t);
+				    TaskArrayAdapter.this.remove(t);
+				    TaskArrayAdapter.this
+					    .notifyDataSetChanged();
+				}
+			    }
+
+			}
+		    }, 1000);
+		}
+		/*
+	         * checkedState = isChecked;
+	         * AsyncTask<Void, Void, Boolean> completionTask = new AsyncTask<Void,
+	         * Void, Boolean>() {
+	         * 
+	         * @Override
+	         * protected Boolean doInBackground(Void... params) {
+	         * Log.v("Checked", "doInBackground()");
+	         * t.setComplete(isChecked);
+	         * ((TaskDatasourceActivity) f.getActivity())
+	         * .getDataSource().deleteTask(t);
+	         * ((TaskDatasourceActivity) f.getActivity())
+	         * .getDataSource().commitTask(t);
+	         * 
+	         * return isChecked;
+	         * }
+	         * 
+	         * @Override
+	         * public void onPostExecute(final Boolean isChecked) {
+	         * Log.v("Checked", "onPostExecute()");
+	         * if (isChecked) {
+	         * 
+	         * }
+	         * }
+	         * 
+	         * };
+	         * completionTask.execute();
+	         */
 	    }
 	});
 	task_name.setText(t.toString());
@@ -103,5 +158,4 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 	});
 	return taskView;
     }
-
 }
