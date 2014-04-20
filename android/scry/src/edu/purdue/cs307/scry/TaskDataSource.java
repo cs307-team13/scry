@@ -3,19 +3,15 @@ package edu.purdue.cs307.scry;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.loopj.android.http.AsyncHttpClient;
-
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.CharArrayBuffer;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.util.Log;
 
 public class TaskDataSource {
-    
+
     private SQLiteDatabase database;
     private TaskStoreDbHelper dbHelper;
     private String[] allColumns = { TaskStoreContract.TaskEntry._ID,
@@ -26,7 +22,8 @@ public class TaskDataSource {
 	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_DATE_MODIFIED,
 	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_EXPIRE_DATE,
 	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID,
-	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY };
+	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY,
+	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED };
 
     public TaskDataSource(Context context) {
 	dbHelper = new TaskStoreDbHelper(context);
@@ -40,6 +37,7 @@ public class TaskDataSource {
 	dbHelper.close();
     }
 
+    @Deprecated
     public Task createComment(String name, String category) {
 	ContentValues values = new ContentValues();
 	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_TITLE, name);
@@ -54,35 +52,72 @@ public class TaskDataSource {
 	        null, null, null, null);
 	cursor.moveToFirst();
 	Task newTask = cursorToTask(cursor);
+	newTask.setId(insertId);
+
 	HttpClientSetup client = new HttpClientSetup();
 	client.addTask(newTask);
 	cursor.close();
 	return newTask;
     }
 
-    public long commitTask(Task t)
-    {
+    public long commitTask(Task t) {
 	ContentValues values = new ContentValues();
 	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_TITLE, t.title);
-	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY, t.category);
-	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_LOC_LAT, t.lat_location);
-	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_LOC_LONG, t.long_location);
-	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID, t.ownerId);
-	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_DATE_CREATED, t.getEntryDate());
-	
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY,
+	        t.category);
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_LOC_LAT,
+	        t.lat_location);
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_LOC_LONG,
+	        t.long_location);
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID,
+	        t.ownerId);
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_DATE_CREATED,
+	        t.getEntryDate());
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED,
+	        (t.isComplete()) ? 1 : 0);
+
 	HttpClientSetup client = new HttpClientSetup();
 	client.addTask(t);
-	
-	return database.insert(TaskStoreContract.TaskEntry.TABLE_NAME,
-	        null, values);
+
+	long id = database.insert(TaskStoreContract.TaskEntry.TABLE_NAME, null,
+	        values);
+	t.setId(id);
+	return id;
     }
 
     public List<Task> getAllTasks() {
-	List<Task> comments = new ArrayList<Task>();
 	open();
 	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
 	        allColumns, null, null, null, null, null);
 
+	List<Task> comments = getAllTasksFromCursor(cursor);
+	return comments;
+    }
+
+    public List<Task> getAllUnfinishedTasks() {
+	open();
+	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
+	        allColumns,
+	        TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED + "=?",
+	        new String[] { "0" }, null, null, null);
+
+	List<Task> comments = getAllTasksFromCursor(cursor);
+	return comments;
+    }
+    
+    public List<Task> getAllCompletedTasks() {
+	open();
+	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
+	        allColumns,
+	        TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED + "=?",
+	        new String[] { "1" }, null, null, null);
+
+	List<Task> comments = getAllTasksFromCursor(cursor);
+	return comments;
+    }
+
+    private List<Task> getAllTasksFromCursor(Cursor cursor) {
+	List<Task> comments = new ArrayList<Task>();
 	cursor.moveToFirst();
 	while (!cursor.isAfterLast()) {
 	    Task comment = cursorToTask(cursor);
@@ -94,11 +129,11 @@ public class TaskDataSource {
 	return comments;
     }
 
+    @Deprecated
     public Cursor getAllTasksAsCursor() {
 
 	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
 	        allColumns, null, null, null, null, null);
-
 	cursor.moveToFirst();
 
 	return cursor;
@@ -126,8 +161,11 @@ public class TaskDataSource {
 	List<String> list = new ArrayList<String>();
 
 	while (!cursor.isAfterLast()) {
-	    list.add(cursor.getString(cursor
-		    .getColumnIndex(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY)));
+	    String cat = cursor
+		    .getString(cursor
+		            .getColumnIndex(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY));
+	    if (cat != null)
+		list.add(cat);
 	    cursor.moveToNext();
 	}
 
@@ -148,6 +186,11 @@ public class TaskDataSource {
 	task.category = cursor
 	        .getString(cursor
 	                .getColumnIndexOrThrow(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY));
+	task.setId(cursor.getLong(cursor
+	        .getColumnIndexOrThrow(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_ID)));
+
+	task.setComplete(cursor.getInt(cursor
+	        .getColumnIndexOrThrow(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED)) == 1);
 
 	return task;
     }
@@ -159,7 +202,15 @@ public class TaskDataSource {
 	        TaskStoreContract.TaskEntry._ID + " = " + id, null);
     }
 
-    public Cursor getWordMatches(String query, String[] columns) {
+    public List<Task> getTasksInCategory(String category) {
+	String selection = TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY
+	        + " LIKE ?";
+	String[] selectionArgs = new String[] { category };
+
+	return query(selection, selectionArgs, null);
+    }
+
+    public List<Task> getTaskMatches(String query, String[] columns) {
 	String selection = TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_TITLE
 	        + " LIKE ?";
 	String[] selectionArgs = new String[] { "%" + query + "%" };
@@ -167,14 +218,12 @@ public class TaskDataSource {
 	return query(selection, selectionArgs, columns);
     }
 
-    private Cursor query(String selection, String[] selectionArgs,
+    private List<Task> query(String selection, String[] selectionArgs,
 	    String[] columns) {
 
 	Cursor cursor = database.query(true,
-	        TaskStoreContract.TaskEntry.TABLE_NAME, new String[] {
-	                TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY,
-	                TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_TITLE },
-	        selection, selectionArgs, null, null, null, null);
+	        TaskStoreContract.TaskEntry.TABLE_NAME, allColumns, selection,
+	        selectionArgs, null, null, null, null);
 
 	if (cursor == null) {
 	    return null;
@@ -182,6 +231,15 @@ public class TaskDataSource {
 	    cursor.close();
 	    return null;
 	}
-	return cursor;
+	List<Task> tasks = new ArrayList<Task>();
+
+	cursor.moveToFirst();
+	while (!cursor.isAfterLast()) {
+	    Task comment = cursorToTask(cursor);
+	    tasks.add(comment);
+	    cursor.moveToNext();
+	}
+
+	return tasks;
     }
 }

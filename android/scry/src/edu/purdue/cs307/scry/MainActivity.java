@@ -1,18 +1,14 @@
 package edu.purdue.cs307.scry;
 
-import java.util.ArrayList;
-
 import edu.purdue.cs307.scry.dev.DummyDataCreator;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
-import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.SearchView;
@@ -29,11 +25,11 @@ public class MainActivity extends FragmentActivity implements
     private TaskDataSource datasource;
     public static ViewPager viewPager;
     public static TabsPageAdapter mAdapter;
-    
-    public static FragmentManager fragmentManager; 
-    
+
+    public static FragmentManager fragmentManager;
+
     private ActionBar actionBar;
-    
+
     // private static ArrayList<TabInfo> tabs = new ArrayList<TabInfo>();
     private String tab[] = new String[] { "Tasks", "Friends", "Map" };
 
@@ -41,8 +37,8 @@ public class MainActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.activity_main);
-	fragmentManager = getSupportFragmentManager(); 
-	
+	fragmentManager = getSupportFragmentManager();
+
 	datasource = new TaskDataSource(this.getApplicationContext());
 	datasource.open();
 
@@ -54,9 +50,9 @@ public class MainActivity extends FragmentActivity implements
 	        "name", null);
 
 	User currentUser = new User(userID, userName, userEmail);
-	
+
 	Log.wtf("NEW USER", currentUser.toString());
-	
+
 	HttpClientSetup client = new HttpClientSetup();
 	client.addUser(currentUser);
 	System.out.println("User added to server");
@@ -97,7 +93,6 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     protected void onNewIntent(Intent intent) {
-
 	handleIntent(intent);
     }
 
@@ -105,14 +100,11 @@ public class MainActivity extends FragmentActivity implements
 
 	if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 	    String query = intent.getStringExtra(SearchManager.QUERY);
-	    // use the query to search your data somehow
-	    datasource.open();
-	    Cursor c = datasource.getWordMatches(query, null);
-	    while (!c.isAfterLast()) {
-		Log.d("Search", c.getString(c.getColumnCount() - 1));
-		c.moveToNext();
-	    }
-	    datasource.close();
+	    Intent mapIntent = new Intent(MainActivity.this,
+		    SearchActivity.class);
+
+	    mapIntent.putExtra("query", query);
+	    startActivity(mapIntent);
 	}
     }
 
@@ -130,42 +122,44 @@ public class MainActivity extends FragmentActivity implements
 
 	return true;
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.action_populate:
-        	Log.d("Options Item", "Adding random data...");
-                AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
+	// Handle item selection
+	switch (item.getItemId()) {
+	    case R.id.action_populate:
+		Log.d("Options Item", "Adding random data...");
+		AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
 		    @Override
-                    protected Void doInBackground(Void... params) {
-			DummyDataCreator.populateDataStore(MainActivity.this.getApplicationContext(), datasource); 
-	                return null;
-                    }
-		    
+		    protected Void doInBackground(Void... params) {
+			DummyDataCreator.populateDataStore(
+			        MainActivity.this.getApplicationContext(),
+			        datasource);
+			return null;
+		    }
+
 		    @Override
-		    protected void onPostExecute(Void v)
-		    {
-			TaskListFragment frag = ((TaskListFragment) mAdapter.getItem(0));
+		    protected void onPostExecute(Void v) {
+			TaskListFragment frag = ((TaskListFragment) mAdapter
+			        .getItem(0));
 			frag.refreshData();
 		    }
-                };
-                task.execute();
-                return true;
-            case R.id.action_delete:
-        	datasource.purge();
-        	Log.d("Options Item", "Deleting...");
-        	TaskListFragment frag = ((TaskListFragment) mAdapter.getItem(0));
+		};
+		task.execute();
+		return true;
+	    case R.id.action_delete:
+		datasource.purge();
+		Log.d("Options Item", "Deleting...");
+		TaskListFragment frag = ((TaskListFragment) mAdapter.getItem(0));
 		frag.refreshData();
-        	return true; 
-            case R.id.action_create:
-            	Intent i = new Intent(this,CreateTaskActivity.class);
-            	startActivity(i);
-            	return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+		return true;
+	    case R.id.action_create:
+		Intent i = new Intent(this, CreateTaskActivity.class);
+		startActivity(i);
+		return true;
+	    default:
+		return super.onOptionsItemSelected(item);
+	}
     }
 
     public void loginmothafucka(View v) {
@@ -199,11 +193,16 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     public void onBackPressed() {
-	FragmentManager fm = getSupportFragmentManager();
-	if (fm.getBackStackEntryCount() > 2)
-	    fm.popBackStack();
-	else
-	    super.onBackPressed();
+	Fragment f = mAdapter.getItem(viewPager.getCurrentItem());
+	if(f instanceof BackPressedFragment)
+	{
+	    boolean handled = ((BackPressedFragment) f).onBackPressed();
+	    if(handled)
+		return;
+	    else 
+		super.onBackPressed();
+	}
+	super.onBackPressed();
     }
 
     // Chip Leinen original code
