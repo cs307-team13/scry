@@ -40,7 +40,6 @@ public class User {
 	
 	public User(String ID, String nam, String em){
 		userID = ID;
-
 		name = nam;
 		email = em;
 		tasklist = new ArrayList<Task>();
