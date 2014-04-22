@@ -88,14 +88,6 @@ public class ServerServlet extends HttpServlet {
 			deleteTask(req);
 			break;
 		}
-		/*String key = req.getParameter("key");
-		String name = req.getParameter("name");
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Entity test = new Entity("TestEntry", "test1");
-		Key k = KeyFactory.createKey("TestEntry", "test1");
-		test.setProperty("Name", name);
-		test.setProperty("Key", key);
-		datastore.put(test);*/
 	}
 	
 	private static void addUser(HttpServletRequest req){
@@ -108,7 +100,7 @@ public class ServerServlet extends HttpServlet {
 	}
 	
 	private static void addTask(HttpServletRequest req){
-		Entity task = new Entity("Task");
+		Entity task = new Entity("Task", req.getParameter("ID"));
 		task.setProperty("Description", req.getParameter("Description"));
 		task.setProperty("Category", req.getParameter("Category"));
 		//task.setProperty("Owner", req.getParameter("Owner"));
@@ -124,91 +116,14 @@ public class ServerServlet extends HttpServlet {
 	}
 	
 	private static void editTask(HttpServletRequest req){
-		//Key k = stringToKey(req.getParameter("Key"));
-		//Entity task = datastore.get(k);
+		deleteTask(req);
+		addTask(req);
 	}
 	
 	private static void deleteTask(HttpServletRequest req){
-		
-	}
-	
-	public static void createDemoUsers(HttpServletResponse resp) throws IOException{
-		createAndStoreEmily(resp);
-		//createAndStorePhil(resp);
-		//createAndStoreJoeBob(resp);
-	}
-	public static void retrieveAndPrintDemoInfo(HttpServletResponse resp) throws IOException, EntityNotFoundException{
-		resp.getWriter().println();
-		retrieveAndPrintEmily(resp);
-		//resp.getWriter().println();
-		//retrieveAndPrintPhil(resp);
-		//resp.getWriter().println();
-		//retrieveAndPrintJoeBob(resp);
-	}
-	public static void createAndStoreEmily(HttpServletResponse resp) throws IOException{
-		User emily = new User(2604538654L, "Emily Roberts", "emily839@professionals.org");
-		//emily.addTask(new Task("Play with puppies!", emily.getEmail()));
-		storeUser(emily);
-		resp.getWriter().println("Emily is now stored in the database!");
-	}
-	public static void retrieveAndPrintEmily(HttpServletResponse resp) throws IOException, EntityNotFoundException{
-		//User emily = getUserInfo(key);
-		//Entity emily = getUserInfo(key);
-		resp.getWriter().println("Emily's info:");
-		//resp.getWriter().println(emily.toString());
-	}
-	/*public static void createAndStorePhil(HttpServletResponse resp) throws IOException {
-		User phil = new User(1338675309L, "Phil Bilson", "phillyb@coolguys.net");
-		storeUser(phil);
-		resp.getWriter().println("Phil is now stored in the database!");
-	}
-	public static void retrieveAndPrintPhil(HttpServletResponse resp) throws IOException{
-		User phil = getUserInfo("phillyb@coolguys.net");
-		resp.getWriter().println("Phil's info:");
-		resp.getWriter().println(phil.toString());
-	}
-	public static void createAndStoreJoeBob(HttpServletResponse resp) throws IOException {
-		User joebob = new User (55585471234L, "Joe-Bob Bobson", "jbb@bobson.com");
-		storeUser(joebob);
-		resp.getWriter().println("Joe-Bob is now stored in the database");
-	}
-	public static void retrieveAndPrintJoeBob(HttpServletResponse resp) throws IOException{
-		User joebob = getUserInfo("jbb@bobson.com");
-		resp.getWriter().println("Joe-Bob's info:");
-		resp.getWriter().println(joebob.toString());
-	}*/
-	
-	public static void storeUser(User user){
-		
-		/*PersistenceManager pm = PMF.get().getPersistenceManager();
-		try{
-			pm.makePersistent(user);
-		}
-		finally{
-			pm.close();
-		}*/
-		
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Entity info = new Entity("User", user.getEmail());
-		Key k = KeyFactory.createKey("User", user.getEmail());
-		user.setKey(k);
-		//key = k;
-		info.setProperty("Name", user.getName());
-		info.setProperty("Email", user.getEmail());
-		info.setProperty("Phone Number", user.getPhone());
-		//info.setProperty("Tasks", user.getTaskList());
-		datastore.put(info);
-	}
-	
-	public static void deleteUser(User user){
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		try{
-			User u = pm.getObjectById(User.class, user.getEmail());
-			pm.deletePersistent(u);
-		}
-		finally{
-			pm.close();
-		}
+		String id = req.getParameter("ID");
+		Key key = KeyFactory.stringToKey(id);
+		datastore.delete(key);
 	}
 	
 	public static Entity getUserInfo(Key key) throws EntityNotFoundException{
@@ -229,41 +144,4 @@ public class ServerServlet extends HttpServlet {
 		//User user = new User((long)ent.getProperty("Phone Number"), (String)ent.getProperty("Name"), (String)ent.getProperty("Email"));
 		return ent;
 	}
-	
-	/*public static void updateTaskList(User user){
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		try{
-			User u = pm.getObjectById(User.class, user.getEmail());
-			u.setTaskList(user.getTaskList());
-		}
-		finally{
-			pm.close();
-		}
-	}
-	
-	public static void updateFriendsList(User user){
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		try{
-			User u = pm.getObjectById(User.class, user.getEmail());
-			u.setFriendsList(user.getFriendsList());
-		}
-		finally{
-			pm.close();
-		}
-	}
-	
-	public static void addFriends(User user1, User user2){
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		try{
-			User ret_user1 = pm.getObjectById(User.class, user1.getEmail());
-			User ret_user2 = pm.getObjectById(User.class, user2.getEmail());
-			//SHOULD FRIENDS LIST BE MADE UP OF USERS, EMAILS, OR FRIENDS
-			// * FRIENDS WOULD JUST HAVE EMAIL, NAME, AND TASKS
-			ret_user1.addFriend(user2);
-			ret_user2.addFriend(user1);
-		}
-		finally{
-			pm.close();
-		}
-	}*/
 }

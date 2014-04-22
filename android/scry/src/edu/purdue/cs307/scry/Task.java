@@ -40,6 +40,8 @@ public class Task implements Parcelable, ClusterItem {
 	ownerId = email;
 	complete = false;
 
+	key = UUID.randomUUID();
+	
 	date = new Date();
 	entry_date = dateFormat.format(date);
 	adj_date = dateFormat.format(date);
@@ -137,8 +139,8 @@ public class Task implements Parcelable, ClusterItem {
 	this.key = key;
     }
 
-    public UUID getKey() {
-	return this.key;
+    public String getKey() {
+	return this.key.toString();
     }
 
     /* Use getDetails() for more information on a task */
