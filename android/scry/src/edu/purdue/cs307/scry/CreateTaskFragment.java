@@ -102,7 +102,7 @@ public class CreateTaskFragment extends Fragment {
 			task.title = arg0[0]; 
 			task.category = arg0[1]; 
 			task.ownerId = getActivity().getSharedPreferences("pref_profile", 0).getString(
-			        "userID", null);
+			        "userID", "");
 			
 			String loc = location.getText().toString();
 			try {

@@ -33,6 +33,7 @@ public class Task implements Parcelable, ClusterItem {
 	key = UUID.randomUUID();
     }
 
+    @Deprecated
     public Task(String s, String cat, double lat, double lon, String email) {
 	title = s;
 	category = cat;
@@ -48,6 +49,7 @@ public class Task implements Parcelable, ClusterItem {
 	adj_date = dateFormat.format(date);
     }
 
+    @Deprecated
     public Task(String s, String id) {
 	title = s;
 	ownerId = id;
