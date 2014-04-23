@@ -30,6 +30,7 @@ public class Task implements Parcelable, ClusterItem {
 	date = new Date();
 	entry_date = dateFormat.format(date);
 	adj_date = dateFormat.format(date);
+	key = UUID.randomUUID();
     }
 
     public Task(String s, String cat, double lat, double lon, String email) {
