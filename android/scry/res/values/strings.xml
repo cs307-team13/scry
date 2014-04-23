@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">scry</string>
+    <string name="app_name">Scry</string>
     <string name="title_item_detail">Item Detail</string>
     <string name="title_activity_main">Scry</string>
     <string name="action_settings">Settings</string>
@@ -9,5 +9,9 @@
     <string name="signin_activity">Signin</string>
     <string name="title_activity_sign_in">SignInActivity</string>
     <string name="title_activity_signin">Signin</string>
+    <string name="search_title">Search Scry</string>
+    <string name="search_hint">Search Tasks</string>
+    <string name="scry">Scry</string>
+    <string name="title_activity_search">Search</string>
 
 </resources>

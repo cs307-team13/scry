@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main_scroll"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/scry_menu" >
 
     <RelativeLayout
         android:id="@+id/RelativeLayout1"
@@ -17,10 +18,10 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:ems="10"
-            android:hint="Enter task here"
+            android:hint="Name of task"
             android:textColor="@android:color/black" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/etxt_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,35 +29,52 @@
             android:layout_below="@id/etxt_title"
             android:ems="10"
             android:hint="Category"
+            android:imeOptions="actionSearch"
+            android:inputType="textAutoComplete|textAutoCorrect"
             android:textColor="@android:color/black" />
 
+        <LinearLayout
+            android:id="@+id/extras"
+            android:layout_below="@id/etxt_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:animateLayoutChanges="true" >
+
+            <EditText
+                android:id="@+id/etxt_dueDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Enter due date"
+                android:visibility="gone"
+                android:textColor="@android:color/black" />
+            
+            <EditText
+                android:id="@+id/etxt_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Enter location"
+                android:visibility="gone"
+                android:textColor="@android:color/black" />
+            
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/extras"
+            android:text="+" />
+        
         <Button
             android:id="@+id/btn_create"
+            android:layout_below="@id/btn_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/etxt_category"
             android:text="Enter Task" />
-
-        <Button
-            android:id="@+id/btn_openlist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignRight="@id/etxt_category"
-            android:layout_below="@id/etxt_category"
-            android:text="View List" />
-
-        <!--
-             <Button
-            android:id="@+id/btn_tstlogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:onClick="loginmothafucka"
-            android:text="Goto Login" />
-        -->
-
+        
     </RelativeLayout>
 
 </ScrollView>

@@ -4,7 +4,7 @@
     android:layout_height="match_parent" 
     android:clickable="true"
     android:longClickable="true"
-    android:background="@android:color/white">
+    android:background="#00FFFFFF">
 
     <CheckBox
         android:id="@+id/task_completed"
