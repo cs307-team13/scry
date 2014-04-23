@@ -22,7 +22,7 @@ public class Task implements Parcelable, ClusterItem {
     private boolean complete;
     private long _id;
     private Date date;
-    private UUID key;
+    private String key;
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
 
@@ -30,7 +30,7 @@ public class Task implements Parcelable, ClusterItem {
 	date = new Date();
 	entry_date = dateFormat.format(date);
 	adj_date = dateFormat.format(date);
-	key = UUID.randomUUID();
+	key = UUID.randomUUID().toString();
     }
 
     @Deprecated
@@ -42,7 +42,7 @@ public class Task implements Parcelable, ClusterItem {
 	ownerId = email;
 	complete = false;
 
-	key = UUID.randomUUID();
+	key = UUID.randomUUID().toString();
 	
 	date = new Date();
 	entry_date = dateFormat.format(date);
@@ -139,11 +139,11 @@ public class Task implements Parcelable, ClusterItem {
     }
 
     public void setKey(String uuid) {
-	this.key = UUID.fromString(uuid);
+	this.key = uuid;
     }
 
     public String getKey() {
-	return this.key.toString();
+	return this.key;
     }
 
     /* Use getDetails() for more information on a task */
