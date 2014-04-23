@@ -75,6 +75,8 @@ public class TaskDataSource {
 	        t.getEntryDate());
 	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED,
 	        (t.isComplete()) ? 1 : 0);
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID,
+	        t.getOwner());
 
 	HttpClientSetup client = new HttpClientSetup();
 	client.addTask(t);
@@ -104,7 +106,7 @@ public class TaskDataSource {
 	List<Task> comments = getAllTasksFromCursor(cursor);
 	return comments;
     }
-    
+
     public List<Task> getAllCompletedTasks() {
 	open();
 	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
@@ -188,6 +190,10 @@ public class TaskDataSource {
 	                .getColumnIndexOrThrow(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY));
 	task.setId(cursor.getLong(cursor
 	        .getColumnIndexOrThrow(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_ID)));
+
+	task.ownerId = cursor
+	        .getString(cursor
+	                .getColumnIndexOrThrow(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID));
 
 	task.setComplete(cursor.getInt(cursor
 	        .getColumnIndexOrThrow(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED)) == 1);
