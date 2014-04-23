@@ -22,8 +22,12 @@ public class DummyDataCreator {
 	    
 	    String name = names[r.nextInt(names.length-1)];
 	    String cat = names[r.nextInt(categories.length-1)];
-	    
-	    data.commitTask(new Task(name, cat, randLat, randLon, UUID.randomUUID().toString()));
+	    Task t = new Task();
+	    t.lat_location = randLat;
+	    t.long_location = randLon;
+	    t.setTask(name);
+	    t.category = cat; 
+	    data.commitTask(t);
 	}
     }
 }
