@@ -20,6 +20,7 @@ public final class TaskStoreContract {
         public static final String COLUMN_NAME_ENTRY_EXPIRE_DATE = "date_expire"; //If the task is only relevant for a period of time. This is not age of task. 
         public static final String COLUMN_NAME_ENTRY_CREATOR_ID = "creator_id"; //this could be changed for a different organizational scheme...
         public static final String COLUMN_NAME_ENTRY_CATEGORY = "category";
+        public static final String COLUMN_NAME_ENTRY_UUID = "uuid";
         public static final String COLUMN_NAME_ENTRY_COMPLETED = "completed";
 
         
@@ -39,6 +40,7 @@ public final class TaskStoreContract {
     	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_EXPIRE_DATE + TEXT_TYPE + COMMA_SEP +
     	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID + TEXT_TYPE + COMMA_SEP +
     	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY + TEXT_TYPE + COMMA_SEP + 
+    	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_UUID + TEXT_TYPE + COMMA_SEP + 
     	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED + INTEGER_TYPE + 
     	    " )";
     	

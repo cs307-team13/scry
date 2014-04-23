@@ -2,6 +2,7 @@ package edu.purdue.cs307.scry;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -23,6 +24,7 @@ public class TaskDataSource {
 	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_EXPIRE_DATE,
 	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID,
 	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY,
+	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_UUID, 
 	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED };
 
     public TaskDataSource(Context context) {
@@ -77,6 +79,8 @@ public class TaskDataSource {
 	        (t.isComplete()) ? 1 : 0);
 	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID,
 	        t.getOwner());
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_UUID,
+	        t.getKey().toString());
 
 	HttpClientSetup client = new HttpClientSetup();
 	client.addTask(t);
@@ -194,6 +198,10 @@ public class TaskDataSource {
 	task.ownerId = cursor
 	        .getString(cursor
 	                .getColumnIndexOrThrow(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID));
+	
+	task.setKey( cursor
+	        .getString(cursor
+	                .getColumnIndexOrThrow(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID)));
 
 	task.setComplete(cursor.getInt(cursor
 	        .getColumnIndexOrThrow(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED)) == 1);

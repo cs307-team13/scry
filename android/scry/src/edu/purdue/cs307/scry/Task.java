@@ -138,8 +138,8 @@ public class Task implements Parcelable, ClusterItem {
 	return this.adj_date;
     }
 
-    public void setKey(UUID key) {
-	this.key = key;
+    public void setKey(String uuid) {
+	this.key = UUID.fromString(uuid);
     }
 
     public String getKey() {

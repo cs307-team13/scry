@@ -1,6 +1,7 @@
 package edu.purdue.cs307.scry.dev;
 
 import java.util.Random;
+import java.util.UUID;
 
 import edu.purdue.cs307.scry.Task;
 import edu.purdue.cs307.scry.TaskDataSource;
@@ -22,7 +23,7 @@ public class DummyDataCreator {
 	    String name = names[r.nextInt(names.length-1)];
 	    String cat = names[r.nextInt(categories.length-1)];
 	    
-	    data.commitTask(new Task(name, cat, randLat, randLon, "Emails Suck"));
+	    data.commitTask(new Task(name, cat, randLat, randLon, UUID.randomUUID().toString()));
 	}
     }
 }
