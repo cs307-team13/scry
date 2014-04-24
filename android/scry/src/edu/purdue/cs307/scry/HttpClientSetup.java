@@ -79,7 +79,10 @@ public class HttpClientSetup {
 		params.put("Owner", task.getOwner());
 		params.put("Description", task.toString());
 		params.put("Category", task.getCategory());
-		params.put("Complete", task.isComplete());
+		if(task.isComplete())
+			params.put("Complete", "true");
+		else
+			params.put("Complete", "false");
 		client.post(URL, params, handler);
 	}
 
@@ -92,7 +95,10 @@ public class HttpClientSetup {
 		params.put("Owner", task.getOwner());
 		params.put("Description", task.toString());
 		params.put("Category", task.getCategory());
-		params.put("Complete", task.isComplete());
+		if(task.isComplete())
+			params.put("Complete", "true");
+		else
+			params.put("Complete", "false");
 		client.post(URL, params, handler);
 	}
 	

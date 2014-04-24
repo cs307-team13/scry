@@ -104,8 +104,9 @@ public class ServerServlet extends HttpServlet {
 		task.setProperty("Description", req.getParameter("Description"));
 		task.setProperty("Category", req.getParameter("Category"));
 		task.setProperty("Owner", req.getParameter("Owner"));
-		String comp = req.getParameter("Complete");
-		boolean bool;
+		task.setProperty("Complete", req.getParameter("Complete"));
+		/*String comp = req.getParameter("Complete");
+		boolean bool = false;
 		if(comp.equals("true"))
 			bool = true;
 		else
