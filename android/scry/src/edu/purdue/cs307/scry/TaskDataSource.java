@@ -84,6 +84,7 @@ public class TaskDataSource {
 
 	HttpClientSetup client = new HttpClientSetup();
 	client.addTask(t);
+	client.getTaskByUser(t.getOwner());
 
 	long id = database.insert(TaskStoreContract.TaskEntry.TABLE_NAME, null,
 	        values);

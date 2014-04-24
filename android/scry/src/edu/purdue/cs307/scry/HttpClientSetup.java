@@ -111,7 +111,7 @@ public class HttpClientSetup {
 		client.post(URL, params, handler);
 	}
 	
-	public void getTaskByUser(User user){
+	public void getTaskByUser(String id){ //User user){
 		AsyncHttpClient client = new AsyncHttpClient();
 		AsyncHttpResponseHandler handler = new AsyncHttpResponseHandler(){
 			@Override
@@ -121,7 +121,7 @@ public class HttpClientSetup {
 		};
 		RequestParams params = new RequestParams();
 		params.put("Method", "getTaskByUser");
-		params.put("Owner", user.getUserID());
+		params.put("Owner", id); //user.getUserID());
 		client.get(URL, params, handler);
 		
 	}

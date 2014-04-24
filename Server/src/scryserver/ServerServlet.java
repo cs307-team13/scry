@@ -26,16 +26,19 @@ public class ServerServlet extends HttpServlet {
 	
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		resp.setContentType("text/plain");
+		//resp.setContentType("text/plain");
 		resp.getWriter().println("This is the server for the Scry Android application. Coming April 2014.");
 		
-		String method_call = req.getParameter("Method");
-		switch(method_call){
-		case "getTasksByUser":
-			getTasksByUser(req);
-			break;
-		case "getUserInfo":
-			getUserInfo(req);
+		String method_call;
+		if( (method_call = req.getParameter("Method")) != null){
+			switch(method_call){
+			case "getTasksByUser":
+				getTasksByUser(req, resp);
+				break;
+			case "getUserInfo":
+				getUserInfo(req, resp);
+				break;
+			}
 		}
 	}
 
@@ -87,11 +90,16 @@ public class ServerServlet extends HttpServlet {
 		datastore.delete(key);
 	}
 	
-	private static List<Entity> getTasksByUser(HttpServletRequest req){
+	private static List<Entity> getTasksByUser(HttpServletRequest req, HttpServletResponse resp){
 		Filter ownerFilter = new FilterPredicate("Owner", FilterOperator.EQUAL, req.getParameter("Owner"));
 		Query q = new Query("Task").setFilter(ownerFilter);
 		PreparedQuery pq = datastore.prepare(q);
 		//send list to client
+		try {
+			resp.getWriter().write(pq.asList(FetchOptions.Builder.withLimit(1024)).toString());
+		} catch (IOException e) {
+			System.out.println("Error sending tasks by user");
+		}
 		return pq.asList(FetchOptions.Builder.withLimit(1024));
 	}
 	
@@ -104,7 +112,7 @@ public class ServerServlet extends HttpServlet {
 		return tasks;
 	}
 	
-	private static Entity getUserInfo(HttpServletRequest req) {
+	private static Entity getUserInfo(HttpServletRequest req, HttpServletResponse resp) {
 		Filter filter = new FilterPredicate("Email", FilterOperator.EQUAL, req.getParameter("Email"));
 		Query q = new Query("User").setFilter(filter);
 		PreparedQuery pq = datastore.prepare(q);
