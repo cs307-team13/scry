@@ -113,10 +113,16 @@ public class HttpClientSetup {
 	
 	public void getTaskByUser(User user){
 		AsyncHttpClient client = new AsyncHttpClient();
-		AsyncHttpResponseHandler handler = new AsyncHttpResponseHandler();
+		AsyncHttpResponseHandler handler = new AsyncHttpResponseHandler(){
+			@Override
+			public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] responseBody){
+				System.out.println("Response from server: " + responseBody);
+			}
+		};
 		RequestParams params = new RequestParams();
 		params.put("Method", "getTaskByUser");
-		params.put("Id", user.getUserID());
-		client.post(URL, params, handler);
+		params.put("Owner", user.getUserID());
+		client.get(URL, params, handler);
+		
 	}
 }
