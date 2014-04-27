@@ -17,9 +17,9 @@ public class TabsPageAdapter extends FragmentPagerAdapter {
 	public TabsPageAdapter(FragmentManager fm) {
 		super(fm);
 		frags = new ArrayList<Fragment>();
-		frags.add((Fragment) new TaskListFragment());
-		frags.add((Fragment) new FriendsFragment());
-		frags.add((Fragment) new TaskMapFragment());
+		frags.add(new TaskListFragment());
+		frags.add(new FriendsFragment());
+		frags.add(new TaskMapFragment());
 	}
 
 	/*

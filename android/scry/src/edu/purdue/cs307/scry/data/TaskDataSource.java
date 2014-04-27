@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.BaseColumns;
 import android.util.Log;
 import edu.purdue.cs307.scry.HttpClientSetup;
 import edu.purdue.cs307.scry.model.Task;
@@ -51,7 +52,7 @@ public class TaskDataSource {
 	        null, values);
 
 	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
-	        allColumns, TaskStoreContract.TaskEntry._ID + " = " + insertId,
+	        allColumns, BaseColumns._ID + " = " + insertId,
 	        null, null, null, null);
 	cursor.moveToFirst();
 	Task newTask = cursorToTask(cursor);
@@ -215,7 +216,7 @@ public class TaskDataSource {
 	long id = task.getId();
 	System.out.println("Task deleted with id: " + id);
 	database.delete(TaskStoreContract.TaskEntry.TABLE_NAME,
-	        TaskStoreContract.TaskEntry._ID + " = " + id, null);
+	        BaseColumns._ID + " = " + id, null);
     }
 
     public List<Task> getTasksInCategory(String category) {

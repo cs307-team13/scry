@@ -88,7 +88,8 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 		if (t.isComplete()) {
 		    Handler handler = new Handler();
 		    handler.postDelayed(new Runnable() {
-			public void run() {
+			@Override
+                        public void run() {
 			    if (t.isComplete()) {
 				Log.v("Checked", "run()");
 				if (t.isComplete()) {

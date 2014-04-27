@@ -144,6 +144,7 @@ public class SigninActivity extends Activity implements ConnectionCallbacks,
 	}
     }
 
+    @Override
     public void onConnected(Bundle connectionHint) {
 	// Reaching onConnected means we consider the user signed in.
 	Log.wtf(TAG, "SOMEBODY CONNECTED!!!!!!!!!!");

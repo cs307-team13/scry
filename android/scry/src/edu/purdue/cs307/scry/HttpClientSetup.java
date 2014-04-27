@@ -23,7 +23,8 @@ public class HttpClientSetup {
 		StringEntity se = null;
 
 		AsyncHttpResponseHandler handler = new AsyncHttpResponseHandler() {
-			public void onSuccess(String suc) {
+			@Override
+                        public void onSuccess(String suc) {
 				Log.d("response", suc);
 			}
 
@@ -54,7 +55,8 @@ public class HttpClientSetup {
 	public void addUser(User user) {
 		AsyncHttpClient client = new AsyncHttpClient();
 		AsyncHttpResponseHandler handler = new AsyncHttpResponseHandler() {
-			public void onSuccess(String suc) {
+			@Override
+                        public void onSuccess(String suc) {
 				Log.d("response", suc);
 			}
 

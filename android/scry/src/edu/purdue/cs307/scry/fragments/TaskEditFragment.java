@@ -35,6 +35,7 @@ public class TaskEditFragment extends Fragment {
 	task1 = args.getParcelable("task");
     }
 
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	    Bundle savedInstanceState) {
 	final View v = inflater

@@ -99,11 +99,13 @@ public class Task implements Parcelable, ClusterItem {
     }
 
     public static final Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>() {
-	public Task createFromParcel(Parcel in) {
+	@Override
+        public Task createFromParcel(Parcel in) {
 	    return new Task(in);
 	}
 
-	public Task[] newArray(int size) {
+	@Override
+        public Task[] newArray(int size) {
 	    return new Task[size];
 	}
     };
