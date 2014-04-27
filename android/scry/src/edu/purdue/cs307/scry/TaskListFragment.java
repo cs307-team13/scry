@@ -1,6 +1,5 @@
 package edu.purdue.cs307.scry;
 
-// import android.app.ListFragment;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -10,10 +9,12 @@ import com.google.android.gms.internal.is;
 import android.support.v4.app.ListFragment;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
@@ -29,6 +30,13 @@ public class TaskListFragment extends ListFragment implements
     protected String viewingCategory;
     private boolean isShowingUnfinished = true;
 
+    
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState){
+    	return null;
+    }
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);

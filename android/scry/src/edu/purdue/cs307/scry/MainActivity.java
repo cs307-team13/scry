@@ -1,5 +1,6 @@
 package edu.purdue.cs307.scry;
 
+import java.util.ArrayList;
 import edu.purdue.cs307.scry.dev.DummyDataCreator;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -29,6 +30,8 @@ public class MainActivity extends FragmentActivity implements
     public static FragmentManager fragmentManager;
 
     private ActionBar actionBar;
+    
+    public static ArrayList<TabInfo> tabs = new ArrayList<TabInfo>();
 
     // private static ArrayList<TabInfo> tabs = new ArrayList<TabInfo>();
     private String tab[] = new String[] { "Tasks", "Friends", "Map" };
@@ -41,6 +44,11 @@ public class MainActivity extends FragmentActivity implements
 
 	datasource = new TaskDataSource(this.getApplicationContext());
 	datasource.open();
+	
+	tabs.clear();  //needed for relaunch
+	tabs.add(new TabInfo(null,"TaskList"));
+	tabs.add(new TabInfo(null, "Friends"));
+	tabs.add(new TabInfo(null, "Map"));
 
 	String userID = getSharedPreferences("pref_profile", 0).getString(
 	        "userID", null);
@@ -206,43 +214,46 @@ public class MainActivity extends FragmentActivity implements
     }
 
     // Chip Leinen original code
-    /*
-     * public static void NavigateTo(FragmentManager fm, Fragment frag) {
-     * if (tabs.get(viewPager.getCurrentItem()).getFragmentManager() == null) {
-     * tabs.get(viewPager.getCurrentItem()).setFragmentManager(fm);
-     * }
-     * FragmentTransaction ft =
-     * tabs.get(viewPager.getCurrentItem()).getFragmentManager().beginTransaction();
-     * ft.replace(R.id.mainlayout,frag, frag.getClass().toString() );
-     * ft.addToBackStack(frag.getClass().toString());
-     * ft.commitAllowingStateLoss();
-     * 
-     * }
-     * 
-     * //Chip Leinen original code
-     * public class TabInfo {
-     * private FragmentManager fm;
-     * private String tabName;
-     * 
-     * public TabInfo(FragmentManager _fm, String _tabName) {
-     * fm = _fm;
-     * tabName = _tabName;
-     * }
-     * 
-     * public void setFragmentManager(FragmentManager _fm) {
-     * fm = _fm;
-     * }
-     * public FragmentManager getFragmentManager() {
-     * return fm;
-     * }
-     * public void setTabname(String _tabName) {
-     * tabName = _tabName;
-     * }
-     * public String getTabname() {
-     * return tabName;
-     * }
-     * }
-     */
+    
+	public static void NavigateTo(FragmentManager fm, Fragment frag) {
+		/*if (tabs.get(viewPager.getCurrentItem()).getFragmentManager() == null) {
+			tabs.get(viewPager.getCurrentItem()).setFragmentManager(fm);
+		}
+		FragmentTransaction ft = tabs.get(viewPager.getCurrentItem())
+				.getFragmentManager().beginTransaction();
+		ft.replace(R.id.mainlayout, frag, frag.getClass().toString());
+		ft.addToBackStack(frag.getClass().toString());
+		ft.commitAllowingStateLoss();*/
+
+	}
+
+	// Chip Leinen original code
+	public class TabInfo {
+		private FragmentManager fm;
+		private String tabName;
+
+		public TabInfo(FragmentManager _fm, String _tabName) {
+			fm = _fm;
+			tabName = _tabName;
+		}
+
+		public void setFragmentManager(FragmentManager _fm) {
+			fm = _fm;
+		}
+
+		public FragmentManager getFragmentManager() {
+			return fm;
+		}
+
+		public void setTabname(String _tabName) {
+			tabName = _tabName;
+		}
+
+		public String getTabname() {
+			return tabName;
+		}
+	}
+    
 
     @Override
     public void onTabReselected(Tab tab, FragmentTransaction ft) {

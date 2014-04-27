@@ -1,9 +1,4 @@
 package edu.purdue.cs307.scry;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-import java.util.ArrayList;
-
 
 import java.util.ArrayList;
 
