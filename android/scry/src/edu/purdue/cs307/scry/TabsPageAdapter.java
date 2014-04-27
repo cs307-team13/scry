@@ -2,12 +2,12 @@ package edu.purdue.cs307.scry;
 
 import java.util.ArrayList;
 
-import edu.purdue.cs307.scry.fragments.FriendsFragment;
-import edu.purdue.cs307.scry.fragments.TaskListFragment;
-import edu.purdue.cs307.scry.fragments.TaskMapFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import edu.purdue.cs307.scry.fragments.FriendsFragment;
+import edu.purdue.cs307.scry.fragments.TaskListFragment;
+import edu.purdue.cs307.scry.fragments.TaskMapFragment;
 
 
 public class TabsPageAdapter extends FragmentPagerAdapter {

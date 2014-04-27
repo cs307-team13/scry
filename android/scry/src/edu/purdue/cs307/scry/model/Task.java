@@ -1,15 +1,15 @@
 package edu.purdue.cs307.scry.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
-import java.text.SimpleDateFormat;
-import com.google.maps.android.clustering.ClusterItem;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.clustering.ClusterItem;
 
 public class Task implements Parcelable, ClusterItem {
 

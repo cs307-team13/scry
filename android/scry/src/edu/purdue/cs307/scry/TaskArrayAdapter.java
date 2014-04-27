@@ -2,14 +2,10 @@ package edu.purdue.cs307.scry;
 
 import java.util.List;
 
-import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
-import edu.purdue.cs307.scry.model.Task;
-import android.os.AsyncTask;
+import android.content.Context;
 import android.os.Handler;
-import android.os.Looper;
 // import android.app.Fragment;
 import android.support.v4.app.Fragment;
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +17,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
+import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
+import edu.purdue.cs307.scry.model.Task;
 
 public class TaskArrayAdapter extends ArrayAdapter<Task> {
 

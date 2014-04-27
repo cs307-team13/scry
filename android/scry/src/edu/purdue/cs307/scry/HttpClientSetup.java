@@ -2,8 +2,10 @@ package edu.purdue.cs307.scry;
 
 import java.io.UnsupportedEncodingException;
 
-import org.apache.http.entity.StringEntity;
 import org.apache.http.Header;
+import org.apache.http.entity.StringEntity;
+
+import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -11,7 +13,6 @@ import com.loopj.android.http.RequestParams;
 
 import edu.purdue.cs307.scry.model.Task;
 import edu.purdue.cs307.scry.model.User;
-import android.util.Log;
 
 public class HttpClientSetup {
 	private String URL = "http://1-dot-scryserver.appspot.com/server";

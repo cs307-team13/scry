@@ -1,5 +1,22 @@
 package edu.purdue.cs307.scry;
 
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.FragmentTransaction;
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.SearchView;
 import edu.purdue.cs307.scry.data.TaskDataSource;
 import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
 import edu.purdue.cs307.scry.dev.DummyDataCreator;
@@ -7,23 +24,6 @@ import edu.purdue.cs307.scry.fragments.BackPressedFragment;
 import edu.purdue.cs307.scry.fragments.TaskListFragment;
 import edu.purdue.cs307.scry.model.Task;
 import edu.purdue.cs307.scry.model.User;
-import android.app.ActionBar;
-import android.app.ActionBar.Tab;
-import android.app.SearchManager;
-import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.widget.SearchView;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 
 public class MainActivity extends FragmentActivity implements
         TaskDatasourceActivity, ActionBar.TabListener {

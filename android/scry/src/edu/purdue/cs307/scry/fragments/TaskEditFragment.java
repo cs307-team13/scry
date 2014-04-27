@@ -1,20 +1,16 @@
 package edu.purdue.cs307.scry.fragments;
 
-import edu.purdue.cs307.scry.R;
-import edu.purdue.cs307.scry.R.id;
-import edu.purdue.cs307.scry.R.layout;
-import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
-import edu.purdue.cs307.scry.model.Task;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import edu.purdue.cs307.scry.R;
+import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
+import edu.purdue.cs307.scry.model.Task;
 
 public class TaskEditFragment extends Fragment {
 
