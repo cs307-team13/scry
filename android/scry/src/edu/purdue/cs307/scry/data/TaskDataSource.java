@@ -83,7 +83,7 @@ public class TaskDataSource {
 	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID,
 	        t.getOwner());
 	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_UUID,
-	        t.getKey().toString());
+	        t.getKey());
 
 	HttpClientSetup client = new HttpClientSetup();
 	client.addTask(t);

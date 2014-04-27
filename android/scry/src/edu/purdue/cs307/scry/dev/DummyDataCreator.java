@@ -26,7 +26,7 @@ public class DummyDataCreator {
 	    t.lat_location = randLat;
 	    t.long_location = randLon;
 	    t.setTask(name);
-	    t.category = cat; 
+	    t.category = cat;
 	    data.commitTask(t);
 	}
     }

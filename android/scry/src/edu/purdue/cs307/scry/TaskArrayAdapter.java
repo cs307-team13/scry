@@ -116,7 +116,7 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 	    @Override
 	    public void onClick(View v) {
 		Log.wtf("This Sucks", "in on click");
-		// ((MainActivity) frag.getActivity()).pushTaskDetailsFragment(t);
+		((MainActivity) f.getActivity()).openEditForTask(t);
 	    }
 	});
 

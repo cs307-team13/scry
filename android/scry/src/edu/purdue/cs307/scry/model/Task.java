@@ -70,6 +70,7 @@ public class Task implements Parcelable, ClusterItem {
 	out.writeByte((byte) ((complete) ? 1 : 0));
 	out.writeLong(_id);
 	out.writeLong(date.getTime());
+	out.writeString(key);
     }
 
     private Task(Parcel in) {
@@ -83,6 +84,7 @@ public class Task implements Parcelable, ClusterItem {
 	complete = (in.readByte() == 1);
 	_id = in.readInt();
 	date = new Date(in.readLong());
+	key = in.readString();
     }
 
     @Override
