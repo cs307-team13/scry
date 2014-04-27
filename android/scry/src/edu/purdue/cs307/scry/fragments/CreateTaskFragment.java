@@ -1,7 +1,13 @@
-package edu.purdue.cs307.scry;
+package edu.purdue.cs307.scry.fragments;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import edu.purdue.cs307.scry.Parse;
+import edu.purdue.cs307.scry.R;
+import edu.purdue.cs307.scry.R.id;
+import edu.purdue.cs307.scry.R.layout;
+import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
+import edu.purdue.cs307.scry.model.Task;
 import android.support.v4.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;

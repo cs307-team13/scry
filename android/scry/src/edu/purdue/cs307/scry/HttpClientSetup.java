@@ -9,6 +9,8 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import edu.purdue.cs307.scry.model.Task;
+import edu.purdue.cs307.scry.model.User;
 import android.util.Log;
 
 public class HttpClientSetup {

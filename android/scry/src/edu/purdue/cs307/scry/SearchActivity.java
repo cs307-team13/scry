@@ -3,6 +3,9 @@ package edu.purdue.cs307.scry;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.purdue.cs307.scry.data.TaskDataSource;
+import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
+import edu.purdue.cs307.scry.model.Task;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;

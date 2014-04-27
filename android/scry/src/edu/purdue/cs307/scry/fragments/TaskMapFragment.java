@@ -1,4 +1,4 @@
-package edu.purdue.cs307.scry;
+package edu.purdue.cs307.scry.fragments;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +22,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
+
+import edu.purdue.cs307.scry.CreateTaskActivity;
+import edu.purdue.cs307.scry.data.TaskDataSource;
+import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
+import edu.purdue.cs307.scry.model.Task;
 
 public class TaskMapFragment extends SupportMapFragment implements
         ClusterManager.OnClusterClickListener<Task>,

@@ -1,4 +1,4 @@
-package edu.purdue.cs307.scry;
+package edu.purdue.cs307.scry.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

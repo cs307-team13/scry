@@ -1,9 +1,12 @@
-package edu.purdue.cs307.scry;
+package edu.purdue.cs307.scry.data;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import edu.purdue.cs307.scry.HttpClientSetup;
+import edu.purdue.cs307.scry.data.TaskStoreContract.TaskEntry;
+import edu.purdue.cs307.scry.model.Task;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;

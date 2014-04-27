@@ -1,5 +1,7 @@
-package edu.purdue.cs307.scry;
+package edu.purdue.cs307.scry.fragments;
 
+import edu.purdue.cs307.scry.R;
+import edu.purdue.cs307.scry.R.layout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;

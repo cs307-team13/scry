@@ -2,6 +2,8 @@ package edu.purdue.cs307.scry;
 
 import java.util.List;
 
+import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
+import edu.purdue.cs307.scry.model.Task;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;

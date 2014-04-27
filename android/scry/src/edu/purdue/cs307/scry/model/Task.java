@@ -1,4 +1,4 @@
-package edu.purdue.cs307.scry;
+package edu.purdue.cs307.scry.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

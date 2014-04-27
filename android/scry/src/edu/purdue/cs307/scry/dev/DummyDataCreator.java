@@ -3,8 +3,8 @@ package edu.purdue.cs307.scry.dev;
 import java.util.Random;
 import java.util.UUID;
 
-import edu.purdue.cs307.scry.Task;
-import edu.purdue.cs307.scry.TaskDataSource;
+import edu.purdue.cs307.scry.data.TaskDataSource;
+import edu.purdue.cs307.scry.model.Task;
 import android.content.Context;
 
 public class DummyDataCreator {
