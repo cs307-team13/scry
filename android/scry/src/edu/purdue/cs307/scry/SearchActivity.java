@@ -14,6 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import edu.purdue.cs307.scry.data.TaskDataSource;
+import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
+import edu.purdue.cs307.scry.model.Task;
 
 public class SearchActivity extends FragmentActivity implements
         TaskDatasourceActivity {

@@ -1,15 +1,15 @@
-package edu.purdue.cs307.scry;
+package edu.purdue.cs307.scry.model;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.UUID;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Date;
-import java.util.Locale;
-import java.util.UUID;
-import java.text.SimpleDateFormat;
-import com.google.maps.android.clustering.ClusterItem;
-
 import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.clustering.ClusterItem;
 
 public class Task implements Parcelable, ClusterItem {
 
@@ -22,7 +22,7 @@ public class Task implements Parcelable, ClusterItem {
     private boolean complete;
     private long _id;
     private Date date;
-    private UUID key;
+    private String key;
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
 
@@ -30,8 +30,10 @@ public class Task implements Parcelable, ClusterItem {
 	date = new Date();
 	entry_date = dateFormat.format(date);
 	adj_date = dateFormat.format(date);
+	key = UUID.randomUUID().toString();
     }
 
+    @Deprecated
     public Task(String s, String cat, double lat, double lon, String email) {
 	title = s;
 	category = cat;
@@ -40,11 +42,14 @@ public class Task implements Parcelable, ClusterItem {
 	ownerId = email;
 	complete = false;
 
+	key = UUID.randomUUID().toString();
+	
 	date = new Date();
 	entry_date = dateFormat.format(date);
 	adj_date = dateFormat.format(date);
     }
 
+    @Deprecated
     public Task(String s, String id) {
 	title = s;
 	ownerId = id;
@@ -65,6 +70,7 @@ public class Task implements Parcelable, ClusterItem {
 	out.writeByte((byte) ((complete) ? 1 : 0));
 	out.writeLong(_id);
 	out.writeLong(date.getTime());
+	out.writeString(key);
     }
 
     private Task(Parcel in) {
@@ -78,6 +84,7 @@ public class Task implements Parcelable, ClusterItem {
 	complete = (in.readByte() == 1);
 	_id = in.readInt();
 	date = new Date(in.readLong());
+	key = in.readString();
     }
 
     @Override
@@ -92,11 +99,13 @@ public class Task implements Parcelable, ClusterItem {
     }
 
     public static final Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>() {
-	public Task createFromParcel(Parcel in) {
+	@Override
+        public Task createFromParcel(Parcel in) {
 	    return new Task(in);
 	}
 
-	public Task[] newArray(int size) {
+	@Override
+        public Task[] newArray(int size) {
 	    return new Task[size];
 	}
     };
@@ -133,11 +142,11 @@ public class Task implements Parcelable, ClusterItem {
 	return this.adj_date;
     }
 
-    public void setKey(UUID key) {
-	this.key = key;
+    public void setKey(String uuid) {
+	this.key = uuid;
     }
 
-    public UUID getKey() {
+    public String getKey() {
 	return this.key;
     }
 

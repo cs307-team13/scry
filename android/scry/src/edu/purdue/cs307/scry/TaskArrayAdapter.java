@@ -2,13 +2,13 @@ package edu.purdue.cs307.scry;
 
 import java.util.List;
 
-import android.os.AsyncTask;
+import android.content.Context;
 import android.os.Handler;
-import android.os.Looper;
 // import android.app.Fragment;
 import android.support.v4.app.Fragment;
 import android.app.Activity;
 import android.content.Context;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -23,6 +23,8 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
+import edu.purdue.cs307.scry.model.Task;
 
 public class TaskArrayAdapter extends ArrayAdapter<Task> {
 
@@ -154,7 +156,8 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 		if (t.isComplete()) {
 		    Handler handler = new Handler();
 		    handler.postDelayed(new Runnable() {
-			public void run() {
+			@Override
+                        public void run() {
 			    if (t.isComplete()) {
 				Log.v("Checked", "run()");
 				if (t.isComplete()) {
@@ -175,12 +178,6 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 	task_name.setText(t.toString());
 	task_category.setText(t.getCategory());
 
-
-	//ADDED BY CHRIS
-//	View toolbar = convertView.findViewById(R.id.toolbar);
-	//View toolbar = ((Activity)context).getWindow().getDecorView().findViewById(R.id.toolbar);
-  //  ((LinearLayout.LayoutParams) toolbar.getLayoutParams()).bottomMargin = -50;
-  //  toolbar.setVisibility(View.GONE);
 	return taskView;
     }
 }

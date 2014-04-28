@@ -1,4 +1,4 @@
-package edu.purdue.cs307.scry;
+package edu.purdue.cs307.scry.data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.BaseColumns;
 import android.util.Log;
+import edu.purdue.cs307.scry.HttpClientSetup;
+import edu.purdue.cs307.scry.model.Task;
 
 public class TaskDataSource {
 
@@ -23,6 +26,7 @@ public class TaskDataSource {
 	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_EXPIRE_DATE,
 	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID,
 	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY,
+	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_UUID, 
 	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED };
 
     public TaskDataSource(Context context) {
@@ -48,7 +52,7 @@ public class TaskDataSource {
 	        null, values);
 
 	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
-	        allColumns, TaskStoreContract.TaskEntry._ID + " = " + insertId,
+	        allColumns, BaseColumns._ID + " = " + insertId,
 	        null, null, null, null);
 	cursor.moveToFirst();
 	Task newTask = cursorToTask(cursor);
@@ -75,9 +79,14 @@ public class TaskDataSource {
 	        t.getEntryDate());
 	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED,
 	        (t.isComplete()) ? 1 : 0);
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID,
+	        t.getOwner());
+	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_UUID,
+	        t.getKey());
 
 	HttpClientSetup client = new HttpClientSetup();
 	client.addTask(t);
+	client.getTaskByUser(t.getOwner());
 
 	long id = database.insert(TaskStoreContract.TaskEntry.TABLE_NAME, null,
 	        values);
@@ -104,7 +113,7 @@ public class TaskDataSource {
 	List<Task> comments = getAllTasksFromCursor(cursor);
 	return comments;
     }
-    
+
     public List<Task> getAllCompletedTasks() {
 	open();
 	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
@@ -189,6 +198,14 @@ public class TaskDataSource {
 	task.setId(cursor.getLong(cursor
 	        .getColumnIndexOrThrow(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_ID)));
 
+	task.ownerId = cursor
+	        .getString(cursor
+	                .getColumnIndexOrThrow(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID));
+	
+	task.setKey( cursor
+	        .getString(cursor
+	                .getColumnIndexOrThrow(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID)));
+
 	task.setComplete(cursor.getInt(cursor
 	        .getColumnIndexOrThrow(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED)) == 1);
 
@@ -199,7 +216,7 @@ public class TaskDataSource {
 	long id = task.getId();
 	System.out.println("Task deleted with id: " + id);
 	database.delete(TaskStoreContract.TaskEntry.TABLE_NAME,
-	        TaskStoreContract.TaskEntry._ID + " = " + id, null);
+	        BaseColumns._ID + " = " + id, null);
     }
 
     public List<Task> getTasksInCategory(String category) {

@@ -2,9 +2,9 @@ package edu.purdue.cs307.scry.dev;
 
 import java.util.Random;
 
-import edu.purdue.cs307.scry.Task;
-import edu.purdue.cs307.scry.TaskDataSource;
 import android.content.Context;
+import edu.purdue.cs307.scry.data.TaskDataSource;
+import edu.purdue.cs307.scry.model.Task;
 
 public class DummyDataCreator {
 
@@ -21,8 +21,12 @@ public class DummyDataCreator {
 	    
 	    String name = names[r.nextInt(names.length-1)];
 	    String cat = names[r.nextInt(categories.length-1)];
-	    
-	    data.commitTask(new Task(name, cat, randLat, randLon, "Emails Suck"));
+	    Task t = new Task();
+	    t.lat_location = randLat;
+	    t.long_location = randLon;
+	    t.setTask(name);
+	    t.category = cat;
+	    data.commitTask(t);
 	}
     }
 }

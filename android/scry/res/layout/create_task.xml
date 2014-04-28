@@ -35,11 +35,11 @@
 
         <LinearLayout
             android:id="@+id/extras"
-            android:layout_below="@id/etxt_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:animateLayoutChanges="true" >
+            android:layout_below="@id/etxt_category"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical" >
 
             <EditText
                 android:id="@+id/etxt_dueDate"
@@ -47,18 +47,17 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Enter due date"
-                android:visibility="gone"
-                android:textColor="@android:color/black" />
-            
+                android:textColor="@android:color/black"
+                android:visibility="gone" />
+
             <EditText
                 android:id="@+id/etxt_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Enter location"
-                android:visibility="gone"
-                android:textColor="@android:color/black" />
-            
+                android:textColor="@android:color/black"
+                android:visibility="gone" />
         </LinearLayout>
 
         <Button
@@ -67,14 +66,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/extras"
             android:text="+" />
-        
+
         <Button
             android:id="@+id/btn_create"
-            android:layout_below="@id/btn_more"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/btn_more"
             android:text="Enter Task" />
-        
     </RelativeLayout>
 
 </ScrollView>
