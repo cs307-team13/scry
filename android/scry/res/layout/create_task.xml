@@ -23,7 +23,7 @@
 
         <AutoCompleteTextView
             android:id="@+id/etxt_category"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/etxt_title"
@@ -63,7 +63,7 @@
 
         <Button
             android:id="@+id/btn_more"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/extras"
             android:text="+" />
@@ -71,7 +71,7 @@
         <Button
             android:id="@+id/btn_create"
             android:layout_below="@id/btn_more"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Enter Task" />
         
