@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
+    android:layout_height="match_parent"
+    android:background="#00FFFFFF"
     android:clickable="true"
-    android:longClickable="true"
-    android:background="#00FFFFFF">
+    android:longClickable="true" >
 
     <CheckBox
         android:id="@+id/task_completed"
@@ -36,7 +36,64 @@
         android:layout_below="@+id/task_name"
         android:paddingLeft="10dp"
         android:text="Subtitle Text"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-	
+        android:textAppearance="?android:attr/textAppearanceSmall"
+         />
+
+    <TextView
+        android:id="@+id/rt_describe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/task_name"
+        android:paddingTop="10dp"
+        android:layout_alignBottom="@+id/task_name"
+        android:layout_marginRight="18dp"
+        android:layout_toLeftOf="@+id/task_completed"
+        android:text="Rotten Tomatoe's Score"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="7sp" 
+        android:visibility="gone"
+        android:textColor="@android:color/black"/>
+
+    <ImageView
+        android:id="@+id/rt_certified_fresh"
+        android:layout_width="15sp"
+        android:layout_height="15sp"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/task_category"
+        android:layout_marginLeft="190dp"
+        android:src="@drawable/rt_certified_fresh" 
+        android:visibility="gone"/>
+    
+    <ImageView
+        android:id="@+id/rt_fresh"
+        android:layout_width="15sp"
+        android:layout_height="15sp"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/task_category"
+        android:layout_marginLeft="190dp"
+        android:src="@drawable/rt_fresh" 
+        android:visibility="gone"/>
+    
+    <ImageView
+        android:id="@+id/rt_rotten"
+        android:layout_width="15sp"
+        android:layout_height="15sp"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/task_category"
+        android:layout_marginLeft="190dp"
+        android:src="@drawable/rt_rotten" 
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/rt_rating"
+        android:layout_width="35sp"
+        android:layout_height="20sp"
+        android:layout_alignTop="@+id/imageView1"
+        android:text="99%"
+        android:layout_above="@+id/task_category"
+        android:layout_marginLeft="210dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" 
+        android:visibility="gone"
+        android:textColor="@android:color/black"/>
 
 </RelativeLayout>

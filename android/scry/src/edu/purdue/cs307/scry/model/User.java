@@ -1,4 +1,4 @@
-package edu.purdue.cs307.scry;
+package edu.purdue.cs307.scry.model;
 
 
 import java.util.ArrayList;
@@ -65,7 +65,8 @@ public class User {
 		this.getFriendsList().add(friend);
 	}
 	
-	public String toString(){
+	@Override
+        public String toString(){
 		String info = "";
 		info += "Name: " + this.getName();
 
