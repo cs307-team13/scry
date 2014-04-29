@@ -5,7 +5,6 @@
     android:background="#00FFFFFF"
     android:clickable="true"
     android:longClickable="true"
-    android:background="#00FFFFFF"
     android:animateLayoutChanges="true">
 
 
