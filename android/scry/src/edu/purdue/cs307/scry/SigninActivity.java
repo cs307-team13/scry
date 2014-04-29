@@ -1,5 +1,16 @@
 package edu.purdue.cs307.scry;
 
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.content.IntentSender.SendIntentException;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.CommonStatusCodes;
@@ -11,17 +22,6 @@ import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.People.LoadPeopleResult;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
-
-import android.app.Activity;
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.content.IntentSender.SendIntentException;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 
 public class SigninActivity extends Activity implements ConnectionCallbacks,
         OnConnectionFailedListener, ResultCallback<People.LoadPeopleResult>,
@@ -144,6 +144,7 @@ public class SigninActivity extends Activity implements ConnectionCallbacks,
 	}
     }
 
+    @Override
     public void onConnected(Bundle connectionHint) {
 	// Reaching onConnected means we consider the user signed in.
 	Log.wtf(TAG, "SOMEBODY CONNECTED!!!!!!!!!!");

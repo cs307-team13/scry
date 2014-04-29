@@ -2,17 +2,16 @@ package edu.purdue.cs307.scry.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-import edu.purdue.cs307.scry.HttpClientSetup;
-import edu.purdue.cs307.scry.data.TaskStoreContract.TaskEntry;
-import edu.purdue.cs307.scry.model.Task;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.BaseColumns;
 import android.util.Log;
+import edu.purdue.cs307.scry.HttpClientSetup;
+import edu.purdue.cs307.scry.model.Task;
 
 public class TaskDataSource {
 
@@ -53,7 +52,7 @@ public class TaskDataSource {
 	        null, values);
 
 	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
-	        allColumns, TaskStoreContract.TaskEntry._ID + " = " + insertId,
+	        allColumns, BaseColumns._ID + " = " + insertId,
 	        null, null, null, null);
 	cursor.moveToFirst();
 	Task newTask = cursorToTask(cursor);
@@ -83,7 +82,7 @@ public class TaskDataSource {
 	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID,
 	        t.getOwner());
 	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_UUID,
-	        t.getKey().toString());
+	        t.getKey());
 
 	HttpClientSetup client = new HttpClientSetup();
 	client.addTask(t);
@@ -217,7 +216,7 @@ public class TaskDataSource {
 	long id = task.getId();
 	System.out.println("Task deleted with id: " + id);
 	database.delete(TaskStoreContract.TaskEntry.TABLE_NAME,
-	        TaskStoreContract.TaskEntry._ID + " = " + id, null);
+	        BaseColumns._ID + " = " + id, null);
     }
 
     public List<Task> getTasksInCategory(String category) {

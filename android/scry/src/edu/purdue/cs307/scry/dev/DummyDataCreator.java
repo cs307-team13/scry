@@ -1,11 +1,10 @@
 package edu.purdue.cs307.scry.dev;
 
 import java.util.Random;
-import java.util.UUID;
 
+import android.content.Context;
 import edu.purdue.cs307.scry.data.TaskDataSource;
 import edu.purdue.cs307.scry.model.Task;
-import android.content.Context;
 
 public class DummyDataCreator {
 
@@ -26,7 +25,7 @@ public class DummyDataCreator {
 	    t.lat_location = randLat;
 	    t.long_location = randLon;
 	    t.setTask(name);
-	    t.category = cat; 
+	    t.category = cat;
 	    data.commitTask(t);
 	}
     }

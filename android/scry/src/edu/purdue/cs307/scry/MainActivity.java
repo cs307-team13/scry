@@ -1,32 +1,34 @@
 package edu.purdue.cs307.scry;
 
-import edu.purdue.cs307.scry.data.TaskDataSource;
-import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
-import edu.purdue.cs307.scry.dev.DummyDataCreator;
-import edu.purdue.cs307.scry.fragments.BackPressedFragment;
-import edu.purdue.cs307.scry.fragments.TaskListFragment;
-import edu.purdue.cs307.scry.model.User;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
+import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.SearchView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
+import edu.purdue.cs307.scry.data.TaskDataSource;
+import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
+import edu.purdue.cs307.scry.dev.DummyDataCreator;
+import edu.purdue.cs307.scry.fragments.BackPressedFragment;
+import edu.purdue.cs307.scry.fragments.TaskListFragment;
+import edu.purdue.cs307.scry.model.Task;
+import edu.purdue.cs307.scry.model.User;
 
 public class MainActivity extends FragmentActivity implements
         TaskDatasourceActivity, ActionBar.TabListener {
 
+    private static final int EDIT_TASK = 123;
     private TaskDataSource datasource;
     public static ViewPager viewPager;
     public static TabsPageAdapter mAdapter;
@@ -195,6 +197,12 @@ public class MainActivity extends FragmentActivity implements
 	        .replace(R.id.fragment_pane, new TaskListFragment())
 	        .addToBackStack("TaskListFragment").commit();
     }
+    
+    public void openEditForTask(Task t) {
+	Intent i = new Intent(this, EditTaskActivity.class);
+	i.putExtra("Task", t);
+	startActivity(i);
+    }
 
     @Override
     public void onBackPressed() {
@@ -210,45 +218,6 @@ public class MainActivity extends FragmentActivity implements
 	super.onBackPressed();
     }
 
-    // Chip Leinen original code
-    /*
-     * public static void NavigateTo(FragmentManager fm, Fragment frag) {
-     * if (tabs.get(viewPager.getCurrentItem()).getFragmentManager() == null) {
-     * tabs.get(viewPager.getCurrentItem()).setFragmentManager(fm);
-     * }
-     * FragmentTransaction ft =
-     * tabs.get(viewPager.getCurrentItem()).getFragmentManager().beginTransaction();
-     * ft.replace(R.id.mainlayout,frag, frag.getClass().toString() );
-     * ft.addToBackStack(frag.getClass().toString());
-     * ft.commitAllowingStateLoss();
-     * 
-     * }
-     * 
-     * //Chip Leinen original code
-     * public class TabInfo {
-     * private FragmentManager fm;
-     * private String tabName;
-     * 
-     * public TabInfo(FragmentManager _fm, String _tabName) {
-     * fm = _fm;
-     * tabName = _tabName;
-     * }
-     * 
-     * public void setFragmentManager(FragmentManager _fm) {
-     * fm = _fm;
-     * }
-     * public FragmentManager getFragmentManager() {
-     * return fm;
-     * }
-     * public void setTabname(String _tabName) {
-     * tabName = _tabName;
-     * }
-     * public String getTabname() {
-     * return tabName;
-     * }
-     * }
-     */
-
     @Override
     public void onTabReselected(Tab tab, FragmentTransaction ft) {
     }
@@ -263,4 +232,6 @@ public class MainActivity extends FragmentActivity implements
     @Override
     public void onTabUnselected(Tab tab, FragmentTransaction ft) {
     }
+
+    
 }

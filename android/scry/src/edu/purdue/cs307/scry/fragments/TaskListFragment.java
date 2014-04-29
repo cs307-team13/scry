@@ -5,17 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import com.google.android.gms.internal.is;
-
-import edu.purdue.cs307.scry.R;
-import edu.purdue.cs307.scry.TaskArrayAdapter;
-import edu.purdue.cs307.scry.R.id;
-import edu.purdue.cs307.scry.R.layout;
-import edu.purdue.cs307.scry.R.menu;
-import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
-import edu.purdue.cs307.scry.model.Task;
-import android.support.v4.app.ListFragment;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,6 +16,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import edu.purdue.cs307.scry.R;
+import edu.purdue.cs307.scry.TaskArrayAdapter;
+import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
+import edu.purdue.cs307.scry.model.Task;
 
 public class TaskListFragment extends ListFragment implements
         BackPressedFragment {

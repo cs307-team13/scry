@@ -3,14 +3,12 @@ package edu.purdue.cs307.scry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import edu.purdue.cs307.scry.RottenTomatoes.RottenTomatoe;
 import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
 import edu.purdue.cs307.scry.model.Task;
 import android.os.AsyncTask;
+import android.content.Context;
 import android.os.Handler;
-import android.os.Looper;
-// import android.app.Fragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.content.Context;
@@ -26,6 +24,8 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
+import edu.purdue.cs307.scry.model.Task;
 
 public class TaskArrayAdapter extends ArrayAdapter<Task> {
 
@@ -96,6 +96,7 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 				if (t.isComplete()) {
 					Handler handler = new Handler();
 					handler.postDelayed(new Runnable() {
+						@Override
 						public void run() {
 							if (t.isComplete()) {
 								Log.v("Checked", "run()");
@@ -123,46 +124,35 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 			} else {
 				movie = new RottenTomatoe(t, this);
 			}
-			//if (movie.isValid()) {
-				// Set picture to type
-				// Set rating to rating
-				rt.put(t.toString(), movie);
-				TextView rt_describe = (TextView) taskView
-						.findViewById(R.id.rt_describe);
-				TextView rt_rating = (TextView) taskView
-						.findViewById(R.id.rt_rating);
-				ImageView rt_image = (ImageView) taskView
-						.findViewById(R.id.rt_rotten);
-				if (movie.type.equals("Fresh")) {
-					rt_image = (ImageView) taskView.findViewById(R.id.rt_fresh);
-				}
-				if (movie.type.equals("Certified Fresh")) {
-					rt_image = (ImageView) taskView
-							.findViewById(R.id.rt_certified_fresh);
-				}
-				if (movie.type.equals("Rotten")) {
-					rt_image = (ImageView) taskView
-							.findViewById(R.id.rt_rotten);
-				}
-				rt_describe.setVisibility(View.VISIBLE);
-				rt_image.setVisibility(View.VISIBLE);
-				rt_rating.setVisibility(View.VISIBLE);
-				rt_rating.setText("" + movie.getRating() + "%");
-			//}
+			// if (movie.isValid()) {
+			// Set picture to type
+			// Set rating to rating
+			rt.put(t.toString(), movie);
+			TextView rt_describe = (TextView) taskView
+					.findViewById(R.id.rt_describe);
+			TextView rt_rating = (TextView) taskView
+					.findViewById(R.id.rt_rating);
+			ImageView rt_image = (ImageView) taskView
+					.findViewById(R.id.rt_rotten);
+			if (movie.type.equals("Fresh")) {
+				rt_image = (ImageView) taskView.findViewById(R.id.rt_fresh);
+			}
+			if (movie.type.equals("Certified Fresh")) {
+				rt_image = (ImageView) taskView
+						.findViewById(R.id.rt_certified_fresh);
+			}
+			if (movie.type.equals("Rotten")) {
+				rt_image = (ImageView) taskView.findViewById(R.id.rt_rotten);
+			}
+			rt_describe.setVisibility(View.VISIBLE);
+			rt_image.setVisibility(View.VISIBLE);
+			rt_rating.setVisibility(View.VISIBLE);
+			rt_rating.setText("" + movie.getRating() + "%");
+			// }
 		}
-		
+
 		task_name.setText(t.toString());
 		task_category.setText(t.getCategory());
-
-		taskView.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Log.wtf("This Sucks", "in on click");
-				// ((MainActivity)
-				// frag.getActivity()).pushTaskDetailsFragment(t);
-			}
-		});
 
 		taskView.setOnLongClickListener(new OnLongClickListener() {
 
@@ -172,6 +162,17 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 				return true;
 			}
 		});
+
+		taskView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Log.wtf("This Sucks", "in on click");
+				((MainActivity) f.getActivity()).openEditForTask(t);
+			}
+		});
+
 		return taskView;
 	}
+
 }

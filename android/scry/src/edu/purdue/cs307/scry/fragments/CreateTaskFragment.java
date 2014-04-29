@@ -1,29 +1,25 @@
 package edu.purdue.cs307.scry.fragments;
 
-import com.google.android.gms.maps.model.LatLng;
-
-import edu.purdue.cs307.scry.Parse;
-import edu.purdue.cs307.scry.R;
-import edu.purdue.cs307.scry.R.id;
-import edu.purdue.cs307.scry.R.layout;
-import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
-import edu.purdue.cs307.scry.model.Task;
-import android.support.v4.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+
+import com.google.android.gms.maps.model.LatLng;
+
+import edu.purdue.cs307.scry.Parse;
+import edu.purdue.cs307.scry.R;
+import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
+import edu.purdue.cs307.scry.model.Task;
 
 public class CreateTaskFragment extends Fragment {
     public static String TAG = "CreateTaskFragment";

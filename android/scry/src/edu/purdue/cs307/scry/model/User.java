@@ -65,7 +65,8 @@ public class User {
 		this.getFriendsList().add(friend);
 	}
 	
-	public String toString(){
+	@Override
+        public String toString(){
 		String info = "";
 		info += "Name: " + this.getName();
 
