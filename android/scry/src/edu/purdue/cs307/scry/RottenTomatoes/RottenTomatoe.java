@@ -1,0 +1,106 @@
+package edu.purdue.cs307.scry.RottenTomatoes;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.util.Log;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
+import edu.purdue.cs307.scry.model.Task;
+
+public class RottenTomatoe {
+	public String type;
+	public final String rtAPI = "http://api.rottentomatoes.com/api/public/v1.0/movie_alias.json?apikey=xfggz76arpb4n8ukptd5x42f&type=imdb&id=";
+	public final String imdbAPI = "http://www.omdbapi.com/?t=";
+	public int rating;
+	public boolean pending = false;
+	AsyncHttpResponseHandler handler;
+	
+	public RottenTomatoe(Task t){
+		handler = new AsyncHttpResponseHandler() {
+			@Override
+			public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] responseBody){
+				//Set Rotten Tomatoes Data
+				String imdbID = null;
+				if(statusCode == 404) rating = -1;
+				String response = new String(responseBody);
+				try {
+					JSONObject json = new JSONObject(response);
+					imdbID = json.getString("imdbID");
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println("IMDBID original: "  + imdbID);
+				imdbID = imdbID.substring(2);
+				System.out.println("IMDBID substring: "  + imdbID);
+				AsyncHttpClient client2 = new AsyncHttpClient();
+				client2.get(rtAPI + imdbID, new AsyncHttpResponseHandler() {
+					@Override
+					public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] responseBody){
+						if(statusCode == 404) rating = -1;
+						String response = new String(responseBody);
+						try {
+							JSONObject json = new JSONObject(response);
+							type = json.getString("critics_rating");
+							String myRating = json.getString("critics_score");
+							rating = Integer.parseInt(myRating);
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						pending = false;
+					}
+					
+					@Override
+					public void onFailure(int statusCode, org.apache.http.Header[] headers, byte[] responseBody, Throwable error){
+						rating = -1;
+						pending = false;
+						Log.wtf("Rotten Tomatoe", "HTTP Client Failure");
+					}
+				});
+				
+			}
+			
+			@Override
+			public void onFailure(int statusCode, org.apache.http.Header[] headers, byte[] responseBody, Throwable error){
+				rating = -1;
+				pending = false;
+				Log.wtf("Rotten Tomatoe", "HTTP Client Failure");
+			}
+			
+			
+		};
+		pending = true;
+		AsyncHttpClient client = new AsyncHttpClient();
+		client.get(imdbAPI + t.getDetails(), handler);
+		
+	}
+	
+	public int getRating(){
+		return rating;
+	}
+	
+	public String getType(){
+		return type;
+	}
+	
+	public boolean isValid(){
+		if((rating >= 0 && rating <= 100) && (type.equals("Rotten") || type.equals("Fresh") || type.equals("Certified Fresh"))){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean getPending(){
+		return pending;
+	}
+	
+	public void getData(){
+		
+		
+	}
+}
