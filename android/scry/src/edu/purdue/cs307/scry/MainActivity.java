@@ -1,5 +1,8 @@
 package edu.purdue.cs307.scry;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
@@ -164,6 +167,32 @@ public class MainActivity extends FragmentActivity implements
 		Intent i = new Intent(this, CreateTaskActivity.class);
 		startActivity(i);
 		return true;
+	    case R.id.action_retrieve:
+	    	Log.d("Options Item", "Retrieving tasks from server");	    	
+	    	AsyncTask<Void, Void, Void> task1 = new AsyncTask<Void, Void, Void>() {
+			   
+	    		@Override
+			    protected Void doInBackground(Void... params) {
+				    HttpClientSetup client = new HttpClientSetup();
+				    client.getTaskByUser(getSharedPreferences("pref_profile", 0).getString("userID", null));
+				    List<Task> task_list = new ArrayList<Task>();
+				    task_list = client.getTaskListFromServer();
+				    //System.out.println("Task list: " + task_list.toString());
+					for(Task t : client.getTaskListFromServer()){
+						datasource.commitTask(t);
+					}
+					return null;
+				}
+
+			    @Override
+			    protected void onPostExecute(Void v) {
+				TaskListFragment frag = ((TaskListFragment) mAdapter
+				        .getItem(0));
+				frag.refreshData();
+			    }
+	    	};
+	    	task1.execute();
+	    	return true;
 	    default:
 		return super.onOptionsItemSelected(item);
 	}

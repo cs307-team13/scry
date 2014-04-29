@@ -1,6 +1,5 @@
 package edu.purdue.cs307.scry;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +23,16 @@ public class HttpClientSetup {
 	private String tasks;
 	private List<Task> task_list;
 	
-	public String getTasks(){
+	private String getTasks(){
 		return this.tasks;
+	}
+	
+	public List<Task> getTaskListFromServer(){
+		return this.task_list;
+	}
+	
+	public void clearClientSetupTaskList(){
+		this.task_list.clear();
 	}
 
 	public void addUser(User user) {
@@ -94,28 +101,16 @@ public class HttpClientSetup {
 	
 	public void getTaskByUser(String id){
 		AsyncHttpClient client = new AsyncHttpClient();
-		AsyncHttpResponseHandler handler = new AsyncHttpResponseHandler(){
-			@Override
-			public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] response){
-				System.out.println("Response from server: " + response.toString());
-				System.out.println("Status code: " + statusCode);
-				for(Header h : headers){
-					System.out.println("Header name: " + h.getName());
-					System.out.println("Header Value: " + h.getValue());
-				}
-			}
-		};
 		RequestParams params = new RequestParams();
 		params.put("Method", "getTaskByUser");
-		params.put("Owner", id); //user.getUserID());
+		params.put("Owner", id); 
 		client.get(URL, params, new AsyncHttpResponseHandler(){
 			@Override
 			public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] response){
-				//String tasks;
 				for(Header h : headers){
 					//System.out.println("Header name: " + h.getName() + " Value: " + h.getValue());
 					for(HeaderElement he : h.getElements()){
-						System.out.println("Header Value: " + he.getValue() + " Header Name: " + he.getName());
+						//System.out.println("Header Value: " + he.getValue() + " Header Name: " + he.getName());
 						if(he.getName().startsWith("Message: ")){
 							int beg = he.getName().indexOf(' ')+1;
 							tasks = he.getName().substring(beg).replaceAll(" &", ",");
@@ -125,6 +120,7 @@ public class HttpClientSetup {
 				}
 				System.out.println("Tasks from server: " + tasks);
 				task_list = convertToList(tasks);
+				System.out.println("Task_List: " + task_list.toString());
 			}
 		});
 		
@@ -133,10 +129,9 @@ public class HttpClientSetup {
 	private List<Task> convertToList(String s){
 		List<Task> list = new ArrayList<Task>();
 		JSONObject json;
-		//List<String> string_list = Arrays.asList(s.split) //split between individual json entries
-		String splits[] = s.split("\\}, ");
+		String splits[] = s.split("\\}, "); //Split at end of each JSON entry
 		for(String entry : splits){
-			entry = entry.replaceAll("[\\[\\]}]", "");
+			entry = entry.replaceAll("[\\[\\]}]", ""); //Delete square brackets for conversion to JSONObject
 			entry = entry.concat("}");
 			try {
 				json = new JSONObject(entry);
