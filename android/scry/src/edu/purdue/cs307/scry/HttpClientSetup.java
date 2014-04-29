@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.apache.http.Header;
 import org.apache.http.HeaderElement;
-import org.apache.http.entity.StringEntity;
 
 import android.util.Log;
 
@@ -24,41 +23,6 @@ public class HttpClientSetup {
 	private String URL = "http://1-dot-scryserver.appspot.com/server";
 	private String tasks;
 	private List<Task> task_list;
-	
-	public void sendRequest() { // SAMPLE, DELETE LATER
-		AsyncHttpClient client = new AsyncHttpClient();
-
-		StringEntity se = null;
-
-		AsyncHttpResponseHandler handler = new AsyncHttpResponseHandler() {
-			@Override
-                        public void onSuccess(String suc) {
-				Log.d("response", suc);
-			}
-
-			@Override
-			public void onFailure(int statusCode, Header[] headers,
-					byte[] responseBody, Throwable error) {
-				System.out.println("Connection to server failed");
-				Log.d("failure", Integer.toString(statusCode));
-			}
-		};
-
-		try {
-			se = new StringEntity("{\"name\": \"value\"}"); // r.toJSON().toString());
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		RequestParams params = new RequestParams();
-		params.put("key", "value");
-		params.put("name", "Shanaenae");
-		client.post("http://1-dot-scryserver.appspot.com/server", params,
-				handler); // post(this.context,
-		// "http://1-dot-scryserver.appspot.com/server", se,
-		// "application/json", handler);
-		Log.d("debug", client.toString());
-	}
 	
 	public String getTasks(){
 		return this.tasks;
