@@ -4,21 +4,24 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
+import android.view.View;
+import android.widget.ListView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import edu.purdue.cs307.scry.TaskArrayAdapter;
 import edu.purdue.cs307.scry.model.Task;
 
 public class RottenTomatoe {
-	public String type;
+	public String type = "Blah";
 	public final String rtAPI = "http://api.rottentomatoes.com/api/public/v1.0/movie_alias.json?apikey=xfggz76arpb4n8ukptd5x42f&type=imdb&id=";
 	public final String imdbAPI = "http://www.omdbapi.com/?t=";
-	public int rating;
+	public int rating = -1;
 	public boolean pending = false;
 	AsyncHttpResponseHandler handler;
 	
-	public RottenTomatoe(Task t){
+	public RottenTomatoe(Task t, final TaskArrayAdapter adapter){
 		handler = new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] responseBody){
@@ -44,14 +47,18 @@ public class RottenTomatoe {
 						String response = new String(responseBody);
 						try {
 							JSONObject json = new JSONObject(response);
+							json = json.getJSONObject("ratings");
 							type = json.getString("critics_rating");
+							System.out.println("Type give is: " + type);
 							String myRating = json.getString("critics_score");
 							rating = Integer.parseInt(myRating);
+							System.out.println("The rating given is: " + rating);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						pending = false;
+						adapter.notifyDataSetChanged();
 					}
 					
 					@Override
@@ -75,7 +82,7 @@ public class RottenTomatoe {
 		};
 		pending = true;
 		AsyncHttpClient client = new AsyncHttpClient();
-		client.get(imdbAPI + t.getDetails(), handler);
+		client.get(imdbAPI + t.toString(), handler);
 		
 	}
 	
