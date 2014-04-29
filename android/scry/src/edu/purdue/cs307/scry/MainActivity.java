@@ -175,11 +175,17 @@ public class MainActivity extends FragmentActivity implements
 			    protected Void doInBackground(Void... params) {
 				    HttpClientSetup client = new HttpClientSetup();
 				    client.getTaskByUser(getSharedPreferences("pref_profile", 0).getString("userID", null));
-				    List<Task> task_list = new ArrayList<Task>();
-				    task_list = client.getTaskListFromServer();
-				    //System.out.println("Task list: " + task_list.toString());
-					for(Task t : client.getTaskListFromServer()){
-						datasource.commitTask(t);
+				    try {
+						Thread.sleep(2000);  //Need to wait for getTaskByUser() to complete execution
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				    List<Task> task_list = client.getTaskListFromServer();
+					for(Task t : task_list){
+						if(t == null)
+							continue;
+						t.ownerId = getSharedPreferences("pref_profile", 0).getString("userId", null);
+						datasource.commitTaskWithoutPush(t);
 					}
 					return null;
 				}

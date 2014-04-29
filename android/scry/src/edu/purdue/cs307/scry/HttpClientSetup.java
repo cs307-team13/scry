@@ -20,14 +20,11 @@ import edu.purdue.cs307.scry.model.User;
 
 public class HttpClientSetup {
 	private String URL = "http://1-dot-scryserver.appspot.com/server";
-	private String tasks;
-	private List<Task> task_list;
+	public String tasks;
+	public ArrayList<Task> task_list;
 	
-	private String getTasks(){
-		return this.tasks;
-	}
 	
-	public List<Task> getTaskListFromServer(){
+	public ArrayList<Task> getTaskListFromServer(){
 		return this.task_list;
 	}
 	
@@ -126,8 +123,8 @@ public class HttpClientSetup {
 		
 	}
 	
-	private List<Task> convertToList(String s){
-		List<Task> list = new ArrayList<Task>();
+	private ArrayList<Task> convertToList(String s){
+		ArrayList<Task> list = new ArrayList<Task>();
 		JSONObject json;
 		String splits[] = s.split("\\}, "); //Split at end of each JSON entry
 		for(String entry : splits){
