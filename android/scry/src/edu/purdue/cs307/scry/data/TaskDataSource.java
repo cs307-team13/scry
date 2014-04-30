@@ -15,6 +15,8 @@ import edu.purdue.cs307.scry.model.Task;
 
 public class TaskDataSource {
 
+	public String temp_friends[] = {"mhoward20158@gmail.com", "titanfan94@gmail.com"};
+	
     private SQLiteDatabase database;
     private TaskStoreDbHelper dbHelper;
     private String[] allColumns = { TaskStoreContract.TaskEntry._ID,

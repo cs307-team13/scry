@@ -80,7 +80,7 @@ public class TaskEditFragment extends Fragment {
 		task1.lat_location = Double.parseDouble(text_lat.getText().toString());
 		task1.long_location = Double.parseDouble(text_long.getText().toString());
 		((TaskDatasourceActivity)getActivity()).getDataSource().deleteTask(task1);
-		((TaskDatasourceActivity)getActivity()).getDataSource().commitTask(task1);
+		((TaskDatasourceActivity)getActivity()).getDataSource().commitTaskWithoutPush(task1);
 		getActivity().finish();
 	    }
 	});

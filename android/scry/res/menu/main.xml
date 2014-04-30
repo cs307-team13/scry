@@ -27,5 +27,6 @@
         android:showAsAction="never"
         android:title="Delete All Tasks"/>
     <item android:id="@+id/action_retrieve" android:title="Retrieve Tasks"></item>
+    <item android:id="@+id/action_add_friend" android:title="Add Friend"></item>
 
 </menu>

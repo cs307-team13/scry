@@ -26,7 +26,7 @@ public class DummyDataCreator {
 	    t.long_location = randLon;
 	    t.setTask(name);
 	    t.category = cat;
-	    data.commitTask(t);
+	    data.commitTaskWithoutPush(t);
 	}
     }
 }
