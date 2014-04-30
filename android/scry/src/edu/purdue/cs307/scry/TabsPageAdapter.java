@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import edu.purdue.cs307.scry.fragments.FriendsFragment;
+import edu.purdue.cs307.scry.fragments.FriendsListFragment;
 import edu.purdue.cs307.scry.fragments.TaskListFragment;
 import edu.purdue.cs307.scry.fragments.TaskMapFragment;
 
@@ -18,7 +18,7 @@ public class TabsPageAdapter extends FragmentPagerAdapter {
 		super(fm);
 		frags = new ArrayList<Fragment>();
 		frags.add(new TaskListFragment());
-		frags.add(new FriendsFragment());
+		frags.add(new FriendsListFragment());
 		frags.add(new TaskMapFragment());
 	}
 

@@ -95,6 +95,9 @@ public class RottenTomatoe {
 	}
 	
 	public boolean isValid(){
+		while(pending){
+			//While the call is pending, wait to perform the check
+		}
 		if((rating >= 0 && rating <= 100) && (type.equals("Rotten") || type.equals("Fresh") || type.equals("Certified Fresh"))){
 			return true;
 		} else {

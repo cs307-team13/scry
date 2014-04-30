@@ -3,6 +3,8 @@ package edu.purdue.cs307.scry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import edu.purdue.cs307.scry.RottenTomatoes.RTErrorDialog;
 import edu.purdue.cs307.scry.RottenTomatoes.RottenTomatoe;
 import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
 import edu.purdue.cs307.scry.model.Task;
@@ -116,7 +118,7 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 			}
 		});
 
-		if (t.getCategory().equals("Movie/Television")) {
+		if (t.getCategory().equals("Movie/Television") || t.getCategory().equals("Movie")) {
 			RottenTomatoe movie;
 			if (rt.get(t.toString()) != null) {
 				movie = rt.get(t.toString());
@@ -124,31 +126,45 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 			} else {
 				movie = new RottenTomatoe(t, this);
 			}
-			// if (movie.isValid()) {
-			// Set picture to type
-			// Set rating to rating
-			rt.put(t.toString(), movie);
-			TextView rt_describe = (TextView) taskView
-					.findViewById(R.id.rt_describe);
-			TextView rt_rating = (TextView) taskView
-					.findViewById(R.id.rt_rating);
-			ImageView rt_image = (ImageView) taskView
-					.findViewById(R.id.rt_rotten);
-			if (movie.type.equals("Fresh")) {
-				rt_image = (ImageView) taskView.findViewById(R.id.rt_fresh);
-			}
-			if (movie.type.equals("Certified Fresh")) {
-				rt_image = (ImageView) taskView
-						.findViewById(R.id.rt_certified_fresh);
-			}
-			if (movie.type.equals("Rotten")) {
-				rt_image = (ImageView) taskView.findViewById(R.id.rt_rotten);
-			}
-			rt_describe.setVisibility(View.VISIBLE);
-			rt_image.setVisibility(View.VISIBLE);
-			rt_rating.setVisibility(View.VISIBLE);
-			rt_rating.setText("" + movie.getRating() + "%");
-			// }
+			//if (movie.isValid()) {
+				// Set picture to type
+				// Set rating to rating
+				rt.put(t.toString(), movie);
+				TextView rt_describe = (TextView) taskView
+						.findViewById(R.id.rt_describe);
+				TextView rt_rating = (TextView) taskView
+						.findViewById(R.id.rt_rating);
+				ImageView rt_image = (ImageView) taskView
+						.findViewById(R.id.rt_rotten);
+				if (movie.type.equals("Fresh")) {
+					rt_image = (ImageView) taskView.findViewById(R.id.rt_fresh);
+				}
+				if (movie.type.equals("Certified Fresh")) {
+					rt_image = (ImageView) taskView
+							.findViewById(R.id.rt_certified_fresh);
+				}
+				if (movie.type.equals("Rotten")) {
+					rt_image = (ImageView) taskView.findViewById(R.id.rt_rotten);
+				}
+				rt_describe.setVisibility(View.VISIBLE);
+				rt_image.setVisibility(View.VISIBLE);
+				rt_rating.setVisibility(View.VISIBLE);
+				rt_rating.setText("" + movie.getRating() + "%");
+			/*} else {
+				TextView rt_describe = (TextView) taskView
+						.findViewById(R.id.rt_describe);
+				ImageView rt_image = (ImageView) taskView
+						.findViewById(R.id.rt_error);
+				rt_describe.setVisibility(View.VISIBLE);
+				rt_image.setVisibility(View.VISIBLE);
+				rt_image.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						RTErrorDialog error = new RTErrorDialog();
+					}
+				});
+			}*/
 		}
 
 		task_name.setText(t.toString());

@@ -83,6 +83,16 @@
         android:layout_marginLeft="190dp"
         android:src="@drawable/rt_rotten" 
         android:visibility="gone"/>
+    
+    <ImageView
+        android:id="@+id/rt_error"
+        android:layout_width="15sp"
+        android:layout_height="15sp"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/task_category"
+        android:layout_marginLeft="190dp"
+        android:src="@drawable/ic_action_error" 
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/rt_rating"
