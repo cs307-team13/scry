@@ -3,41 +3,50 @@ package edu.purdue.cs307.scry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import edu.purdue.cs307.scry.RottenTomatoes.RTErrorDialog;
 import edu.purdue.cs307.scry.RottenTomatoes.RottenTomatoe;
 import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
 import edu.purdue.cs307.scry.model.Task;
 import android.os.AsyncTask;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.app.Activity;
+
 import android.support.v4.app.ListFragment;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+
+import android.widget.LinearLayout;
+
 import android.widget.ImageView;
 import android.widget.TextView;
-import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
-import edu.purdue.cs307.scry.model.Task;
 
 public class TaskArrayAdapter extends ArrayAdapter<Task> {
 
+	private View PreviousToolbar = null;
 	private final Context context;
 	private Fragment f;
 	private HashMap<String, RottenTomatoe> rt = new HashMap<String, RottenTomatoe>();
+	public final String errorMessage = "Rotten Tomatoes does not recognize this movie. "
+			+ "Please put the task in the form: 'watch <Movie Title>'";
 
 	public TaskArrayAdapter(Context context, int resource) {
 		super(context, resource);
 		this.context = context;
+
 	}
 
 	public TaskArrayAdapter(Context context, int resource,
@@ -116,55 +125,80 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 					}, 1000);
 				}
 			}
+
 		});
 
-		if (t.getCategory().equals("Movie/Television") || t.getCategory().equals("Movie")) {
+		if (t.getCategory().equals("Movie/Television")
+				|| t.getCategory().equals("Movie")) {
 			RottenTomatoe movie;
-			if (rt.get(t.toString()) != null) {
-				movie = rt.get(t.toString());
+			String movieName = t.toString();
+			movieName = movieName.substring(6);
+			if (rt.get(movieName) != null) {
+				movie = rt.get(movieName);
 
 			} else {
-				movie = new RottenTomatoe(t, this);
+				movie = new RottenTomatoe(movieName, this);
 			}
-			//if (movie.isValid()) {
-				// Set picture to type
-				// Set rating to rating
-				rt.put(t.toString(), movie);
-				TextView rt_describe = (TextView) taskView
-						.findViewById(R.id.rt_describe);
-				TextView rt_rating = (TextView) taskView
-						.findViewById(R.id.rt_rating);
-				ImageView rt_image = (ImageView) taskView
-						.findViewById(R.id.rt_rotten);
-				if (movie.type.equals("Fresh")) {
-					rt_image = (ImageView) taskView.findViewById(R.id.rt_fresh);
-				}
-				if (movie.type.equals("Certified Fresh")) {
-					rt_image = (ImageView) taskView
-							.findViewById(R.id.rt_certified_fresh);
-				}
-				if (movie.type.equals("Rotten")) {
-					rt_image = (ImageView) taskView.findViewById(R.id.rt_rotten);
-				}
-				rt_describe.setVisibility(View.VISIBLE);
-				rt_image.setVisibility(View.VISIBLE);
+
+			rt.put(movieName, movie);
+			
+			TextView rt_describe = (TextView) taskView
+					.findViewById(R.id.rt_describe);
+			TextView rt_rating = (TextView) taskView
+					.findViewById(R.id.rt_rating);
+			ImageView rt_image = (ImageView) taskView
+					.findViewById(R.id.rt_rotten);
+			if (movie.type.equals("Fresh")) {
+				rt_image = (ImageView) taskView.findViewById(R.id.rt_fresh);
 				rt_rating.setVisibility(View.VISIBLE);
 				rt_rating.setText("" + movie.getRating() + "%");
-			/*} else {
-				TextView rt_describe = (TextView) taskView
-						.findViewById(R.id.rt_describe);
-				ImageView rt_image = (ImageView) taskView
-						.findViewById(R.id.rt_error);
-				rt_describe.setVisibility(View.VISIBLE);
-				rt_image.setVisibility(View.VISIBLE);
+			} else if (movie.type.equals("Certified Fresh")) {
+				rt_image = (ImageView) taskView
+						.findViewById(R.id.rt_certified_fresh);
+				rt_rating.setVisibility(View.VISIBLE);
+				rt_rating.setText("" + movie.getRating() + "%");
+			} else if (movie.type.equals("Rotten")) {
+				rt_image = (ImageView) taskView.findViewById(R.id.rt_rotten);
+				rt_rating.setVisibility(View.VISIBLE);
+				rt_rating.setText("" + movie.getRating() + "%");
+			} else {
+				System.out.println("Not Valid");
+				rt_image = (ImageView) taskView.findViewById(R.id.rt_error);
 				rt_image.setOnClickListener(new OnClickListener() {
 
 					@Override
 					public void onClick(View v) {
-						RTErrorDialog error = new RTErrorDialog();
+						AlertDialog.Builder builder = new AlertDialog.Builder(f
+								.getActivity());
+						builder.setMessage(errorMessage)
+								.setTitle("Movie Error")
+								.setPositiveButton("Ok",
+										new DialogInterface.OnClickListener() {
+											public void onClick(
+													DialogInterface dialog,
+													int id) {
+												// TODO: Close message
+											}
+										})
+								.setNegativeButton("Edit Task",
+										new DialogInterface.OnClickListener() {
+											public void onClick(
+													DialogInterface dialog,
+													int id) {
+												// User cancelled the dialog
+												// TODO: Go to edit task screen
+												((MainActivity) f.getActivity())
+														.openEditForTask(t);
+											}
+										});
+						// Create the AlertDialog object and return it
+						builder.create().show();
+
 					}
 				});
-			}*/
+			}
+			rt_describe.setVisibility(View.VISIBLE);
+			rt_image.setVisibility(View.VISIBLE);
 		}
 
 		task_name.setText(t.toString());
@@ -174,17 +208,45 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 
 			@Override
 			public boolean onLongClick(View v) {
-				Log.wtf("Hello", "I long clicked!");
+
+
+				((MainActivity) f.getActivity()).openEditForTask(t);
 				return true;
 			}
 		});
 
-		taskView.setOnClickListener(new OnClickListener() {
+		taskView.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
+
+				// TODO Auto-generated method stub
+				View toolbar = v.findViewById(R.id.toolbar);
+
+				boolean SameItemClicked = false;
+				if ((PreviousToolbar == toolbar)) {
+					PreviousToolbar = null;
+					SameItemClicked = true;
+				}
+				if (PreviousToolbar != null) {
+					ExpandAnimation tempExpandAni = new ExpandAnimation(
+							PreviousToolbar, 500);
+					PreviousToolbar.startAnimation(tempExpandAni);
+				}
+
+				// Creating the expand animation for the item
+				ExpandAnimation expandAni = new ExpandAnimation(toolbar, 500);
+
+				// Start the animation on the toolbar
+				toolbar.startAnimation(expandAni);
+				if (SameItemClicked) {
+					PreviousToolbar = null;
+				} else {
+					PreviousToolbar = toolbar;
+				}
+
 				Log.wtf("This Sucks", "in on click");
-				((MainActivity) f.getActivity()).openEditForTask(t);
+
 			}
 		});
 
