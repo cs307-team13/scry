@@ -116,11 +116,18 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 		TextView task_lat = (TextView) taskView.findViewById(R.id.toolbar_lat);
 		TextView task_long = (TextView) taskView.findViewById(R.id.toolbar_long);
 		TextView task_date = (TextView) taskView.findViewById(R.id.toolbar_date);
+		
 		DecimalFormat df = new DecimalFormat("#.##");
 		task_date.setText(t.getEntryDate());
-		task_lat.setText("Lat " + df.format(t.getLat()) + " ");
-		task_long.setText("Long " + df.format(t.getLong()));
-		
+		if(t.getLat() == 0.0)
+			task_lat.setText("");
+		else
+			task_lat.setText("Lat " + df.format(t.getLat()) + " ");
+		if(t.getLong() == 0.0)
+			task_long.setText("");
+		else
+			task_long.setText("Lat " + df.format(t.getLong()) + " ");
+				
 		completed.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
@@ -243,8 +250,8 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 		taskView.setOnClickListener(new View.OnClickListener() {
 
 			@Override
-			public void onClick(View v) {}
-/*
+			public void onClick(View v) {
+
 				// TODO Auto-generated method stub
 				View toolbar = v.findViewById(R.id.toolbar);
 
@@ -271,9 +278,9 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 				}
 
 				Log.wtf("This Sucks", "in on click");
-
-			}*/
-		});
+			}
+			});
+		//});
 
 		return taskView;
 	}
