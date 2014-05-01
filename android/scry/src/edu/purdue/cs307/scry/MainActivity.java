@@ -214,18 +214,18 @@ public class MainActivity extends FragmentActivity implements
 			// Inflate and set the layout for the dialog
 			// Pass null as the parent view because its going in the dialog
 			// layout
-			builder.setView(inflater.inflate(R.layout.add_friend_popup, null))
+			final View myView = inflater.inflate(R.layout.add_friend_popup, null);
+			builder.setView(myView)
 					// Add action buttons
 					.setPositiveButton("Add",
 							new DialogInterface.OnClickListener() {
-								
 								@Override
 								public void onClick(DialogInterface dialog,
 										int id) {
-									EditText t = (EditText) findViewById(R.id.email);
+									EditText t = (EditText) myView.findViewById(R.id.email);
 									String email = t.getText().toString();
 									System.out.println("Adding " + email + " now!");
-									
+									datasource.addFriend(email);									
 								}
 							})
 					.setNegativeButton("Cancel",
