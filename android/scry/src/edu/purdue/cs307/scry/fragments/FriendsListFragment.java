@@ -44,16 +44,7 @@ public class FriendsListFragment extends ListFragment implements
 	    setListAdapter(adapter);
 	    adapterStack.push(adapter);
 	}
-	
-	/*@Override
-	public void onListItemClick(ListView I, View v, int position, long id){
-		String email = objects[position];
-		Log.d("List item clicked", "Email " + email + " clicked!");
-		client.getUserIDandTasks(email); //,new UserResult() {
 
-		List<Task> task_list = client.getTaskListFromServer();
-	
-	}*/
 	
 	public void addAdapter(ListAdapter adapter){
 		setListAdapter(adapter);

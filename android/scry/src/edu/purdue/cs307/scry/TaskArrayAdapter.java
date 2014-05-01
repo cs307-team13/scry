@@ -193,8 +193,8 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 		taskView.setOnClickListener(new View.OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
-
+			public void onClick(View v) {}
+/*
 				// TODO Auto-generated method stub
 				View toolbar = v.findViewById(R.id.toolbar);
 
@@ -222,7 +222,7 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 
 				Log.wtf("This Sucks", "in on click");
 
-			}
+			}*/
 		});
 
 		return taskView;

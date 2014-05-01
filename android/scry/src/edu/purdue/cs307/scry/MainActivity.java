@@ -166,6 +166,7 @@ public class MainActivity extends FragmentActivity implements
 			Log.d("Options Item", "Deleting...");
 			TaskListFragment frag = ((TaskListFragment) mAdapter.getItem(0));
 			frag.refreshData();
+			datasource.purgeFriends();
 			return true;
 		case R.id.action_create:
 			Intent i = new Intent(this, CreateTaskActivity.class);
@@ -226,7 +227,6 @@ public class MainActivity extends FragmentActivity implements
 									String email = t.getText().toString();
 									System.out.println("Adding " + email + " now!");
 									datasource.addFriend(email);
-									//datasource.purgeFriends();
 								}
 							})
 					.setNegativeButton("Cancel",
