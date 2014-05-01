@@ -44,16 +44,8 @@ public class FriendsListFragment extends ListFragment{
 	public void onListItemClick(ListView I, View v, int position, long id){
 		String email = objects[position];
 		Log.d("List item clicked", "Email " + email + " clicked!");
-		client.getUserID(email); //,new UserResult() {
+		client.getUserIDandTasks(email); //,new UserResult() {
 			
-		//});
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		System.out.println("Got user id: " + client.id);
-		//client.getTaskByUser(client.id);
-		client.getTaskByUser("114937094631044111645");
+		List<Task> task_list = client.getTaskListFromServer();
 	}
 }
