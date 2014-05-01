@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import edu.purdue.cs307.scry.RottenTomatoes.RottenTomatoe;
 import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
+import edu.purdue.cs307.scry.fragments.TaskListFragment;
 import edu.purdue.cs307.scry.model.Task;
 import android.os.AsyncTask;
 import android.app.AlertDialog;
@@ -42,6 +43,7 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 	private HashMap<String, RottenTomatoe> rt = new HashMap<String, RottenTomatoe>();
 	public final String errorMessage = "Rotten Tomatoes does not recognize this movie. "
 			+ "Please put the task in the form: 'watch <Movie Title>'";
+	public boolean inFriends;
 
 	public TaskArrayAdapter(Context context, int resource) {
 		super(context, resource);
@@ -67,10 +69,11 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 	}
 
 	public TaskArrayAdapter(Context context, int resource, List<Task> objects,
-			Fragment f) {
+			ListFragment f, boolean inFriends) {
 		super(context, resource, objects);
 		this.context = context;
 		this.f = f;
+		this.inFriends = inFriends;
 	}
 
 	public TaskArrayAdapter(Context context, int resource,
@@ -84,50 +87,19 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 		final Task t = getItem(position);
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View taskView = inflater
-				.inflate(R.layout.task_list_item, parent, false);
+		View taskView;
+		if(!inFriends){
+			taskView = inflater
+					.inflate(R.layout.task_list_item, parent, false);
+			checkbox(t, taskView);
+		} else {
+			taskView = inflater
+					.inflate(R.layout.friend_task_item, parent, false);
+			addbox(t, taskView);
+		}
 		TextView task_name = (TextView) taskView.findViewById(R.id.task_name);
 		TextView task_category = (TextView) taskView
 				.findViewById(R.id.task_category);
-		CheckBox completed = (CheckBox) taskView
-				.findViewById(R.id.task_completed);
-		if (t.isComplete()) {
-			completed.setChecked(true);
-		} else {
-			completed.setChecked(false);
-		}
-
-		completed.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					final boolean isChecked) {
-				Log.v("Checked", "onCheckedChanged()");
-				t.setComplete(isChecked);
-				if (t.isComplete()) {
-					Handler handler = new Handler();
-					handler.postDelayed(new Runnable() {
-						@Override
-						public void run() {
-							if (t.isComplete()) {
-								Log.v("Checked", "run()");
-								if (t.isComplete()) {
-									((TaskDatasourceActivity) f.getActivity())
-											.getDataSource().deleteTask(t);
-									((TaskDatasourceActivity) f.getActivity())
-											.getDataSource().commitTask(t);
-									TaskArrayAdapter.this.remove(t);
-									TaskArrayAdapter.this
-											.notifyDataSetChanged();
-								}
-							}
-						}
-					}, 1000);
-				}
-			}
-
-		});
-
 		if (t.getCategory().equals("Movies/Television")
 				|| t.getCategory().equals("Movie")) {
 			RottenTomatoe movie;
@@ -251,6 +223,62 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 		});
 
 		return taskView;
+	}
+
+	private void checkbox(final Task t, View taskView) {
+		CheckBox completed = (CheckBox) taskView
+				.findViewById(R.id.task_completed);
+		if (t.isComplete()) {
+			completed.setChecked(true);
+		} else {
+			completed.setChecked(false);
+		}
+
+		completed.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					final boolean isChecked) {
+				Log.v("Checked", "onCheckedChanged()");
+				t.setComplete(isChecked);
+				if (t.isComplete()) {
+					Handler handler = new Handler();
+					handler.postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							if (t.isComplete()) {
+								Log.v("Checked", "run()");
+								if (t.isComplete()) {
+									((TaskDatasourceActivity) f.getActivity())
+											.getDataSource().deleteTask(t);
+									((TaskDatasourceActivity) f.getActivity())
+											.getDataSource().commitTask(t);
+									TaskArrayAdapter.this.remove(t);
+									TaskArrayAdapter.this
+											.notifyDataSetChanged();
+								}
+							}
+						}
+					}, 1000);
+				}
+			}
+
+		});
+	}
+	
+	private void addbox(final Task t, View taskView) {
+		ImageView add = (ImageView) taskView
+				.findViewById(R.id.add_task);
+		
+		add.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Log.v("Clicked", "addbox()");
+				((TaskDatasourceActivity) f.getActivity())
+				.getDataSource().commitTask(t);
+			}
+		});
 	}
 
 }

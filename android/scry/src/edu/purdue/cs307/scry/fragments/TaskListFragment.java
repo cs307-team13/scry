@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Stack;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.Menu;
@@ -36,9 +37,9 @@ public class TaskListFragment extends ListFragment implements
 	super.onCreate(savedInstanceState);
 
 	adapter = new TaskArrayAdapter(getActivity().getApplicationContext(),
-	        R.layout.fragment_task_list, new ArrayList<Task>(), this);
-	adapterStack.push(getListAdapter());
+	        R.layout.fragment_task_list, new ArrayList<Task>(), this, false);
 	setListAdapter(adapter);
+	adapterStack.push(getListAdapter());
 	setHasOptionsMenu(true);
     }
 
@@ -111,7 +112,7 @@ public class TaskListFragment extends ListFragment implements
 				            getActivity()
 				                    .getApplicationContext(),
 				            R.layout.fragment_task_list, tasks,
-				            TaskListFragment.this));
+				            TaskListFragment.this, false));
 				    adapterStack.push(getListAdapter());
 			        }
 			    });
@@ -129,7 +130,7 @@ public class TaskListFragment extends ListFragment implements
 		    setListAdapter(new TaskArrayAdapter(getActivity()
 			    .getApplicationContext(),
 			    R.layout.fragment_task_list, completedTasks,
-			    TaskListFragment.this));
+			    TaskListFragment.this, false));
 		    adapterStack.push(getListAdapter());
 		    item.setTitle("Show unfinished tasks");
 		    isShowingUnfinished = false;
@@ -146,23 +147,23 @@ public class TaskListFragment extends ListFragment implements
 	return false;
     }
 
-    @Override
-    public boolean onBackPressed() {
-	Log.v("TaskListFragment", "Make this pop the adapter stack!!!!!!");
-	adapterStack.pop();
-	if (adapterStack.empty())
-	    if (isSortedByCategories) {
-		setListAdapter(adapter);
-		adapterStack.push(adapter);
-		isSortedByCategories = false;
-		item.setTitle("Sort by Category");
-		return true;
-	    } else
-		return false;
-	else {
-	    setListAdapter(adapterStack.peek());
-	    return true;
+	@Override
+	public boolean onBackPressed() {
+		Log.v("TaskListFragment", "Make this pop the adapter stack!!!!!!");
+		adapterStack.pop();
+		if (adapterStack.empty())
+			if (isSortedByCategories) {
+				setListAdapter(adapter);
+				adapterStack.push(adapter);
+				isSortedByCategories = false;
+				item.setTitle("Sort by Category");
+				return true;
+			} else
+				return false;
+		else {
+			setListAdapter(adapterStack.peek());
+			return true;
+		}
 	}
-    }
 
 }
