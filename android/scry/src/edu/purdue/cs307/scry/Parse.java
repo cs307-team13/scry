@@ -7,7 +7,7 @@ public String parse(String s) {
 		String[] tokens = s.split("[ ]+");
 		String ret = "";
 		for(int i = 0; i < tokens.length; i++){
-			String current = tokens[i];
+			String current = tokens[i].toLowerCase();
 			Verbs currentVerb;
 			
 			if(current.contains("ing") && current.length() > 4){
