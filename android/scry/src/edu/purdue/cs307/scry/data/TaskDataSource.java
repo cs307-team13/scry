@@ -240,7 +240,7 @@ public class TaskDataSource {
 	task.ownerId = cursor
 	        .getString(cursor
 	                .getColumnIndexOrThrow(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID));
-	task.rating = cursor.getInt(cursor
+	task.rating = cursor.getFloat(cursor
 					.getColumnIndexOrThrow(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_RATING));
 
 	task.setKey( cursor
