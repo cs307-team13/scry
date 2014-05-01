@@ -3,7 +3,6 @@ package edu.purdue.cs307.scry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import edu.purdue.cs307.scry.RottenTomatoes.RottenTomatoe;
 import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
 import edu.purdue.cs307.scry.model.Task;
