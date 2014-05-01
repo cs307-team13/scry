@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class TaskStoreDbHelper extends SQLiteOpenHelper {
 
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 5;
+    public static final int DATABASE_VERSION = 6;
     public static final String DATABASE_NAME = "TaskStore.db";
 
     public TaskStoreDbHelper(Context context) {
