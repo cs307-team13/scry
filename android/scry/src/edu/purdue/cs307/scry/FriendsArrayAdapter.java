@@ -2,9 +2,11 @@ package edu.purdue.cs307.scry;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +46,7 @@ public class FriendsArrayAdapter extends ArrayAdapter<String> {
 	}
 
 	public FriendsArrayAdapter(Context context, int resource, String[] objects,
-			ListFragment f) {
+			ListFragment f){ //, HttpClientSetup client) {
 		super(context, resource, objects);
 		this.context = context;
 		this.f = f;
@@ -68,11 +70,14 @@ public class FriendsArrayAdapter extends ArrayAdapter<String> {
 
 			@Override
 			public void onClick(View v) {
+				HttpClientSetup client = new HttpClientSetup();
 				TaskArrayAdapter adapter = new TaskArrayAdapter(f.getActivity().getApplicationContext(),
 						R.layout.fragment_task_list, new ArrayList<Task>(), (ListFragment) f, true);
 				((FriendsListFragment) f).addAdapter(adapter);
 				TaskDataSource datasource = ((TaskDatasourceActivity) f.getActivity()).getDataSource();
-				adapter.addAll(datasource.getTaskForUser(null));
+				Log.d("FriendsArrayAdapter", "Getting for email: " + email);
+				List<Task> t = client.getUserIDandTasks(email, adapter);
+				//adapter.addAll(client.getTaskListFromServer());//datasource.getTaskForUser(null));
 			}
     	});
     	textView.setText(email);

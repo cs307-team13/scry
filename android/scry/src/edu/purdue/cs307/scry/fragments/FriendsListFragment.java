@@ -40,7 +40,7 @@ public class FriendsListFragment extends ListFragment implements
 		objects = datasource.temp_friends;
 		//ArrayAdapter<String> a = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, objects);
 	    adapter = new FriendsArrayAdapter(getActivity().getApplicationContext(),
-		        R.layout.fragment_friends_list, objects, this);
+		        R.layout.fragment_friends_list, objects, this); //, client);
 	    setListAdapter(adapter);
 	    adapterStack.push(adapter);
 	}
