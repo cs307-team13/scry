@@ -149,6 +149,12 @@ public class Task implements Parcelable, ClusterItem {
     public String getKey() {
 	return this.key;
     }
+    public double getLat() {
+    return this.lat_location;
+    }
+    public double getLong() {
+    return this.long_location;
+    }
 
     /* Use getDetails() for more information on a task */
     public String getDetails() {

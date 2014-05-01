@@ -1,8 +1,10 @@
 package edu.purdue.cs307.scry;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import edu.purdue.cs307.scry.RottenTomatoes.RottenTomatoe;
 import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
 import edu.purdue.cs307.scry.model.Task;
@@ -13,7 +15,6 @@ import android.content.DialogInterface;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.app.Activity;
-
 import android.support.v4.app.ListFragment;
 import android.content.Context;
 import android.util.Log;
@@ -28,9 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-
 import android.widget.LinearLayout;
-
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -96,7 +95,16 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 		} else {
 			completed.setChecked(false);
 		}
-
+		
+		//Set the date
+		TextView task_lat = (TextView) taskView.findViewById(R.id.toolbar_lat);
+		TextView task_long = (TextView) taskView.findViewById(R.id.toolbar_long);
+		TextView task_date = (TextView) taskView.findViewById(R.id.toolbar_date);
+		DecimalFormat df = new DecimalFormat("#.##");
+		task_date.setText(t.getEntryDate());
+		task_lat.setText("Lat " + df.format(t.getLat()) + " ");
+		task_long.setText("Long " + df.format(t.getLong()));
+		
 		completed.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
