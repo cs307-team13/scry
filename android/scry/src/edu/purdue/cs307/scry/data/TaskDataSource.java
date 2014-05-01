@@ -42,7 +42,7 @@ public class TaskDataSource {
     public long addFriend(String email)
     {
 	ContentValues values = new ContentValues();
-    	values.put(TaskStoreContract.FriendEntry.COLUMN_NAME_ENTRY_NAME, email);
+    	values.put(TaskStoreContract.FriendEntry.COLUMN_NAME_ENTRY_EMAIL, email);
     	
     	return frienddatabase.insert(TaskStoreContract.FriendEntry.TABLE_NAME, null,
     	        values);
@@ -50,7 +50,7 @@ public class TaskDataSource {
     
     public List<String> getFriends() {
 	open();
-	Cursor cursor = taskdatabase.query(TaskStoreContract.FriendEntry.TABLE_NAME,
+	Cursor cursor = frienddatabase.query(TaskStoreContract.FriendEntry.TABLE_NAME,
 		TaskStoreContract.FriendEntry.allColumns, null, null, null, null, null);
 
 	List<String> friends = getAllFriendsFromCursor(cursor);
@@ -73,7 +73,7 @@ public class TaskDataSource {
     private String cursorToFriend(Cursor cursor) {
 	return cursor
 	        .getString(cursor
-	                .getColumnIndexOrThrow(TaskStoreContract.FriendEntry.COLUMN_NAME_ENTRY_NAME));
+	                .getColumnIndexOrThrow(TaskStoreContract.FriendEntry.COLUMN_NAME_ENTRY_EMAIL));
     }
 
     public long commitTask(Task t) {
