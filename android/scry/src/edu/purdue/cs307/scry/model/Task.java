@@ -23,6 +23,7 @@ public class Task implements Parcelable, ClusterItem {
     private long _id;
     private Date date;
     private String key;
+    public int rating;
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
 
@@ -124,6 +125,10 @@ public class Task implements Parcelable, ClusterItem {
 
     public void setComplete(boolean b) {
 	this.complete = b;
+    }
+    
+    public int getRating(){
+    	return rating;
     }
 
     public String getOwner() {

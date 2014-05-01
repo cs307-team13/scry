@@ -116,6 +116,8 @@ public class TaskDataSource {
     	        t.getOwner());
     	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_UUID,
     	        t.getKey());
+    	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_RATING,
+    			t.getRating());
 
     	long id = taskdatabase.insert(TaskStoreContract.TaskEntry.TABLE_NAME, null,
     	        values);

@@ -51,6 +51,7 @@ public final class TaskStoreContract {
         public static final String COLUMN_NAME_ENTRY_CATEGORY = "category";
         public static final String COLUMN_NAME_ENTRY_UUID = "uuid";
         public static final String COLUMN_NAME_ENTRY_COMPLETED = "completed";
+        public static final String COLUMN_NAME_ENTRY_RATING = "rating";
 
     	public static final String SQL_CREATE_ENTRIES =
     	    "CREATE TABLE " + TaskStoreContract.TaskEntry.TABLE_NAME + " (" +
@@ -65,7 +66,8 @@ public final class TaskStoreContract {
     	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID + TEXT_TYPE + COMMA_SEP +
     	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY + TEXT_TYPE + COMMA_SEP + 
     	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_UUID + TEXT_TYPE + COMMA_SEP + 
-    	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED + INTEGER_TYPE + 
+    	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED + INTEGER_TYPE +
+    	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_RATING + INTEGER_TYPE +
     	    " )";
     	
     	public static final String SQL_DELETE_ENTRIES =
@@ -81,7 +83,8 @@ public final class TaskStoreContract {
 	TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID,
 	TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY,
 	TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_UUID, 
-	TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED };
+	TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED, 
+	TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_RATING};
     		
     		
     }
