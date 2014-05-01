@@ -44,7 +44,7 @@ public class TaskDataSource {
     {
 	ContentValues values = new ContentValues();
     	values.put(TaskStoreContract.FriendEntry.COLUMN_NAME_ENTRY_EMAIL, email);
-    	
+    	HttpClientSetup client = new HttpClientSetup();
     	return frienddatabase.insert(TaskStoreContract.FriendEntry.TABLE_NAME, null,
     	        values);
     }
