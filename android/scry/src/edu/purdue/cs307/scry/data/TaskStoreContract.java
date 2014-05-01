@@ -8,6 +8,7 @@ public final class TaskStoreContract {
     private static final String REAL_TYPE = " REAL";
     private static final String INTEGER_TYPE = " INTEGER";
     private static final String COMMA_SEP = ",";
+    private static final String FLOAT_TYPE = " FLOAT";
 	
     // To prevent someone from accidentally instantiating the contract class,
     // give it an empty constructor.
@@ -67,7 +68,7 @@ public final class TaskStoreContract {
     	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY + TEXT_TYPE + COMMA_SEP + 
     	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_UUID + TEXT_TYPE + COMMA_SEP + 
     	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED + INTEGER_TYPE + COMMA_SEP +
-    	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_RATING + INTEGER_TYPE +
+    	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_RATING + FLOAT_TYPE +
     	    " )";
     	
     	public static final String SQL_DELETE_ENTRIES =

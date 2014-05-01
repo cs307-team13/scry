@@ -263,7 +263,7 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 										public void onClick(DialogInterface dialog,
 												int id) {
 												RatingBar rate = (RatingBar) myView.findViewById(R.id.rating);
-												int rating2 = (int) rate.getRating();
+												float rating2 = rate.getRating();
 												t.rating = rating2;
 										}
 									})
@@ -284,7 +284,7 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 						public void run() {
 							if (t.isComplete()) {
 								Log.v("Checked", "run()");
-								if (t.isComplete()) {
+								//if (t.isComplete()) {
 									((TaskDatasourceActivity) f.getActivity())
 											.getDataSource().deleteTask(t);
 									((TaskDatasourceActivity) f.getActivity())
@@ -292,7 +292,26 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 									TaskArrayAdapter.this.remove(t);
 									TaskArrayAdapter.this
 											.notifyDataSetChanged();
-								}
+								//}
+							}
+						}
+					}, 1000);
+				} else {
+					Handler handler = new Handler();
+					handler.postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							if (!t.isComplete()) {
+								Log.v("Checked", "run()");
+								//if (t.isComplete()) {
+									((TaskDatasourceActivity) f.getActivity())
+											.getDataSource().deleteTask(t);
+									((TaskDatasourceActivity) f.getActivity())
+											.getDataSource().commitTask(t);
+									TaskArrayAdapter.this.remove(t);
+									TabsPageAdapter tabs = ((MainActivity) f.getActivity()).getTabsPageAdapter();
+									((TaskListFragment) tabs.getItem(0)).refreshData();
+								//}
 							}
 						}
 					}, 1000);
