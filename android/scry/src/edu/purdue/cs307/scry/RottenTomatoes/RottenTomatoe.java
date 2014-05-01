@@ -18,10 +18,11 @@ public class RottenTomatoe {
 	public final String rtAPI = "http://api.rottentomatoes.com/api/public/v1.0/movie_alias.json?apikey=xfggz76arpb4n8ukptd5x42f&type=imdb&id=";
 	public final String imdbAPI = "http://www.omdbapi.com/?t=";
 	public int rating = -1;
+	public boolean valid;
 	public boolean pending = false;
 	AsyncHttpResponseHandler handler;
 	
-	public RottenTomatoe(Task t, final TaskArrayAdapter adapter){
+	public RottenTomatoe(String name, final TaskArrayAdapter adapter){
 		handler = new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] responseBody){
@@ -37,6 +38,9 @@ public class RottenTomatoe {
 					e.printStackTrace();
 				}
 				System.out.println("IMDBID original: "  + imdbID);
+				if(imdbID == null){
+					return;
+				}
 				imdbID = imdbID.substring(2);
 				System.out.println("IMDBID substring: "  + imdbID);
 				AsyncHttpClient client2 = new AsyncHttpClient();
@@ -57,13 +61,14 @@ public class RottenTomatoe {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						valid = true;
 						pending = false;
 						adapter.notifyDataSetChanged();
 					}
 					
 					@Override
 					public void onFailure(int statusCode, org.apache.http.Header[] headers, byte[] responseBody, Throwable error){
-						rating = -1;
+						valid = false;
 						pending = false;
 						Log.wtf("Rotten Tomatoe", "HTTP Client Failure");
 					}
@@ -73,7 +78,7 @@ public class RottenTomatoe {
 			
 			@Override
 			public void onFailure(int statusCode, org.apache.http.Header[] headers, byte[] responseBody, Throwable error){
-				rating = -1;
+				valid = false;
 				pending = false;
 				Log.wtf("Rotten Tomatoe", "HTTP Client Failure");
 			}
@@ -82,7 +87,7 @@ public class RottenTomatoe {
 		};
 		pending = true;
 		AsyncHttpClient client = new AsyncHttpClient();
-		client.get(imdbAPI + t.toString(), handler);
+		client.get(imdbAPI + name, handler);
 		
 	}
 	
@@ -95,22 +100,10 @@ public class RottenTomatoe {
 	}
 	
 	public boolean isValid(){
-		while(pending){
-			//While the call is pending, wait to perform the check
-		}
-		if((rating >= 0 && rating <= 100) && (type.equals("Rotten") || type.equals("Fresh") || type.equals("Certified Fresh"))){
-			return true;
-		} else {
-			return false;
-		}
+		return valid;
 	}
 	
 	public boolean getPending(){
 		return pending;
-	}
-	
-	public void getData(){
-		
-		
 	}
 }

@@ -25,8 +25,8 @@
         android:layout_alignParentLeft="true"
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
-        android:paddingTop="10dp"
-        android:text="Title Text"
+        android:paddingTop="0dp"
+        android:text="Task"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/black" 
         android:clickable="true"/>
@@ -45,33 +45,32 @@
         android:id="@+id/rt_describe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/task_category"
         android:layout_alignTop="@+id/task_name"
-        android:paddingTop="10dp"
-        android:layout_alignBottom="@+id/task_name"
         android:layout_marginRight="18dp"
         android:layout_toLeftOf="@+id/task_completed"
-        android:text="Rotten Tomatoe's Score"
+        android:paddingTop="20dp"
+        android:text="Rotten Tomatoe&apos;s Score"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="7sp" 
-        android:visibility="gone"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black"
+        android:textSize="7sp" />
 
     <ImageView
         android:id="@+id/rt_certified_fresh"
         android:layout_width="15sp"
         android:layout_height="15sp"
         android:layout_alignParentLeft="true"
-        android:layout_above="@+id/task_category"
         android:layout_marginLeft="190dp"
-        android:src="@drawable/rt_certified_fresh" 
-        android:visibility="gone"/>
+        android:layout_alignBottom="@+id/task_category"
+        android:src="@drawable/rt_certified_fresh"
+        android:visibility="gone" />
     
     <ImageView
         android:id="@+id/rt_fresh"
         android:layout_width="15sp"
         android:layout_height="15sp"
         android:layout_alignParentLeft="true"
-        android:layout_above="@+id/task_category"
+        android:layout_alignBottom="@+id/task_category"
         android:layout_marginLeft="190dp"
         android:src="@drawable/rt_fresh" 
         android:visibility="gone"/>
@@ -81,7 +80,7 @@
         android:layout_width="15sp"
         android:layout_height="15sp"
         android:layout_alignParentLeft="true"
-        android:layout_above="@+id/task_category"
+        android:layout_alignBottom="@+id/task_category"
         android:layout_marginLeft="190dp"
         android:src="@drawable/rt_rotten" 
         android:visibility="gone"/>
@@ -91,18 +90,18 @@
         android:layout_width="15sp"
         android:layout_height="15sp"
         android:layout_alignParentLeft="true"
-        android:layout_above="@+id/task_category"
+        android:layout_alignBottom="@+id/task_category"
         android:layout_marginLeft="190dp"
         android:src="@drawable/ic_action_error" 
+        android:background="@android:color/black"
         android:visibility="gone"/>
 
     <TextView
         android:id="@+id/rt_rating"
         android:layout_width="35sp"
         android:layout_height="20sp"
-        android:layout_alignTop="@+id/imageView1"
+        android:layout_alignBottom="@+id/task_category"
         android:text="99%"
-        android:layout_above="@+id/task_category"
         android:layout_marginLeft="210dp"
         android:textAppearance="?android:attr/textAppearanceMedium" 
         android:visibility="gone"
