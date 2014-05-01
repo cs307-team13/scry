@@ -108,9 +108,9 @@ public class ServerServlet extends HttpServlet {
 		int start = id.indexOf("\"");
 		id = id.substring(start);
 		id = id.replaceAll("[\")]", "");
-		log.info("Sending user id: " + id);
-		resp.setHeader("User id", "User ID: " + id);
-		resp.setContentLength(1024);
+		log.info("Sending user id: " + id.toString());
+		resp.setHeader("User-id", "User ID: " + id);
+		resp.setContentLength(id.length()+1000);
 		resp.setContentType("text/plain");
 		try {
 			resp.getOutputStream().close();

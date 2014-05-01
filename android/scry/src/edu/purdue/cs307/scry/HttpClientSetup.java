@@ -99,7 +99,7 @@ public class HttpClientSetup {
 		client.post(URL, params, handler);
 	}
 	
-	public void getUserID(String email){
+	public void getUserIDandTasks(String email){
 		AsyncHttpClient client = new AsyncHttpClient();
 		RequestParams params = new RequestParams();
 		params.put("Method", "getUserId");
@@ -110,16 +110,16 @@ public class HttpClientSetup {
 			public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] response){
 				System.out.println("In onSuccess");
 				for(Header h : headers){
-					System.out.println("In first for loop");
+					System.out.println("Header name: " + h.getName() + " Value: " + h.getValue());
 					for(HeaderElement he : h.getElements()){
 						if(he.getName().startsWith("User ID: ")){
-							int beg = he.getName().indexOf(' ')+1;
+							int beg = he.getName().indexOf(' ')+5;
 							id = he.getName().substring(beg);
 							System.out.println("Retrieved user id: " + id);
 						}
 					}
 				}
-				//handler.hasID();
+				getTaskByUser(id);
 			}
 			
 			@Override
@@ -131,6 +131,7 @@ public class HttpClientSetup {
 	}
 	
 	public void getTaskByUser(String id){
+		Log.d("HttpClientSetup", "Getting tasks for user " + id);
 		AsyncHttpClient client = new AsyncHttpClient();
 		RequestParams params = new RequestParams();
 		params.put("Method", "getTaskByUser");
@@ -139,7 +140,7 @@ public class HttpClientSetup {
 			@Override
 			public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] response){
 				for(Header h : headers){
-					//System.out.println("Header name: " + h.getName() + " Value: " + h.getValue());
+					System.out.println("Header name: " + h.getName() + " Value: " + h.getValue());
 					for(HeaderElement he : h.getElements()){
 						//System.out.println("Header Value: " + he.getValue() + " Header Name: " + he.getName());
 						if(he.getName().startsWith("Message: ")){
