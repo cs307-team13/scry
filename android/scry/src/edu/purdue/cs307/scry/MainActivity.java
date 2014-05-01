@@ -1,10 +1,14 @@
 package edu.purdue.cs307.scry;
 
+
+import android.support.v4.app.FragmentPagerAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
@@ -22,12 +26,14 @@ import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 import android.widget.Toast;
 import edu.purdue.cs307.scry.data.TaskDataSource;
@@ -39,51 +45,45 @@ import edu.purdue.cs307.scry.model.Task;
 import edu.purdue.cs307.scry.model.User;
 
 public class MainActivity extends FragmentActivity implements
-        TaskDatasourceActivity, ActionBar.TabListener {
+        TaskDatasourceActivity, ActionBar.TabListener, CreateNdefMessageCallback {
 
     private static final int EDIT_TASK = 123;
     private TaskDataSource datasource;
     public static ViewPager viewPager;
     public static TabsPageAdapter mAdapter;
-//    NfcAdapter mNfcAdapter;
+      NfcAdapter mNfcAdapter;
     public static FragmentManager fragmentManager;
-
+  
     private ActionBar actionBar;
-
+  
     // private static ArrayList<TabInfo> tabs = new ArrayList<TabInfo>();
     private String tab[] = new String[] { "Tasks", "Friends", "Map" };
-
+  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.activity_main);
-	fragmentManager = getSupportFragmentManager();
-//	mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-
-//	if (mNfcAdapter == null) {
-//	    Toast.makeText(this, "NFC is not available", Toast.LENGTH_LONG)
-//		    .show();
-//	    finish();
-//	    return;
-//	}
+  	super.onCreate(savedInstanceState);
+  	setContentView(R.layout.activity_main);
+  	fragmentManager = getSupportFragmentManager();
+  	mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+  
+  	if (mNfcAdapter == null) {
+  	    Toast.makeText(this, "NFC is not available", Toast.LENGTH_LONG)
+  		    .show();
+  	    finish();
+  	    return;
+  	}
 
 	datasource = new TaskDataSource(this.getApplicationContext());
 	datasource.open();
 
+	
 	String userID = getSharedPreferences("pref_profile", 0).getString(
-	        "userID", null);
-	String userEmail = getSharedPreferences("pref_profile", 0).getString(
-	        "email", null);
-	String userName = getSharedPreferences("pref_profile", 0).getString(
-	        "name", null);
-
-	User currentUser = new User(userID, userName, userEmail);
-
-	Log.wtf("NEW USER", currentUser.toString());
-
-	HttpClientSetup client = new HttpClientSetup();
-	client.addUser(currentUser);
-	System.out.println("User added to server");
+		    "userID", null);
+	if (userID == null) {
+	    Intent signinIntent = new Intent(MainActivity.this,
+		    SigninActivity.class);
+	    startActivityForResult(signinIntent, 0 /* Signin */);
+	}
 
 	// Initialization of tab management
 	viewPager = (ViewPager) findViewById(R.id.pager);
@@ -106,6 +106,12 @@ public class MainActivity extends FragmentActivity implements
 		// on changing the page
 		// make respected tab selected
 		actionBar.setSelectedNavigationItem(position);
+		Fragment f = ((FragmentPagerAdapter)viewPager.getAdapter()).getItem(position);
+		if(f instanceof ListFragment)
+		{
+		    ArrayAdapter a = ((ArrayAdapter)((ListFragment)f).getListView().getAdapter());
+		    a.notifyDataSetChanged();
+		}
 	    }
 
 	    @Override
@@ -125,8 +131,33 @@ public class MainActivity extends FragmentActivity implements
 	handleIntent(intent);
     }
 
-    private void handleIntent(Intent intent) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	if(resultCode == Activity.RESULT_OK)
+	{
+	    String userID = getSharedPreferences("pref_profile", 0).getString(
+		    "userID", null);
+	    String userEmail = getSharedPreferences("pref_profile", 0)
+		    .getString("email", null);
+	    String userName = getSharedPreferences("pref_profile", 0)
+		    .getString("name", null);
 
+	    User currentUser = new User(userID, userName, userEmail);
+
+	    Log.wtf("NEW USER", currentUser.toString());
+
+	    HttpClientSetup client = new HttpClientSetup();
+	    client.addUser(currentUser);
+	    System.out.println("User added to server");
+	}
+	else 
+	{
+	    Log.wtf("Signin", "Signin Failed");
+	}
+    }
+    
+    private void handleIntent(Intent intent) {
+	
 	if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 	    String query = intent.getStringExtra(SearchManager.QUERY);
 	    Intent mapIntent = new Intent(MainActivity.this,
@@ -267,9 +298,9 @@ public class MainActivity extends FragmentActivity implements
 	super.onResume();
 	if (getIntent().getAction() != null)
 	    Log.v("Main", getIntent().getAction());
-//	if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
-//	    processIntent(getIntent());
-//	}
+	if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
+	    processIntent(getIntent());
+	}
     }
 
     @Override
@@ -324,42 +355,42 @@ public class MainActivity extends FragmentActivity implements
     public void onTabUnselected(Tab tab, FragmentTransaction ft) {
     }
 
-    /*
-     * @Override
-     * public NdefMessage createNdefMessage(NfcEvent event) {
-     * 
-     * String text;
-     * Task t = (Task) getIntent().getExtras().getParcelable("Task");
-     * Log.wtf("NDEF MADE",t.toString());
-     * text = t.getOwner() + ", " + t.toString() + ", " + t.getCategory() + ", " +
-     * t.getLocation();
-     * NdefMessage msg = new NdefMessage(
-     * new NdefRecord[]{
-     * NdefRecord.createMime("application/edu.purdue.cs307.scry.MainActivity"
-     * ,text.getBytes()),NdefRecord.createApplicationRecord("edu.purdue.cs307.scry")
-     * });
-     * 
-     * return msg;
-     * }
-     */
+    
+    @Override
+    public NdefMessage createNdefMessage(NfcEvent event) {
+    
+    String text;
+    Task t = (Task) getIntent().getExtras().getParcelable("Task");
+    Log.wtf("NDEF MADE",t.toString());
+    text = t.getOwner() + ", " + t.toString() + ", " + t.getCategory() + ", " +
+    t.getLocation();
+    NdefMessage msg = new NdefMessage(
+    new NdefRecord[]{
+    NdefRecord.createMime("application/edu.purdue.cs307.scry"
+    ,text.getBytes()),NdefRecord.createApplicationRecord("edu.purdue.cs307.scry")
+    });
+    
+    return msg;
+    }
     
     
-//    void processIntent(Intent intent) {
-//	Parcelable[] rawMsgs = intent
-//	        .getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-//	NdefMessage msg = (NdefMessage) rawMsgs[0];
-//	String s = new String(msg.getRecords()[0].getPayload());
-//	Log.wtf("MSG", "Processed");
-//	String[] tokens = s.split("[, ]");
-//
-//	Task t = new Task();
-//	t.title = tokens[1];
-//	t.category = tokens[2];
-//	t.lat_location = Double.parseDouble(tokens[3]);
-//	t.long_location = Double.parseDouble(tokens[4]);
-//	t.ownerId = tokens[0];
-//
-//	datasource.commitTask(t);
-//    }
+  
+    void processIntent(Intent intent) {
+	Parcelable[] rawMsgs = intent
+	        .getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+	NdefMessage msg = (NdefMessage) rawMsgs[0];
+	String s = new String(msg.getRecords()[0].getPayload());
+	Log.wtf("MSG", "Processed");
+	String[] tokens = s.split("[, ]");
+
+	Task t = new Task();
+	t.title = tokens[1];
+	t.category = tokens[2];
+	t.lat_location = Double.parseDouble(tokens[3]);
+	t.long_location = Double.parseDouble(tokens[4]);
+	t.ownerId = tokens[0];
+
+	datasource.commitTask(t);
+    }
 
 }

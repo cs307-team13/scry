@@ -34,7 +34,7 @@ import edu.purdue.cs307.scry.model.Task;
 
 public class SigninActivity extends Activity implements ConnectionCallbacks,
         OnConnectionFailedListener, ResultCallback<People.LoadPeopleResult>,
-        View.OnClickListener, CreateNdefMessageCallback {
+        View.OnClickListener {
 
     private static final String TAG = "android-plus-quickstart";
 
@@ -109,16 +109,16 @@ public class SigninActivity extends Activity implements ConnectionCallbacks,
 
 	});
 	
-	mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-
-	if (mNfcAdapter == null) {
-	    Toast.makeText(this, "NFC is not available", Toast.LENGTH_LONG)
-		    .show();
-	    finish();
-	    return;
-	}
-
-	mNfcAdapter.setNdefPushMessageCallback(this, this);
+//	mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+//
+//	if (mNfcAdapter == null) {
+//	    Toast.makeText(this, "NFC is not available", Toast.LENGTH_LONG)
+//		    .show();
+//	    finish();
+//	    return;
+//	}
+//
+//	mNfcAdapter.setNdefPushMessageCallback(this, this);
     }
 
     private GoogleApiClient buildGoogleApiClient() {
@@ -141,11 +141,11 @@ public class SigninActivity extends Activity implements ConnectionCallbacks,
     protected void onResume()
     {
 	super.onResume();
-	if (getIntent().getAction() != null)
-	    Log.v("Main", getIntent().getAction());
-	if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
-	    processIntent(getIntent());
-	}
+//	if (getIntent().getAction() != null)
+//	    Log.v("Main", getIntent().getAction());
+//	if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
+//	    processIntent(getIntent());
+//	}
     }
 
     @Override
@@ -157,46 +157,46 @@ public class SigninActivity extends Activity implements ConnectionCallbacks,
 	}
     }
     
-    @Override
-    public NdefMessage createNdefMessage(NfcEvent arg0) {
-	String text;
-	Task t = (Task) getIntent().getExtras().getParcelable("Task");
-	text = t.getOwner() + ", " + t.toString() + ", " + t.getCategory()
-	        + ", " + t.getLocation();
-	NdefMessage msg = new NdefMessage(new NdefRecord[] {
-	        NdefRecord.createMime(
-	                "application/edu.purdue.cs307.scry.EditTaskActivity",
-	                text.getBytes()),
-	        NdefRecord.createApplicationRecord("edu.purdue.cs307.scry") });
-	Log.wtf("NDEF MADE", t.toString());
-	return msg;
-    }
-
-    @Override
-    public void onNewIntent(Intent intent) {
-	// onResume gets called after this to handle the intent
-	setIntent(intent);
-    }
-
-    
-    void processIntent(Intent intent) {
-	Parcelable[] rawMsgs = intent
-	        .getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-	NdefMessage msg = (NdefMessage) rawMsgs[0];
-	String s = new String(msg.getRecords()[0].getPayload());
-	Log.wtf("MSG", s);
-	String[] tokens = s.split("[, ]");
-
-	Task t = new Task();
-	t.title = tokens[1];
-	t.category = tokens[2];
-	t.lat_location = Double.parseDouble(tokens[3]);
-	t.long_location = Double.parseDouble(tokens[4]);
-	t.ownerId = tokens[0];
-
-	Log.d("NFC", "I got shit!"); 
-	//datasource.commitTask(t);
-    }
+//    @Override
+//    public NdefMessage createNdefMessage(NfcEvent arg0) {
+//	String text;
+//	Task t = (Task) getIntent().getExtras().getParcelable("Task");
+//	text = t.getOwner() + ", " + t.toString() + ", " + t.getCategory()
+//	        + ", " + t.getLocation();
+//	NdefMessage msg = new NdefMessage(new NdefRecord[] {
+//	        NdefRecord.createMime(
+//	                "application/edu.purdue.cs307.scry.EditTaskActivity",
+//	                text.getBytes()),
+//	        NdefRecord.createApplicationRecord("edu.purdue.cs307.scry") });
+//	Log.wtf("NDEF MADE", t.toString());
+//	return msg;
+//    }
+//
+//    @Override
+//    public void onNewIntent(Intent intent) {
+//	// onResume gets called after this to handle the intent
+//	setIntent(intent);
+//    }
+//
+//    
+//    void processIntent(Intent intent) {
+//	Parcelable[] rawMsgs = intent
+//	        .getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+//	NdefMessage msg = (NdefMessage) rawMsgs[0];
+//	String s = new String(msg.getRecords()[0].getPayload());
+//	Log.wtf("MSG", s);
+//	String[] tokens = s.split("[, ]");
+//
+//	Task t = new Task();
+//	t.title = tokens[1];
+//	t.category = tokens[2];
+//	t.lat_location = Double.parseDouble(tokens[3]);
+//	t.long_location = Double.parseDouble(tokens[4]);
+//	t.ownerId = tokens[0];
+//
+//	Log.d("NFC", "I got shit!"); 
+//	//datasource.commitTask(t);
+//    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
