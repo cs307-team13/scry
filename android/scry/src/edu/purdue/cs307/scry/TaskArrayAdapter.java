@@ -29,7 +29,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.RatingBar;
 
 import android.widget.LinearLayout;
 
@@ -241,6 +243,39 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 			public void onCheckedChanged(CompoundButton buttonView,
 					final boolean isChecked) {
 				Log.v("Checked", "onCheckedChanged()");
+				if(t.isComplete()){
+					//Do nothing
+				} else {
+					AlertDialog.Builder builder = new AlertDialog.Builder(f.getActivity());
+					// Get the layout inflater
+					LayoutInflater inflater = f.getActivity().getLayoutInflater();
+
+					// Inflate and set the layout for the dialog
+					// Pass null as the parent view because its going in the dialog
+					// layout
+					final View myView = inflater.inflate(R.layout.rating, null);
+					builder.setView(myView)
+							.setTitle("Rate Task")
+							// Add action buttons
+							.setPositiveButton("Rate",
+									new DialogInterface.OnClickListener() {
+										@Override
+										public void onClick(DialogInterface dialog,
+												int id) {
+												RatingBar rate = (RatingBar) myView.findViewById(R.id.rating);
+												int rating2 = (int) rate.getRating();
+												t.rating = rating2;
+										}
+									})
+							.setNegativeButton("Cancel",
+									new DialogInterface.OnClickListener() {
+										public void onClick(DialogInterface dialog,
+												int id) {
+												//Do Nothing
+										}
+									});
+					builder.create().show();
+				}
 				t.setComplete(isChecked);
 				if (t.isComplete()) {
 					Handler handler = new Handler();
