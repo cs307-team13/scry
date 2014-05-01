@@ -12,6 +12,7 @@ import android.provider.BaseColumns;
 import android.util.Log;
 import edu.purdue.cs307.scry.HttpClientSetup;
 import edu.purdue.cs307.scry.model.Task;
+import edu.purdue.cs307.scry.model.User;
 
 public class TaskDataSource {
 
@@ -48,20 +49,20 @@ public class TaskDataSource {
     	        values);
     }
     
-    public List<String> getFriends() {
+    public List<User> getFriends() {
 	open();
 	Cursor cursor = frienddatabase.query(TaskStoreContract.FriendEntry.TABLE_NAME,
 		TaskStoreContract.FriendEntry.allColumns, null, null, null, null, null);
 
-	List<String> friends = getAllFriendsFromCursor(cursor);
+	List<User> friends = getAllFriendsFromCursor(cursor);
 	return friends;
     }
     
-    private List<String> getAllFriendsFromCursor(Cursor cursor) {
-	List<String> friends = new ArrayList<String>();
+    private List<User> getAllFriendsFromCursor(Cursor cursor) {
+	List<User> friends = new ArrayList<User>();
 	cursor.moveToFirst();
 	while (!cursor.isAfterLast()) {
-	    String comment = cursorToFriend(cursor);
+	    User comment = cursorToFriend(cursor);
 	    friends.add(comment);
 	    cursor.moveToNext();
 	}
@@ -70,10 +71,23 @@ public class TaskDataSource {
 	return friends;
     }
 
-    private String cursorToFriend(Cursor cursor) {
-	return cursor
+    private User cursorToFriend(Cursor cursor) {
+	
+	
+	String email = cursor
 	        .getString(cursor
 	                .getColumnIndexOrThrow(TaskStoreContract.FriendEntry.COLUMN_NAME_ENTRY_EMAIL));
+	
+	String name = cursor
+	        .getString(cursor
+	                .getColumnIndexOrThrow(TaskStoreContract.FriendEntry.COLUMN_NAME_ENTRY_NAME));
+	
+	String id = cursor
+	        .getString(cursor
+	                .getColumnIndexOrThrow(TaskStoreContract.FriendEntry.COLUMN_NAME_ENTRY_USERID));
+	
+	User friend = new User(id, name, email); 
+	return friend; 
     }
 
     public long commitTask(Task t) {

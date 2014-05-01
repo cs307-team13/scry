@@ -18,19 +18,21 @@ public final class TaskStoreContract {
         public static final String COLUMN_NAME_ENTRY_ID = "_id";
         public static final String COLUMN_NAME_ENTRY_NAME = "name";
         public static final String COLUMN_NAME_ENTRY_EMAIL = "email";
+	public static final String COLUMN_NAME_ENTRY_USERID = "userid";
         
         
         public static final String SQL_CREATE_ENTRIES = 
         	"CREATE TABLE " + TaskStoreContract.FriendEntry.TABLE_NAME + " (" +
         	TaskStoreContract.FriendEntry._ID + " INTEGER PRIMARY KEY," +
         	TaskStoreContract.FriendEntry.COLUMN_NAME_ENTRY_NAME + TEXT_TYPE + COMMA_SEP + 
+        	TaskStoreContract.FriendEntry.COLUMN_NAME_ENTRY_USERID + TEXT_TYPE + COMMA_SEP + 
         	TaskStoreContract.FriendEntry.COLUMN_NAME_ENTRY_EMAIL + TEXT_TYPE +" )";
         
         public static final String SQL_DELETE_ENTRIES =
 		    "DROP TABLE IF EXISTS " + TaskStoreContract.FriendEntry.TABLE_NAME;
         
         public static String[] allColumns = { _ID,  
-            COLUMN_NAME_ENTRY_NAME, COLUMN_NAME_ENTRY_EMAIL }; 
+            COLUMN_NAME_ENTRY_NAME, COLUMN_NAME_ENTRY_EMAIL, COLUMN_NAME_ENTRY_USERID }; 
     }
     
     /* Inner class that defines the table contents */
