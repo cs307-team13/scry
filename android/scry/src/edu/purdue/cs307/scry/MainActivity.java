@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.SearchView;
 import edu.purdue.cs307.scry.data.TaskDataSource;
 import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
@@ -42,7 +43,7 @@ public class MainActivity extends FragmentActivity implements
 	public static FragmentManager fragmentManager;
 
 	private ActionBar actionBar;
-
+	
 	// private static ArrayList<TabInfo> tabs = new ArrayList<TabInfo>();
 	private String tab[] = new String[] { "Tasks", "Friends", "Map" };
 
@@ -217,11 +218,14 @@ public class MainActivity extends FragmentActivity implements
 					// Add action buttons
 					.setPositiveButton("Add",
 							new DialogInterface.OnClickListener() {
+								
 								@Override
 								public void onClick(DialogInterface dialog,
 										int id) {
-									System.out.println("Adding friend now!");
-
+									EditText t = (EditText) findViewById(R.id.email);
+									String email = t.getText().toString();
+									System.out.println("Adding " + email + " now!");
+									
 								}
 							})
 					.setNegativeButton("Cancel",
