@@ -86,17 +86,6 @@ public class SigninActivity extends Activity implements ConnectionCallbacks,
 
 	mGoogleApiClient = buildGoogleApiClient();
 
-	Button bypass = (Button) findViewById(R.id.btn_bypass);
-	bypass.setOnClickListener(new OnClickListener() {
-
-	    @Override
-	    public void onClick(View v) {
-		Intent i = new Intent(SigninActivity.this, MainActivity.class);
-		startActivity(i);
-		finish();
-	    }
-
-	});
     }
 
     private GoogleApiClient buildGoogleApiClient() {

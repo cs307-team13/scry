@@ -20,9 +20,13 @@ import edu.purdue.cs307.scry.model.User;
 
 public class HttpClientSetup {
 	private String URL = "http://1-dot-scryserver.appspot.com/server";
+	
+	public String id;
+	
 	public String tasks;
 	public ArrayList<Task> task_list;
 	
+	TaskArrayAdapter taa;
 	
 	public ArrayList<Task> getTaskListFromServer(){
 		return this.task_list;
@@ -96,7 +100,42 @@ public class HttpClientSetup {
 		client.post(URL, params, handler);
 	}
 	
-	public void getTaskByUser(String id){
+	public List<Task> getUserIDandTasks(String email, TaskArrayAdapter adapter){
+		taa = adapter;
+		AsyncHttpClient client = new AsyncHttpClient();
+		RequestParams params = new RequestParams();
+		params.put("Method", "getUserId");
+		params.put("Email", email); 
+		System.out.println("In getUserID " + email);
+		client.get(URL, params, new AsyncHttpResponseHandler(){
+			@Override
+			public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] response){
+				System.out.println("In onSuccess");
+				for(Header h : headers){
+					System.out.println("Header name: " + h.getName() + " Value: " + h.getValue());
+					for(HeaderElement he : h.getElements()){
+						if(he.getName().startsWith("User ID: ")){
+							int beg = he.getName().indexOf(' ')+5;
+							id = he.getName().substring(beg);
+							System.out.println("Retrieved user id: " + id);
+						}
+					}
+				}
+				getTaskByUserForFriends(id);
+			}
+			
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					byte[] responseBody, Throwable error){
+				System.out.println("Retrieval failed");
+			}
+		});
+		
+		return task_list;
+	}
+	
+	public List<Task> getTaskByUserForFriends(String id){
+		Log.d("HttpClientSetup", "Getting tasks for user " + id);
 		AsyncHttpClient client = new AsyncHttpClient();
 		RequestParams params = new RequestParams();
 		params.put("Method", "getTaskByUser");
@@ -105,7 +144,37 @@ public class HttpClientSetup {
 			@Override
 			public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] response){
 				for(Header h : headers){
-					//System.out.println("Header name: " + h.getName() + " Value: " + h.getValue());
+					System.out.println("Header name: " + h.getName() + " Value: " + h.getValue());
+					for(HeaderElement he : h.getElements()){
+						//System.out.println("Header Value: " + he.getValue() + " Header Name: " + he.getName());
+						if(he.getName().startsWith("Message: ")){
+							int beg = he.getName().indexOf(' ')+1;
+							tasks = he.getName().substring(beg).replaceAll(" &", ",");
+							tasks = tasks.replaceAll("[|]", ",");
+						}
+					}
+				}
+				System.out.println("Tasks from server: " + tasks);
+				task_list = convertToList(tasks);
+				System.out.println("Task_List: " + task_list.toString());
+				taa.addAll(task_list);
+			}
+		});
+		
+		return task_list;
+	}
+	
+	public List<Task> getTaskByUser(String id){
+		Log.d("HttpClientSetup", "Getting tasks for user " + id);
+		AsyncHttpClient client = new AsyncHttpClient();
+		RequestParams params = new RequestParams();
+		params.put("Method", "getTaskByUser");
+		params.put("Owner", id); 
+		client.get(URL, params, new AsyncHttpResponseHandler(){
+			@Override
+			public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] response){
+				for(Header h : headers){
+					System.out.println("Header name: " + h.getName() + " Value: " + h.getValue());
 					for(HeaderElement he : h.getElements()){
 						//System.out.println("Header Value: " + he.getValue() + " Header Name: " + he.getName());
 						if(he.getName().startsWith("Message: ")){
@@ -120,7 +189,7 @@ public class HttpClientSetup {
 				System.out.println("Task_List: " + task_list.toString());
 			}
 		});
-		
+		return task_list;
 	}
 	
 	private ArrayList<Task> convertToList(String s){

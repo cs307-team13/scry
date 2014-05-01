@@ -123,15 +123,15 @@ public class TaskMapFragment extends SupportMapFragment implements
     @Override
     public void onClusterItemInfoWindowClick(Task item) {
 	// TODO Auto-generated method stub
-	Toast.makeText(this.getActivity(), "onClusterItemInfoWindowClick()",
-	        Toast.LENGTH_SHORT).show();
+	//Toast.makeText(this.getActivity(), "onClusterItemInfoWindowClick()",
+	//        Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public boolean onClusterItemClick(Task item) {
 	// TODO Auto-generated method stub
-	Toast.makeText(this.getActivity(), "onClusterItemClick()",
-	        Toast.LENGTH_SHORT).show();
+	//Toast.makeText(this.getActivity(), "onClusterItemClick()",
+	//        Toast.LENGTH_SHORT).show();
 
 	return false;
     }
@@ -139,16 +139,16 @@ public class TaskMapFragment extends SupportMapFragment implements
     @Override
     public void onClusterInfoWindowClick(Cluster<Task> cluster) {
 	// TODO Auto-generated method stub
-	Toast.makeText(this.getActivity(), "onClusterInfoWindowClick()",
-	        Toast.LENGTH_SHORT).show();
+	//Toast.makeText(this.getActivity(), "onClusterInfoWindowClick()",
+	//        Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
     public boolean onClusterClick(Cluster<Task> cluster) {
 	// TODO Auto-generated method stub
-	Toast.makeText(this.getActivity(), "onClusterClick()",
-	        Toast.LENGTH_SHORT).show();
+	//Toast.makeText(this.getActivity(), "onClusterClick()",
+	//        Toast.LENGTH_SHORT).show();
 
 	return false;
     }

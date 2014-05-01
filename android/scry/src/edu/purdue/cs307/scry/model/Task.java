@@ -23,6 +23,7 @@ public class Task implements Parcelable, ClusterItem {
     private long _id;
     private Date date;
     private String key;
+    public float rating;
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
 
@@ -71,6 +72,7 @@ public class Task implements Parcelable, ClusterItem {
 	out.writeLong(_id);
 	out.writeLong(date.getTime());
 	out.writeString(key);
+	out.writeDouble(rating);
     }
 
     private Task(Parcel in) {
@@ -85,6 +87,7 @@ public class Task implements Parcelable, ClusterItem {
 	_id = in.readInt();
 	date = new Date(in.readLong());
 	key = in.readString();
+	rating = in.readInt();
     }
 
     @Override
@@ -124,6 +127,10 @@ public class Task implements Parcelable, ClusterItem {
 
     public void setComplete(boolean b) {
 	this.complete = b;
+    }
+    
+    public float getRating(){
+    	return rating;
     }
 
     public String getOwner() {

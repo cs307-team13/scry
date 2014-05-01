@@ -12,87 +12,107 @@ import android.provider.BaseColumns;
 import android.util.Log;
 import edu.purdue.cs307.scry.HttpClientSetup;
 import edu.purdue.cs307.scry.model.Task;
+import edu.purdue.cs307.scry.model.User;
 
 public class TaskDataSource {
 
-	public String temp_friends[] = {"mhoward20158@gmail.com", "titanfan94@gmail.com"};
-	
-    private SQLiteDatabase database;
-    private TaskStoreDbHelper dbHelper;
-    private String[] allColumns = { TaskStoreContract.TaskEntry._ID,
-	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_TITLE,
-	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_LOC_LAT,
-	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_LOC_LONG,
-	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_DATE_CREATED,
-	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_DATE_MODIFIED,
-	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_EXPIRE_DATE,
-	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID,
-	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY,
-	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_UUID, 
-	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED };
+    @Deprecated
+    public String temp_friends[] = {"mhoward20158@gmail.com", "titanfan94@gmail.com"};
 
+    private SQLiteDatabase taskdatabase;
+    private SQLiteDatabase frienddatabase;
+    
+    private TaskStoreDbHelper taskdbHelper;
+    private FriendStoreDbHelper frienddbHelper;
+    
     public TaskDataSource(Context context) {
-	dbHelper = new TaskStoreDbHelper(context);
+	taskdbHelper = new TaskStoreDbHelper(context);
+	frienddbHelper = new FriendStoreDbHelper(context);
     }
 
     public void open() throws SQLException {
-	database = dbHelper.getWritableDatabase();
+	taskdatabase = taskdbHelper.getWritableDatabase();
+	frienddatabase = frienddbHelper.getWritableDatabase();
     }
 
     public void close() {
-	dbHelper.close();
+	taskdbHelper.close();
+	frienddbHelper.close();
+    }
+    
+    public long addFriend(String email)
+    {
+	ContentValues values = new ContentValues();
+    	values.put(TaskStoreContract.FriendEntry.COLUMN_NAME_ENTRY_EMAIL, email);
+    	HttpClientSetup client = new HttpClientSetup();
+    	return frienddatabase.insert(TaskStoreContract.FriendEntry.TABLE_NAME, null,
+    	        values);
+    }
+    
+    public void purgeFriends(){
+    	frienddatabase.delete(TaskStoreContract.FriendEntry.TABLE_NAME, null, null);
+    }
+    
+    public List<String> getFriendsEmails(){
+    	List<String> emails = new ArrayList<String>();
+    	Cursor cursor = frienddatabase.rawQuery("SELECT DISTINCT " + TaskStoreContract.FriendEntry.COLUMN_NAME_ENTRY_EMAIL + " FROM "
+    			 + TaskStoreContract.FriendEntry.TABLE_NAME, null);
+    	cursor.moveToFirst();
+    	while(!cursor.isAfterLast()){
+    		String name = cursor.getString(cursor.getColumnIndex(TaskStoreContract.FriendEntry.COLUMN_NAME_ENTRY_EMAIL));
+    		if(name != null)
+    			emails.add(name);
+    		cursor.moveToNext();
+    	}
+    	return emails;
+    }
+    
+    public List<User> getFriends() {
+	open();
+	Cursor cursor = frienddatabase.query(TaskStoreContract.FriendEntry.TABLE_NAME,
+		TaskStoreContract.FriendEntry.allColumns, null, null, null, null, null);
+
+	List<User> friends = getAllFriendsFromCursor(cursor);
+	return friends;
+    }
+    
+    private List<User> getAllFriendsFromCursor(Cursor cursor) {
+	List<User> friends = new ArrayList<User>();
+	cursor.moveToFirst();
+	while (!cursor.isAfterLast()) {
+	    User comment = cursorToFriend(cursor);
+	    friends.add(comment);
+	    cursor.moveToNext();
+	}
+	// make sure to close the cursor
+	cursor.close();
+	return friends;
     }
 
-    @Deprecated
-    public Task createComment(String name, String category) {
-	ContentValues values = new ContentValues();
-	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_TITLE, name);
-	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY,
-	        category);
+    private User cursorToFriend(Cursor cursor) {
 
-	long insertId = database.insert(TaskStoreContract.TaskEntry.TABLE_NAME,
-	        null, values);
 
-	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
-	        allColumns, BaseColumns._ID + " = " + insertId,
-	        null, null, null, null);
-	cursor.moveToFirst();
-	Task newTask = cursorToTask(cursor);
-	newTask.setId(insertId);
+	String email = cursor
+	        .getString(cursor
+	                .getColumnIndexOrThrow(TaskStoreContract.FriendEntry.COLUMN_NAME_ENTRY_EMAIL));
 
-	HttpClientSetup client = new HttpClientSetup();
-	client.addTask(newTask);
-	cursor.close();
-	return newTask;
+	String name = cursor
+	        .getString(cursor
+	                .getColumnIndexOrThrow(TaskStoreContract.FriendEntry.COLUMN_NAME_ENTRY_NAME));
+
+	String id = cursor
+	        .getString(cursor
+	                .getColumnIndexOrThrow(TaskStoreContract.FriendEntry.COLUMN_NAME_ENTRY_USERID));
+
+	User friend = new User(id, name, email); 
+	return friend; 
     }
 
     public long commitTask(Task t) {
-	ContentValues values = new ContentValues();
-	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_TITLE, t.title);
-	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY,
-	        t.category);
-	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_LOC_LAT,
-	        t.lat_location);
-	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_LOC_LONG,
-	        t.long_location);
-	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID,
-	        t.ownerId);
-	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_DATE_CREATED,
-	        t.getEntryDate());
-	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED,
-	        (t.isComplete()) ? 1 : 0);
-	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID,
-	        t.getOwner());
-	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_UUID,
-	        t.getKey());
-
 	HttpClientSetup client = new HttpClientSetup();
 	client.addTask(t);
 
-	long id = database.insert(TaskStoreContract.TaskEntry.TABLE_NAME, null,
-	        values);
-	t.setId(id);
-	return id;
+	return commitTaskWithoutPush(t);
     }
     
     public long commitTaskWithoutPush(Task t) {
@@ -114,8 +134,10 @@ public class TaskDataSource {
     	        t.getOwner());
     	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_UUID,
     	        t.getKey());
+    	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_RATING,
+    			t.getRating());
 
-    	long id = database.insert(TaskStoreContract.TaskEntry.TABLE_NAME, null,
+    	long id = taskdatabase.insert(TaskStoreContract.TaskEntry.TABLE_NAME, null,
     	        values);
     	t.setId(id);
     	return id;
@@ -123,8 +145,8 @@ public class TaskDataSource {
 
     public List<Task> getAllTasks() {
 	open();
-	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
-	        allColumns, null, null, null, null, null);
+	Cursor cursor = taskdatabase.query(TaskStoreContract.TaskEntry.TABLE_NAME,
+		TaskStoreContract.TaskEntry.allColumns, null, null, null, null, null);
 
 	List<Task> comments = getAllTasksFromCursor(cursor);
 	return comments;
@@ -132,8 +154,8 @@ public class TaskDataSource {
 
     public List<Task> getAllUnfinishedTasks() {
 	open();
-	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
-	        allColumns,
+	Cursor cursor = taskdatabase.query(TaskStoreContract.TaskEntry.TABLE_NAME,
+		TaskStoreContract.TaskEntry.allColumns,
 	        TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED + "=?",
 	        new String[] { "0" }, null, null, null);
 
@@ -143,8 +165,8 @@ public class TaskDataSource {
 
     public List<Task> getAllCompletedTasks() {
 	open();
-	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
-	        allColumns,
+	Cursor cursor = taskdatabase.query(TaskStoreContract.TaskEntry.TABLE_NAME,
+		TaskStoreContract.TaskEntry.allColumns,
 	        TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED + "=?",
 	        new String[] { "1" }, null, null, null);
 
@@ -165,19 +187,9 @@ public class TaskDataSource {
 	return comments;
     }
 
-    @Deprecated
-    public Cursor getAllTasksAsCursor() {
-
-	Cursor cursor = database.query(TaskStoreContract.TaskEntry.TABLE_NAME,
-	        allColumns, null, null, null, null, null);
-	cursor.moveToFirst();
-
-	return cursor;
-    }
-
     public void purge() {
-	Log.d("SQLite", "Purging all values fron database");
-	database.delete(TaskStoreContract.TaskEntry.TABLE_NAME, null, null);
+	Log.d("SQLite", "Purging all values from database");
+	taskdatabase.delete(TaskStoreContract.TaskEntry.TABLE_NAME, null, null);
     }
 
     public List<String> getCategories() {
@@ -185,7 +197,7 @@ public class TaskDataSource {
 	// new String[] { TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY }, null,
 	// null, null, null, TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY,
 	// null);
-	Cursor cursor = database
+	Cursor cursor = taskdatabase
 	        .rawQuery(
 	                "SELECT DISTINCT "
 	                        + TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY
@@ -228,7 +240,9 @@ public class TaskDataSource {
 	task.ownerId = cursor
 	        .getString(cursor
 	                .getColumnIndexOrThrow(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID));
-	
+	task.rating = cursor.getFloat(cursor
+					.getColumnIndexOrThrow(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_RATING));
+
 	task.setKey( cursor
 	        .getString(cursor
 	                .getColumnIndexOrThrow(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID)));
@@ -242,7 +256,7 @@ public class TaskDataSource {
     public void deleteTask(Task task) {
 	long id = task.getId();
 	System.out.println("Task deleted with id: " + id);
-	database.delete(TaskStoreContract.TaskEntry.TABLE_NAME,
+	taskdatabase.delete(TaskStoreContract.TaskEntry.TABLE_NAME,
 	        BaseColumns._ID + " = " + id, null);
     }
 
@@ -265,8 +279,8 @@ public class TaskDataSource {
     private List<Task> query(String selection, String[] selectionArgs,
 	    String[] columns) {
 
-	Cursor cursor = database.query(true,
-	        TaskStoreContract.TaskEntry.TABLE_NAME, allColumns, selection,
+	Cursor cursor = taskdatabase.query(true,
+	        TaskStoreContract.TaskEntry.TABLE_NAME, TaskStoreContract.TaskEntry.allColumns, selection,
 	        selectionArgs, null, null, null, null);
 
 	if (cursor == null) {
@@ -286,4 +300,8 @@ public class TaskDataSource {
 
 	return tasks;
     }
+	
+	public List<Task> getTaskForUser(User u){
+		return getAllTasks();
+	}
 }

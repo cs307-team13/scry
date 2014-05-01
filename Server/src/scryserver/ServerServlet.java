@@ -44,6 +44,9 @@ public class ServerServlet extends HttpServlet {
 			case "getUserInfo":
 				getUserInfo(req, resp);
 				break;
+			case "getUserId":
+				getUserID(req, resp);
+				break;
 			}
 		}
 	}
@@ -96,8 +99,30 @@ public class ServerServlet extends HttpServlet {
 		datastore.delete(key);
 	}
 	
-	private static String /*List<Entity>*/ getTasksByUser(HttpServletRequest req, HttpServletResponse resp){
+	private static String getUserID(HttpServletRequest req, HttpServletResponse resp){
+		Filter f = new FilterPredicate("Email", FilterOperator.EQUAL, req.getParameter("Email"));
+		Query q = new Query("User").setFilter(f);
+		PreparedQuery pq = datastore.prepare(q);
+		Entity result = pq.asSingleEntity();
+		String id = (String) result.getKey().toString();
+		int start = id.indexOf("\"");
+		id = id.substring(start);
+		id = id.replaceAll("[\")]", "");
+		log.info("Sending user id: " + id.toString());
+		resp.setHeader("User-id", "User ID: " + id);
+		resp.setContentLength(id.length()+1000);
+		resp.setContentType("text/plain");
+		try {
+			resp.getOutputStream().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
+	
+	private static String getTasksByUser(HttpServletRequest req, HttpServletResponse resp){
 		Filter ownerFilter = new FilterPredicate("Owner", FilterOperator.EQUAL, req.getParameter("Owner"));
+		log.info("Getting tasks for user: " + req.getParameter("Owner"));
 		Query q = new Query("Task").setFilter(ownerFilter);
 		PreparedQuery pq = datastore.prepare(q);
 		//send list to client

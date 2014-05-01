@@ -7,6 +7,7 @@ import java.util.List;
 
 import edu.purdue.cs307.scry.RottenTomatoes.RottenTomatoe;
 import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
+import edu.purdue.cs307.scry.fragments.TaskListFragment;
 import edu.purdue.cs307.scry.model.Task;
 import android.os.AsyncTask;
 import android.app.AlertDialog;
@@ -16,6 +17,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.app.Activity;
 import android.support.v4.app.ListFragment;
+import android.support.v4.view.ViewPager;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,7 +30,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+
+import android.widget.RatingBar;
+
 import android.widget.LinearLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,6 +47,7 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 	private HashMap<String, RottenTomatoe> rt = new HashMap<String, RottenTomatoe>();
 	public final String errorMessage = "Rotten Tomatoes does not recognize this movie. "
 			+ "Please put the task in the form: 'watch <Movie Title>'";
+	public boolean inFriends;
 
 	public TaskArrayAdapter(Context context, int resource) {
 		super(context, resource);
@@ -66,10 +73,11 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 	}
 
 	public TaskArrayAdapter(Context context, int resource, List<Task> objects,
-			Fragment f) {
+			ListFragment f, boolean inFriends) {
 		super(context, resource, objects);
 		this.context = context;
 		this.f = f;
+		this.inFriends = inFriends;
 	}
 
 	public TaskArrayAdapter(Context context, int resource,
@@ -83,8 +91,16 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 		final Task t = getItem(position);
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View taskView = inflater
-				.inflate(R.layout.task_list_item, parent, false);
+		View taskView;
+		if(!inFriends){
+			taskView = inflater
+					.inflate(R.layout.task_list_item, parent, false);
+			checkbox(t, taskView);
+		} else {
+			taskView = inflater
+					.inflate(R.layout.friend_task_item, parent, false);
+			addbox(t, taskView);
+		}
 		TextView task_name = (TextView) taskView.findViewById(R.id.task_name);
 		TextView task_category = (TextView) taskView
 				.findViewById(R.id.task_category);
@@ -137,6 +153,7 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 		});
 
 		if (t.getCategory().equals("Movie/Television")
+
 				|| t.getCategory().equals("Movie")) {
 			RottenTomatoe movie;
 			String movieName = t.toString();
@@ -226,8 +243,8 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 		taskView.setOnClickListener(new View.OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
-
+			public void onClick(View v) {}
+/*
 				// TODO Auto-generated method stub
 				View toolbar = v.findViewById(R.id.toolbar);
 
@@ -255,10 +272,120 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 
 				Log.wtf("This Sucks", "in on click");
 
-			}
+			}*/
 		});
 
 		return taskView;
+	}
+
+	private void checkbox(final Task t, View taskView) {
+		CheckBox completed = (CheckBox) taskView
+				.findViewById(R.id.task_completed);
+		if (t.isComplete()) {
+			completed.setChecked(true);
+		} else {
+			completed.setChecked(false);
+		}
+
+		completed.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					final boolean isChecked) {
+				Log.v("Checked", "onCheckedChanged()");
+				if(t.isComplete()){
+					//Do nothing
+				} else {
+					AlertDialog.Builder builder = new AlertDialog.Builder(f.getActivity());
+					// Get the layout inflater
+					LayoutInflater inflater = f.getActivity().getLayoutInflater();
+
+					// Inflate and set the layout for the dialog
+					// Pass null as the parent view because its going in the dialog
+					// layout
+					final View myView = inflater.inflate(R.layout.rating, null);
+					builder.setView(myView)
+							.setTitle("Rate Task")
+							// Add action buttons
+							.setPositiveButton("Rate",
+									new DialogInterface.OnClickListener() {
+										@Override
+										public void onClick(DialogInterface dialog,
+												int id) {
+												RatingBar rate = (RatingBar) myView.findViewById(R.id.rating);
+												float rating2 = rate.getRating();
+												t.rating = rating2;
+										}
+									})
+							.setNegativeButton("Cancel",
+									new DialogInterface.OnClickListener() {
+										public void onClick(DialogInterface dialog,
+												int id) {
+												//Do Nothing
+										}
+									});
+					builder.create().show();
+				}
+				t.setComplete(isChecked);
+				if (t.isComplete()) {
+					Handler handler = new Handler();
+					handler.postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							if (t.isComplete()) {
+								Log.v("Checked", "run()");
+								//if (t.isComplete()) {
+									((TaskDatasourceActivity) f.getActivity())
+											.getDataSource().deleteTask(t);
+									((TaskDatasourceActivity) f.getActivity())
+											.getDataSource().commitTask(t);
+									TaskArrayAdapter.this.remove(t);
+									TaskArrayAdapter.this
+											.notifyDataSetChanged();
+								//}
+							}
+						}
+					}, 1000);
+				} else {
+					Handler handler = new Handler();
+					handler.postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							if (!t.isComplete()) {
+								Log.v("Checked", "run()");
+								//if (t.isComplete()) {
+									((TaskDatasourceActivity) f.getActivity())
+											.getDataSource().deleteTask(t);
+									((TaskDatasourceActivity) f.getActivity())
+											.getDataSource().commitTask(t);
+									TaskArrayAdapter.this.remove(t);
+									TabsPageAdapter tabs = ((MainActivity) f.getActivity()).getTabsPageAdapter();
+									((TaskListFragment) tabs.getItem(0)).refreshData();
+								//}
+							}
+						}
+					}, 1000);
+				}
+			}
+
+		});
+	}
+	
+	private void addbox(final Task t, View taskView) {
+		ImageView add = (ImageView) taskView
+				.findViewById(R.id.add_task);
+		
+		add.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Log.v("Clicked", "addbox()");
+				((TaskDatasourceActivity) f.getActivity())
+				.getDataSource().commitTask(t);
+				TabsPageAdapter tabs = ((MainActivity) f.getActivity()).getTabsPageAdapter();
+				((TaskListFragment) tabs.getItem(0)).refreshData();
+			}
+		});
 	}
 
 }

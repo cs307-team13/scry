@@ -118,7 +118,7 @@ public class SearchActivity extends FragmentActivity implements
 
 	    TaskArrayAdapter adapter = new TaskArrayAdapter(getActivity()
 		    .getApplicationContext(), R.layout.fragment_task_list,
-		    new ArrayList<Task>(), this);
+		    new ArrayList<Task>(), this, false);
 	    setListAdapter(adapter);
 	}
 
