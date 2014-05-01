@@ -20,6 +20,9 @@ import edu.purdue.cs307.scry.model.User;
 
 public class HttpClientSetup {
 	private String URL = "http://1-dot-scryserver.appspot.com/server";
+	
+	public String id;
+	
 	public String tasks;
 	public ArrayList<Task> task_list;
 	
@@ -94,6 +97,37 @@ public class HttpClientSetup {
 		params.put("Method", "deleteTask");
 		params.put("ID", task.getKey());
 		client.post(URL, params, handler);
+	}
+	
+	public void getUserID(String email){
+		AsyncHttpClient client = new AsyncHttpClient();
+		RequestParams params = new RequestParams();
+		params.put("Method", "getUserId");
+		params.put("Email", email); 
+		System.out.println("In getUserID " + email);
+		client.get(URL, params, new AsyncHttpResponseHandler(){
+			@Override
+			public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] response){
+				System.out.println("In onSuccess");
+				for(Header h : headers){
+					System.out.println("In first for loop");
+					for(HeaderElement he : h.getElements()){
+						if(he.getName().startsWith("User ID: ")){
+							int beg = he.getName().indexOf(' ')+1;
+							id = he.getName().substring(beg);
+							System.out.println("Retrieved user id: " + id);
+						}
+					}
+				}
+				//handler.hasID();
+			}
+			
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					byte[] responseBody, Throwable error){
+				System.out.println("Retrieval failed");
+			}
+		});
 	}
 	
 	public void getTaskByUser(String id){
