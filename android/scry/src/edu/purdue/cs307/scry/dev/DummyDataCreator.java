@@ -22,7 +22,7 @@ public class DummyDataCreator {
 	String[] names = {"Watch Movie", "Play Softball", "Kick ass!", "Have fun", "Baseball with Dom", "Play games", 
 		"Run!", "Visit Mount Rushmore", "Call mom", "Climb Mt. Everest", "Walk the Great Wall", "HI MOM!!!"};
 	String[] categories = {"Singing", "Games", "Recreation", "Being Awesome", "Productivity", "Health", "Homework", "YOU SUCK!!"};
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 30; i++)
 	{
 	    Random r = new Random();
 	    double randLat = 40.407641 + (40.462256 - 40.407641) * r.nextDouble();
