@@ -66,7 +66,7 @@ public final class TaskStoreContract {
     	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID + TEXT_TYPE + COMMA_SEP +
     	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY + TEXT_TYPE + COMMA_SEP + 
     	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_UUID + TEXT_TYPE + COMMA_SEP + 
-    	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED + INTEGER_TYPE +
+    	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED + INTEGER_TYPE + COMMA_SEP +
     	    TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_RATING + INTEGER_TYPE +
     	    " )";
     	
