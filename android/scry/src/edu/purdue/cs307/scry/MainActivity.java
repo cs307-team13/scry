@@ -11,8 +11,14 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.nfc.NfcAdapter.CreateNdefMessageCallback;
+import android.nfc.NfcEvent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -23,6 +29,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
+import android.widget.Toast;
 import edu.purdue.cs307.scry.data.TaskDataSource;
 import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
 import edu.purdue.cs307.scry.dev.DummyDataCreator;
@@ -38,9 +45,9 @@ public class MainActivity extends FragmentActivity implements
 	private TaskDataSource datasource;
 	public static ViewPager viewPager;
 	public static TabsPageAdapter mAdapter;
-
+	NfcAdapter mNfcAdapter;
 	public static FragmentManager fragmentManager;
-
+	
 	private ActionBar actionBar;
 
 	// private static ArrayList<TabInfo> tabs = new ArrayList<TabInfo>();
@@ -51,6 +58,13 @@ public class MainActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		fragmentManager = getSupportFragmentManager();
+		mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+		
+		if (mNfcAdapter == null) {
+	        Toast.makeText(this, "NFC is not available", Toast.LENGTH_LONG).show();
+	        finish();
+	        return;
+	    }
 
 		datasource = new TaskDataSource(this.getApplicationContext());
 		datasource.open();
@@ -106,6 +120,7 @@ public class MainActivity extends FragmentActivity implements
 
 	@Override
 	protected void onNewIntent(Intent intent) {
+		setIntent(intent);
 		handleIntent(intent);
 	}
 
@@ -247,6 +262,11 @@ public class MainActivity extends FragmentActivity implements
 	public void onResume() {
 		datasource.open();
 		super.onResume();
+		if(getIntent().getAction()!=null)
+			Log.v("Main", getIntent().getAction());
+		if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
+	        processIntent(getIntent());
+	      }
 	}
 
 	@Override
@@ -299,6 +319,38 @@ public class MainActivity extends FragmentActivity implements
 
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+	}
+	/*
+	@Override
+	public NdefMessage createNdefMessage(NfcEvent event) {
+		
+		String text;
+		Task t = (Task) getIntent().getExtras().getParcelable("Task");
+		Log.wtf("NDEF MADE",t.toString());
+		text = t.getOwner() + ", " + t.toString() + ", " + t.getCategory() + ", " + t.getLocation();
+		NdefMessage msg = new NdefMessage(
+				new NdefRecord[]{ NdefRecord.createMime("application/edu.purdue.cs307.scry.MainActivity",text.getBytes()),NdefRecord.createApplicationRecord("edu.purdue.cs307.scry")
+				});
+		
+		return msg;
+	}
+	*/
+	void processIntent(Intent intent) {
+        Parcelable[] rawMsgs = intent.getParcelableArrayExtra(
+                NfcAdapter.EXTRA_NDEF_MESSAGES);
+        NdefMessage msg = (NdefMessage) rawMsgs[0];
+        String s = new String(msg.getRecords()[0].getPayload());
+        Log.wtf("MSG", "Processed");
+        String[] tokens = s.split("[, ]");
+ 
+        Task t = new Task();
+        t.title = tokens[1];
+        t.category = tokens[2];
+        t.lat_location = Double.parseDouble(tokens[3]);
+        t.long_location = Double.parseDouble(tokens[4]);
+        t.ownerId = tokens[0];
+        
+        datasource.commitTask(t);
 	}
 
 }
