@@ -128,7 +128,7 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 
 		});
 
-		if (t.getCategory().equals("Movie/Television")
+		if (t.getCategory().equals("Movies/Television")
 				|| t.getCategory().equals("Movie")) {
 			RottenTomatoe movie;
 			String movieName = t.toString();
