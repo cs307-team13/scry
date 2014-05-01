@@ -354,26 +354,22 @@ public class MainActivity extends FragmentActivity implements
     @Override
     public void onTabUnselected(Tab tab, FragmentTransaction ft) {
     }
-
     
     @Override
     public NdefMessage createNdefMessage(NfcEvent event) {
-    
-    String text;
-    Task t = (Task) getIntent().getExtras().getParcelable("Task");
-    Log.wtf("NDEF MADE",t.toString());
-    text = t.getOwner() + ", " + t.toString() + ", " + t.getCategory() + ", " +
-    t.getLocation();
-    NdefMessage msg = new NdefMessage(
-    new NdefRecord[]{
-    NdefRecord.createMime("application/edu.purdue.cs307.scry"
-    ,text.getBytes()),NdefRecord.createApplicationRecord("edu.purdue.cs307.scry")
-    });
-    
-    return msg;
+
+	String text;
+	Task t = (Task) getIntent().getExtras().getParcelable("Task");
+	Log.wtf("NDEF MADE", t.toString());
+	text = t.getOwner() + ", " + t.toString() + ", " + t.getCategory()
+	        + ", " + t.getLocation();
+	NdefMessage msg = new NdefMessage(new NdefRecord[] {
+	        NdefRecord.createMime("application/edu.purdue.cs307.scry",
+	                text.getBytes()),
+	        NdefRecord.createApplicationRecord("edu.purdue.cs307.scry") });
+
+	return msg;
     }
-    
-    
   
     void processIntent(Intent intent) {
 	Parcelable[] rawMsgs = intent
