@@ -5,15 +5,6 @@
     android:layout_height="fill_parent"
     android:background="@drawable/scry_background" >
 
-    <Button
-        android:id="@+id/btn_bypass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:background="@android:drawable/btn_default"
-        android:text="Bypass" />
-
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
