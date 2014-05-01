@@ -21,7 +21,7 @@ import edu.purdue.cs307.scry.model.Task;
 public class FriendsArrayAdapter extends ArrayAdapter<String> {
 	private final Context context;
 	private ListFragment f;
-	public String[] objects;
+	public List<String> objects;
 
 	public FriendsArrayAdapter(Context context, int resource) {
 		super(context, resource);
@@ -45,8 +45,8 @@ public class FriendsArrayAdapter extends ArrayAdapter<String> {
 		this.context = context;
 	}
 
-	public FriendsArrayAdapter(Context context, int resource, String[] objects,
-			ListFragment f){ //, HttpClientSetup client) {
+	public FriendsArrayAdapter(Context context, int resource, List<String> objects, //String[] objects,
+			ListFragment f){
 		super(context, resource, objects);
 		this.context = context;
 		this.f = f;
@@ -61,7 +61,7 @@ public class FriendsArrayAdapter extends ArrayAdapter<String> {
 	
 	@Override
     public View getView(int position, View convertView, ViewGroup parent) {
-    	final String email = objects[position];
+    	final String email = objects.get(position);
     	LayoutInflater inflater = (LayoutInflater) context
     	        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     	View myView = inflater.inflate(R.layout.friends_list_item, parent, false);

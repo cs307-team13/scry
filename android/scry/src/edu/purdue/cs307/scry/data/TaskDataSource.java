@@ -49,6 +49,24 @@ public class TaskDataSource {
     	        values);
     }
     
+    public void purgeFriends(){
+    	frienddatabase.delete(TaskStoreContract.FriendEntry.TABLE_NAME, null, null);
+    }
+    
+    public List<String> getFriendsEmails(){
+    	List<String> emails = new ArrayList<String>();
+    	Cursor cursor = frienddatabase.rawQuery("SELECT DISTINCT " + TaskStoreContract.FriendEntry.COLUMN_NAME_ENTRY_EMAIL + " FROM "
+    			 + TaskStoreContract.FriendEntry.TABLE_NAME, null);
+    	cursor.moveToFirst();
+    	while(!cursor.isAfterLast()){
+    		String name = cursor.getString(cursor.getColumnIndex(TaskStoreContract.FriendEntry.COLUMN_NAME_ENTRY_EMAIL));
+    		if(name != null)
+    			emails.add(name);
+    		cursor.moveToNext();
+    	}
+    	return emails;
+    }
+    
     public List<User> getFriends() {
 	open();
 	Cursor cursor = frienddatabase.query(TaskStoreContract.FriendEntry.TABLE_NAME,
