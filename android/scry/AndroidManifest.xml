@@ -41,6 +41,7 @@
         </activity>
 
 		<activity android:name="edu.purdue.cs307.scry.EditTaskActivity"
+		    android:launchMode="singleInstance"
 			android:label="@string/app_name" >
 		</activity>
 
@@ -51,21 +52,19 @@
 			<intent-filter>
 				<action android:name="android.intent.action.SEARCH" />
 			</intent-filter>
-			<intent-filter>
-    			<action android:name="android.nfc.action.NDEF_DISCOVERED"/>
-    			<category android:name="android.intent.category.DEFAULT"/>
-    			<data android:mimeType="application/edu.purdue.cs307.scry.MainActivity" />
-			</intent-filter>
-
 			<meta-data android:name="android.app.searchable"
 				android:resource="@xml/searchable" />
 		</activity>
-		<activity android:name="edu.purdue.cs307.scry.SigninActivity"
+		<activity android:name="edu.purdue.cs307.scry.SigninActivity" android:launchMode="singleTop"
 			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
-
 				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+			<intent-filter>
+    			<action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+    			<category android:name="android.intent.category.DEFAULT"/>
+    			<data android:mimeType="application/edu.purdue.cs307.scry.SigninActivity" />
 			</intent-filter>
 		</activity>
 		<activity android:name="edu.purdue.cs307.scry.SearchActivity"

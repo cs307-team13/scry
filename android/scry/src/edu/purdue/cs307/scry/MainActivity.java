@@ -39,318 +39,327 @@ import edu.purdue.cs307.scry.model.Task;
 import edu.purdue.cs307.scry.model.User;
 
 public class MainActivity extends FragmentActivity implements
-		TaskDatasourceActivity, ActionBar.TabListener {
+        TaskDatasourceActivity, ActionBar.TabListener {
 
-	private static final int EDIT_TASK = 123;
-	private TaskDataSource datasource;
-	public static ViewPager viewPager;
-	public static TabsPageAdapter mAdapter;
-	NfcAdapter mNfcAdapter;
-	public static FragmentManager fragmentManager;
-	
-	private ActionBar actionBar;
+    private static final int EDIT_TASK = 123;
+    private TaskDataSource datasource;
+    public static ViewPager viewPager;
+    public static TabsPageAdapter mAdapter;
+//    NfcAdapter mNfcAdapter;
+    public static FragmentManager fragmentManager;
 
-	// private static ArrayList<TabInfo> tabs = new ArrayList<TabInfo>();
-	private String tab[] = new String[] { "Tasks", "Friends", "Map" };
+    private ActionBar actionBar;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		fragmentManager = getSupportFragmentManager();
-		mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-		
-		if (mNfcAdapter == null) {
-	        Toast.makeText(this, "NFC is not available", Toast.LENGTH_LONG).show();
-	        finish();
-	        return;
+    // private static ArrayList<TabInfo> tabs = new ArrayList<TabInfo>();
+    private String tab[] = new String[] { "Tasks", "Friends", "Map" };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	setContentView(R.layout.activity_main);
+	fragmentManager = getSupportFragmentManager();
+//	mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+
+//	if (mNfcAdapter == null) {
+//	    Toast.makeText(this, "NFC is not available", Toast.LENGTH_LONG)
+//		    .show();
+//	    finish();
+//	    return;
+//	}
+
+	datasource = new TaskDataSource(this.getApplicationContext());
+	datasource.open();
+
+	String userID = getSharedPreferences("pref_profile", 0).getString(
+	        "userID", null);
+	String userEmail = getSharedPreferences("pref_profile", 0).getString(
+	        "email", null);
+	String userName = getSharedPreferences("pref_profile", 0).getString(
+	        "name", null);
+
+	User currentUser = new User(userID, userName, userEmail);
+
+	Log.wtf("NEW USER", currentUser.toString());
+
+	HttpClientSetup client = new HttpClientSetup();
+	client.addUser(currentUser);
+	System.out.println("User added to server");
+
+	// Initialization of tab management
+	viewPager = (ViewPager) findViewById(R.id.pager);
+	actionBar = getActionBar();
+	mAdapter = new TabsPageAdapter(getSupportFragmentManager());
+
+	viewPager.setAdapter(mAdapter);
+	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+	for (int i = 0; i < 3; i++) {
+	    actionBar.addTab(actionBar.newTab().setText(tab[i])
+		    .setTabListener(this));
+	}
+
+	// on swiping the viewpager make respective tab selected
+	viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+	    @Override
+	    public void onPageSelected(int position) {
+		// on changing the page
+		// make respected tab selected
+		actionBar.setSelectedNavigationItem(position);
 	    }
 
-		datasource = new TaskDataSource(this.getApplicationContext());
-		datasource.open();
+	    @Override
+	    public void onPageScrolled(int arg0, float arg1, int arg2) {
+	    }
 
-		String userID = getSharedPreferences("pref_profile", 0).getString(
-				"userID", null);
-		String userEmail = getSharedPreferences("pref_profile", 0).getString(
-				"email", null);
-		String userName = getSharedPreferences("pref_profile", 0).getString(
-				"name", null);
+	    @Override
+	    public void onPageScrollStateChanged(int arg0) {
+	    }
+	});
+	handleIntent(getIntent());
+    }
 
-		User currentUser = new User(userID, userName, userEmail);
+    @Override
+    protected void onNewIntent(Intent intent) {
+	setIntent(intent);
+	handleIntent(intent);
+    }
 
-		Log.wtf("NEW USER", currentUser.toString());
+    private void handleIntent(Intent intent) {
 
-		HttpClientSetup client = new HttpClientSetup();
-		client.addUser(currentUser);
-		System.out.println("User added to server");
+	if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+	    String query = intent.getStringExtra(SearchManager.QUERY);
+	    Intent mapIntent = new Intent(MainActivity.this,
+		    SearchActivity.class);
 
-		// Initialization of tab management
-		viewPager = (ViewPager) findViewById(R.id.pager);
-		actionBar = getActionBar();
-		mAdapter = new TabsPageAdapter(getSupportFragmentManager());
-
-		viewPager.setAdapter(mAdapter);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-		for (int i = 0; i < 3; i++) {
-			actionBar.addTab(actionBar.newTab().setText(tab[i])
-					.setTabListener(this));
-		}
-
-		// on swiping the viewpager make respective tab selected
-		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-			@Override
-			public void onPageSelected(int position) {
-				// on changing the page
-				// make respected tab selected
-				actionBar.setSelectedNavigationItem(position);
-			}
-
-			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2) {
-			}
-
-			@Override
-			public void onPageScrollStateChanged(int arg0) {
-			}
-		});
-		handleIntent(getIntent());
+	    mapIntent.putExtra("query", query);
+	    startActivity(mapIntent);
 	}
+    }
 
-	@Override
-	protected void onNewIntent(Intent intent) {
-		setIntent(intent);
-		handleIntent(intent);
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+	// Inflate the menu; this adds items to the action bar if it is present.
+	getMenuInflater().inflate(R.menu.main, menu);
 
-	private void handleIntent(Intent intent) {
+	// Associate searchable configuration with the SearchView
+	SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+	SearchView searchView = (SearchView) menu.findItem(R.id.search)
+	        .getActionView();
+	searchView.setSearchableInfo(searchManager
+	        .getSearchableInfo(getComponentName()));
 
-		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-			String query = intent.getStringExtra(SearchManager.QUERY);
-			Intent mapIntent = new Intent(MainActivity.this,
-					SearchActivity.class);
+	return true;
+    }
 
-			mapIntent.putExtra("query", query);
-			startActivity(mapIntent);
-		}
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+	// Handle item selection
+	switch (item.getItemId()) {
+	    case R.id.action_populate:
+		Log.d("Options Item", "Adding random data...");
+		AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
+		    @Override
+		    protected Void doInBackground(Void... params) {
+			DummyDataCreator.populateDataStore(
+			        MainActivity.this.getApplicationContext(),
+			        datasource);
+			return null;
+		    }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-
-		// Associate searchable configuration with the SearchView
-		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-		SearchView searchView = (SearchView) menu.findItem(R.id.search)
-				.getActionView();
-		searchView.setSearchableInfo(searchManager
-				.getSearchableInfo(getComponentName()));
-
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle item selection
-		switch (item.getItemId()) {
-		case R.id.action_populate:
-			Log.d("Options Item", "Adding random data...");
-			AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
-				@Override
-				protected Void doInBackground(Void... params) {
-					DummyDataCreator.populateDataStore(
-							MainActivity.this.getApplicationContext(),
-							datasource);
-					return null;
-				}
-
-				@Override
-				protected void onPostExecute(Void v) {
-					TaskListFragment frag = ((TaskListFragment) mAdapter
-							.getItem(0));
-					frag.refreshData();
-				}
-			};
-			task.execute();
-			return true;
-		case R.id.action_delete:
-			datasource.purge();
-			Log.d("Options Item", "Deleting...");
-			TaskListFragment frag = ((TaskListFragment) mAdapter.getItem(0));
+		    @Override
+		    protected void onPostExecute(Void v) {
+			TaskListFragment frag = ((TaskListFragment) mAdapter
+			        .getItem(0));
 			frag.refreshData();
-			return true;
-		case R.id.action_create:
-			Intent i = new Intent(this, CreateTaskActivity.class);
-			startActivity(i);
-			return true;
-		case R.id.action_retrieve:
-			Log.d("Options Item", "Retrieving tasks from server");
-			AsyncTask<Void, Void, Void> task1 = new AsyncTask<Void, Void, Void>() {
-
-				@Override
-				protected Void doInBackground(Void... params) {
-					HttpClientSetup client = new HttpClientSetup();
-					client.getTaskByUser(getSharedPreferences("pref_profile", 0)
-							.getString("userID", null));
-					try {
-						Thread.sleep(2000); // Need to wait for getTaskByUser()
-											// to complete execution
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					List<Task> task_list = client.getTaskListFromServer();
-					for (Task t : task_list) {
-						if (t == null)
-							continue;
-						t.ownerId = getSharedPreferences("pref_profile", 0)
-								.getString("userId", null);
-						datasource.commitTaskWithoutPush(t);
-					}
-					return null;
-				}
-
-				@Override
-				protected void onPostExecute(Void v) {
-					TaskListFragment frag = ((TaskListFragment) mAdapter
-							.getItem(0));
-					frag.refreshData();
-				}
-			};
-			task1.execute();
-			return true;
-		case R.id.action_add_friend:
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			// Get the layout inflater
-			LayoutInflater inflater = this.getLayoutInflater();
-
-			// Inflate and set the layout for the dialog
-			// Pass null as the parent view because its going in the dialog
-			// layout
-			builder.setView(inflater.inflate(R.layout.add_friend_popup, null))
-					// Add action buttons
-					.setPositiveButton("Add",
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog,
-										int id) {
-									System.out.println("Adding friend now!");
-
-								}
-							})
-					.setNegativeButton("Cancel",
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int id) {
-
-								}
-							});
-			builder.create().show();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
-
-	public void loginmothafucka(View v) {
-		Intent intent = new Intent(this, SigninActivity.class);
-		startActivity(intent);
-	}
-
-	@Override
-	public void onResume() {
-		datasource.open();
-		super.onResume();
-		if(getIntent().getAction()!=null)
-			Log.v("Main", getIntent().getAction());
-		if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
-	        processIntent(getIntent());
-	      }
-	}
-
-	@Override
-	public void onPause() {
-		datasource.close();
-		super.onPause();
-	}
-
-	@Override
-	public TaskDataSource getDataSource() {
-		return datasource;
-	}
-
-	public void pushListFragment() {
-		FragmentManager fm = getSupportFragmentManager();
-		fm.beginTransaction()
-				.replace(R.id.fragment_pane, new TaskListFragment())
-				.addToBackStack("TaskListFragment").commit();
-	}
-
-	public void openEditForTask(Task t) {
-		Intent i = new Intent(this, EditTaskActivity.class);
-		i.putExtra("Task", t);
+		    }
+		};
+		task.execute();
+		return true;
+	    case R.id.action_delete:
+		datasource.purge();
+		Log.d("Options Item", "Deleting...");
+		TaskListFragment frag = ((TaskListFragment) mAdapter.getItem(0));
+		frag.refreshData();
+		return true;
+	    case R.id.action_create:
+		Intent i = new Intent(this, CreateTaskActivity.class);
 		startActivity(i);
-	}
+		return true;
+	    case R.id.action_retrieve:
+		Log.d("Options Item", "Retrieving tasks from server");
+		AsyncTask<Void, Void, Void> task1 = new AsyncTask<Void, Void, Void>() {
 
-	@Override
-	public void onBackPressed() {
-		Fragment f = mAdapter.getItem(viewPager.getCurrentItem());
-		if (f instanceof BackPressedFragment) {
-			boolean handled = ((BackPressedFragment) f).onBackPressed();
-			if (handled)
-				return;
-			else
-				super.onBackPressed();
-		}
+		    @Override
+		    protected Void doInBackground(Void... params) {
+			HttpClientSetup client = new HttpClientSetup();
+			client.getTaskByUser(getSharedPreferences(
+			        "pref_profile", 0).getString("userID", null));
+			try {
+			    Thread.sleep(2000); // Need to wait for getTaskByUser()
+				                // to complete execution
+			} catch (InterruptedException e) {
+			    e.printStackTrace();
+			}
+			List<Task> task_list = client.getTaskListFromServer();
+			for (Task t : task_list) {
+			    if (t == null)
+				continue;
+			    t.ownerId = getSharedPreferences("pref_profile", 0)
+				    .getString("userId", null);
+			    datasource.commitTaskWithoutPush(t);
+			}
+			return null;
+		    }
+
+		    @Override
+		    protected void onPostExecute(Void v) {
+			TaskListFragment frag = ((TaskListFragment) mAdapter
+			        .getItem(0));
+			frag.refreshData();
+		    }
+		};
+		task1.execute();
+		return true;
+	    case R.id.action_add_friend:
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		// Get the layout inflater
+		LayoutInflater inflater = this.getLayoutInflater();
+
+		// Inflate and set the layout for the dialog
+		// Pass null as the parent view because its going in the dialog
+		// layout
+		builder.setView(
+		        inflater.inflate(R.layout.add_friend_popup, null))
+		        // Add action buttons
+		        .setPositiveButton("Add",
+		                new DialogInterface.OnClickListener() {
+			            @Override
+			            public void onClick(DialogInterface dialog,
+			                    int id) {
+			                System.out
+			                        .println("Adding friend now!");
+
+			            }
+		                })
+		        .setNegativeButton("Cancel",
+		                new DialogInterface.OnClickListener() {
+			            public void onClick(DialogInterface dialog,
+			                    int id) {
+
+			            }
+		                });
+		builder.create().show();
+		return true;
+	    default:
+		return super.onOptionsItemSelected(item);
+	}
+    }
+
+    public void loginmothafucka(View v) {
+	Intent intent = new Intent(this, SigninActivity.class);
+	startActivity(intent);
+    }
+
+    @Override
+    public void onResume() {
+	datasource.open();
+	super.onResume();
+	if (getIntent().getAction() != null)
+	    Log.v("Main", getIntent().getAction());
+//	if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
+//	    processIntent(getIntent());
+//	}
+    }
+
+    @Override
+    public void onPause() {
+	datasource.close();
+	super.onPause();
+    }
+
+    @Override
+    public TaskDataSource getDataSource() {
+	return datasource;
+    }
+
+    public void pushListFragment() {
+	FragmentManager fm = getSupportFragmentManager();
+	fm.beginTransaction()
+	        .replace(R.id.fragment_pane, new TaskListFragment())
+	        .addToBackStack("TaskListFragment").commit();
+    }
+
+    public void openEditForTask(Task t) {
+	Intent i = new Intent(this, EditTaskActivity.class);
+	i.putExtra("Task", t);
+	startActivity(i);
+    }
+
+    @Override
+    public void onBackPressed() {
+	Fragment f = mAdapter.getItem(viewPager.getCurrentItem());
+	if (f instanceof BackPressedFragment) {
+	    boolean handled = ((BackPressedFragment) f).onBackPressed();
+	    if (handled)
+		return;
+	    else
 		super.onBackPressed();
 	}
+	super.onBackPressed();
+    }
 
-	@Override
-	public void onTabReselected(Tab tab, FragmentTransaction ft) {
-	}
+    @Override
+    public void onTabReselected(Tab tab, FragmentTransaction ft) {
+    }
 
-	@Override
-	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-		// on tab selected
-		// show respected fragment view
-		viewPager.setCurrentItem(tab.getPosition());
-	}
+    @Override
+    public void onTabSelected(Tab tab, FragmentTransaction ft) {
+	// on tab selected
+	// show respected fragment view
+	viewPager.setCurrentItem(tab.getPosition());
+    }
 
-	@Override
-	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-	}
-	/*
-	@Override
-	public NdefMessage createNdefMessage(NfcEvent event) {
-		
-		String text;
-		Task t = (Task) getIntent().getExtras().getParcelable("Task");
-		Log.wtf("NDEF MADE",t.toString());
-		text = t.getOwner() + ", " + t.toString() + ", " + t.getCategory() + ", " + t.getLocation();
-		NdefMessage msg = new NdefMessage(
-				new NdefRecord[]{ NdefRecord.createMime("application/edu.purdue.cs307.scry.MainActivity",text.getBytes()),NdefRecord.createApplicationRecord("edu.purdue.cs307.scry")
-				});
-		
-		return msg;
-	}
-	*/
-	void processIntent(Intent intent) {
-        Parcelable[] rawMsgs = intent.getParcelableArrayExtra(
-                NfcAdapter.EXTRA_NDEF_MESSAGES);
-        NdefMessage msg = (NdefMessage) rawMsgs[0];
-        String s = new String(msg.getRecords()[0].getPayload());
-        Log.wtf("MSG", "Processed");
-        String[] tokens = s.split("[, ]");
- 
-        Task t = new Task();
-        t.title = tokens[1];
-        t.category = tokens[2];
-        t.lat_location = Double.parseDouble(tokens[3]);
-        t.long_location = Double.parseDouble(tokens[4]);
-        t.ownerId = tokens[0];
-        
-        datasource.commitTask(t);
-	}
+    @Override
+    public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+    }
+
+    /*
+     * @Override
+     * public NdefMessage createNdefMessage(NfcEvent event) {
+     * 
+     * String text;
+     * Task t = (Task) getIntent().getExtras().getParcelable("Task");
+     * Log.wtf("NDEF MADE",t.toString());
+     * text = t.getOwner() + ", " + t.toString() + ", " + t.getCategory() + ", " +
+     * t.getLocation();
+     * NdefMessage msg = new NdefMessage(
+     * new NdefRecord[]{
+     * NdefRecord.createMime("application/edu.purdue.cs307.scry.MainActivity"
+     * ,text.getBytes()),NdefRecord.createApplicationRecord("edu.purdue.cs307.scry")
+     * });
+     * 
+     * return msg;
+     * }
+     */
+    
+    
+//    void processIntent(Intent intent) {
+//	Parcelable[] rawMsgs = intent
+//	        .getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+//	NdefMessage msg = (NdefMessage) rawMsgs[0];
+//	String s = new String(msg.getRecords()[0].getPayload());
+//	Log.wtf("MSG", "Processed");
+//	String[] tokens = s.split("[, ]");
+//
+//	Task t = new Task();
+//	t.title = tokens[1];
+//	t.category = tokens[2];
+//	t.lat_location = Double.parseDouble(tokens[3]);
+//	t.long_location = Double.parseDouble(tokens[4]);
+//	t.ownerId = tokens[0];
+//
+//	datasource.commitTask(t);
+//    }
 
 }
