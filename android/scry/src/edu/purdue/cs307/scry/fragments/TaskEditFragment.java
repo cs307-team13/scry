@@ -55,7 +55,16 @@ public class TaskEditFragment extends Fragment {
 	
 	Button cancel = (Button) v.findViewById(R.id.cancel_button);
 	Button save = (Button) v.findViewById(R.id.save_button);
+	Button delete = (Button) v.findViewById(R.id.delete_button);
 
+	delete.setOnClickListener(new OnClickListener() {
+	    @Override
+	    public void onClick(View v) {
+		((TaskDatasourceActivity)getActivity()).getDataSource().deleteTask(task1);
+	    	getActivity().finish();
+	    }
+	});
+	
 	cancel.setOnClickListener(new OnClickListener() {
 	    @Override
 	    public void onClick(View v) {
@@ -71,7 +80,7 @@ public class TaskEditFragment extends Fragment {
 		task1.lat_location = Double.parseDouble(text_lat.getText().toString());
 		task1.long_location = Double.parseDouble(text_long.getText().toString());
 		((TaskDatasourceActivity)getActivity()).getDataSource().deleteTask(task1);
-		((TaskDatasourceActivity)getActivity()).getDataSource().commitTask(task1);
+		((TaskDatasourceActivity)getActivity()).getDataSource().commitTaskWithoutPush(task1);
 		getActivity().finish();
 	    }
 	});

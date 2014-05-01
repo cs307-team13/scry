@@ -15,6 +15,8 @@ import edu.purdue.cs307.scry.model.Task;
 
 public class TaskDataSource {
 
+	public String temp_friends[] = {"mhoward20158@gmail.com", "titanfan94@gmail.com"};
+	
     private SQLiteDatabase database;
     private TaskStoreDbHelper dbHelper;
     private String[] allColumns = { TaskStoreContract.TaskEntry._ID,
@@ -86,12 +88,37 @@ public class TaskDataSource {
 
 	HttpClientSetup client = new HttpClientSetup();
 	client.addTask(t);
-	client.getTaskByUser(t.getOwner());
 
 	long id = database.insert(TaskStoreContract.TaskEntry.TABLE_NAME, null,
 	        values);
 	t.setId(id);
 	return id;
+    }
+    
+    public long commitTaskWithoutPush(Task t) {
+    	ContentValues values = new ContentValues();
+    	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_TITLE, t.title);
+    	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY,
+    	        t.category);
+    	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_LOC_LAT,
+    	        t.lat_location);
+    	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_LOC_LONG,
+    	        t.long_location);
+    	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID,
+    	        t.ownerId);
+    	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_DATE_CREATED,
+    	        t.getEntryDate());
+    	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED,
+    	        (t.isComplete()) ? 1 : 0);
+    	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID,
+    	        t.getOwner());
+    	values.put(TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_UUID,
+    	        t.getKey());
+
+    	long id = database.insert(TaskStoreContract.TaskEntry.TABLE_NAME, null,
+    	        values);
+    	t.setId(id);
+    	return id;
     }
 
     public List<Task> getAllTasks() {
