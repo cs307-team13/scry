@@ -225,7 +225,8 @@ public class MainActivity extends FragmentActivity implements
 									EditText t = (EditText) myView.findViewById(R.id.email);
 									String email = t.getText().toString();
 									System.out.println("Adding " + email + " now!");
-									datasource.addFriend(email);									
+									datasource.addFriend(email);
+									//datasource.purgeFriends();
 								}
 							})
 					.setNegativeButton("Cancel",
