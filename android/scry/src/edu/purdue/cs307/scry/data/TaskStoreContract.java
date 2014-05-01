@@ -4,10 +4,31 @@ import android.provider.BaseColumns;
 
 public final class TaskStoreContract {
 
+    private static final String TEXT_TYPE = " TEXT";
+    private static final String REAL_TYPE = " REAL";
+    private static final String INTEGER_TYPE = " INTEGER";
+    private static final String COMMA_SEP = ",";
+	
     // To prevent someone from accidentally instantiating the contract class,
     // give it an empty constructor.
     public TaskStoreContract() {}
 
+    public static abstract class FriendEntry implements BaseColumns {
+	public static final String TABLE_NAME = "friend_store";
+        public static final String COLUMN_NAME_ENTRY_ID = "_id";
+        public static final String COLUMN_NAME_ENTRY_NAME = "name";
+
+        public static final String SQL_CREATE_ENTRIES = 
+        	"CREATE TABLE " + TaskStoreContract.FriendEntry.TABLE_NAME + " (" +
+        	TaskStoreContract.FriendEntry._ID + " INTEGER PRIMARY KEY," +
+        	TaskStoreContract.FriendEntry.COLUMN_NAME_ENTRY_NAME + TEXT_TYPE + " )";
+        public static final String SQL_DELETE_ENTRIES =
+		    "DROP TABLE IF EXISTS " + TaskStoreContract.FriendEntry.TABLE_NAME;
+        
+        public static String[] allColumns = { _ID,  
+            COLUMN_NAME_ENTRY_NAME }; 
+    }
+    
     /* Inner class that defines the table contents */
     public static abstract class TaskEntry implements BaseColumns {
         public static final String TABLE_NAME = "task_store";
@@ -25,12 +46,6 @@ public final class TaskStoreContract {
         public static final String COLUMN_NAME_ENTRY_UUID = "uuid";
         public static final String COLUMN_NAME_ENTRY_COMPLETED = "completed";
 
-        
-        
-        private static final String TEXT_TYPE = " TEXT";
-    	private static final String REAL_TYPE = " REAL";
-    	private static final String INTEGER_TYPE = " INTEGER";
-    	private static final String COMMA_SEP = ",";
     	public static final String SQL_CREATE_ENTRIES =
     	    "CREATE TABLE " + TaskStoreContract.TaskEntry.TABLE_NAME + " (" +
     	    TaskStoreContract.TaskEntry._ID + " INTEGER PRIMARY KEY," +
@@ -49,6 +64,18 @@ public final class TaskStoreContract {
     	
     	public static final String SQL_DELETE_ENTRIES =
     		    "DROP TABLE IF EXISTS " + TaskStoreContract.TaskEntry.TABLE_NAME;
+	
+    	public static String[] allColumns = { TaskStoreContract.TaskEntry._ID,
+	TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_TITLE,
+	TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_LOC_LAT,
+	TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_LOC_LONG,
+	TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_DATE_CREATED,
+	TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_DATE_MODIFIED,
+	TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_EXPIRE_DATE,
+	TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CREATOR_ID,
+	TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_CATEGORY,
+	TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_UUID, 
+	TaskStoreContract.TaskEntry.COLUMN_NAME_ENTRY_COMPLETED };
     		
     		
     }
