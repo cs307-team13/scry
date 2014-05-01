@@ -87,6 +87,7 @@ public class RottenTomatoe {
 		};
 		pending = true;
 		AsyncHttpClient client = new AsyncHttpClient();
+		Log.wtf("Movie Name: ", name);
 		client.get(imdbAPI + name, handler);
 		
 	}
