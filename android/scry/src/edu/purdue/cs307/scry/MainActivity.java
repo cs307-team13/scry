@@ -16,12 +16,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.SearchView;
 import edu.purdue.cs307.scry.data.TaskDataSource;
@@ -31,6 +33,7 @@ import edu.purdue.cs307.scry.fragments.BackPressedFragment;
 import edu.purdue.cs307.scry.fragments.TaskListFragment;
 import edu.purdue.cs307.scry.model.Task;
 import edu.purdue.cs307.scry.model.User;
+import android.support.v4.app.FragmentPagerAdapter; 
 
 public class MainActivity extends FragmentActivity implements
 		TaskDatasourceActivity, ActionBar.TabListener {
@@ -92,6 +95,12 @@ public class MainActivity extends FragmentActivity implements
 				// on changing the page
 				// make respected tab selected
 				actionBar.setSelectedNavigationItem(position);
+				Fragment f = ((FragmentPagerAdapter)viewPager.getAdapter()).getItem(position);
+				if(f instanceof ListFragment)
+				{
+				    ArrayAdapter a = ((ArrayAdapter)((ListFragment)f).getListView().getAdapter());
+				    a.notifyDataSetChanged();
+				}
 			}
 
 			@Override
