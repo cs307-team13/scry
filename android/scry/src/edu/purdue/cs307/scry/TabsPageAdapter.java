@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 import edu.purdue.cs307.scry.fragments.FriendsListFragment;
 import edu.purdue.cs307.scry.fragments.TaskListFragment;
 import edu.purdue.cs307.scry.fragments.TaskMapFragment;
@@ -35,7 +36,7 @@ public class TabsPageAdapter extends FragmentPagerAdapter {
 	
 	@Override
 	public Fragment getItem(int index) {
-		if(index >= 0 && index <= 2)	
+		if(index >= 0 && index <= 2)
 			return frags.get(index);
 		/*switch (index) {
 		case 0:

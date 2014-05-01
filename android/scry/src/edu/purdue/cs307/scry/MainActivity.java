@@ -289,6 +289,10 @@ public class MainActivity extends FragmentActivity implements
 		}
 		super.onBackPressed();
 	}
+	
+	public TabsPageAdapter getTabsPageAdapter(){
+		return mAdapter;
+	}
 
 	@Override
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {

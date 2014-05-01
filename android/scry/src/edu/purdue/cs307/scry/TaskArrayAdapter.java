@@ -16,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.app.Activity;
 
 import android.support.v4.app.ListFragment;
+import android.support.v4.view.ViewPager;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -277,6 +278,8 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 				Log.v("Clicked", "addbox()");
 				((TaskDatasourceActivity) f.getActivity())
 				.getDataSource().commitTask(t);
+				TabsPageAdapter tabs = ((MainActivity) f.getActivity()).getTabsPageAdapter();
+				((TaskListFragment) tabs.getItem(0)).refreshData();
 			}
 		});
 	}
