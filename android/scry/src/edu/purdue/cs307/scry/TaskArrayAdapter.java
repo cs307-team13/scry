@@ -1,8 +1,10 @@
 package edu.purdue.cs307.scry;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import edu.purdue.cs307.scry.RottenTomatoes.RottenTomatoe;
 import edu.purdue.cs307.scry.data.TaskDatasourceActivity;
 import edu.purdue.cs307.scry.fragments.TaskListFragment;
@@ -14,7 +16,6 @@ import android.content.DialogInterface;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.app.Activity;
-
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
 import android.content.Context;
@@ -31,10 +32,10 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+
 import android.widget.RatingBar;
 
 import android.widget.LinearLayout;
-
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -103,7 +104,63 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 		TextView task_name = (TextView) taskView.findViewById(R.id.task_name);
 		TextView task_category = (TextView) taskView
 				.findViewById(R.id.task_category);
-		if (t.getCategory().equals("Movies/Television")
+		CheckBox completed = (CheckBox) taskView
+				.findViewById(R.id.task_completed);
+		if (t.isComplete()) {
+			completed.setChecked(true);
+		} else {
+			completed.setChecked(false);
+		}
+		
+		//Set the date
+		TextView task_lat = (TextView) taskView.findViewById(R.id.toolbar_lat);
+		TextView task_long = (TextView) taskView.findViewById(R.id.toolbar_long);
+		TextView task_date = (TextView) taskView.findViewById(R.id.toolbar_date);
+		
+		DecimalFormat df = new DecimalFormat("#.##");
+		task_date.setText(t.getEntryDate());
+		if(t.getLat() == 0.0)
+			task_lat.setText("");
+		else
+			task_lat.setText("Lat " + df.format(t.getLat()) + " ");
+		if(t.getLong() == 0.0)
+			task_long.setText("");
+		else
+			task_long.setText("Lat " + df.format(t.getLong()) + " ");
+				
+		completed.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					final boolean isChecked) {
+				Log.v("Checked", "onCheckedChanged()");
+				t.setComplete(isChecked);
+				if (t.isComplete()) {
+					Handler handler = new Handler();
+					handler.postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							if (t.isComplete()) {
+								Log.v("Checked", "run()");
+								if (t.isComplete()) {
+									((TaskDatasourceActivity) f.getActivity())
+											.getDataSource().deleteTask(t);
+									((TaskDatasourceActivity) f.getActivity())
+											.getDataSource().commitTask(t);
+									TaskArrayAdapter.this.remove(t);
+									TaskArrayAdapter.this
+											.notifyDataSetChanged();
+								}
+							}
+						}
+					}, 1000);
+				}
+			}
+
+		});
+
+		if (t.getCategory().equals("Movie/Television")
+
 				|| t.getCategory().equals("Movie")) {
 			RottenTomatoe movie;
 			String movieName = t.toString();
@@ -193,8 +250,8 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 		taskView.setOnClickListener(new View.OnClickListener() {
 
 			@Override
-			public void onClick(View v) {}
-/*
+			public void onClick(View v) {
+
 				// TODO Auto-generated method stub
 				View toolbar = v.findViewById(R.id.toolbar);
 
@@ -221,9 +278,9 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 				}
 
 				Log.wtf("This Sucks", "in on click");
-
-			}*/
-		});
+			}
+			});
+		//});
 
 		return taskView;
 	}
