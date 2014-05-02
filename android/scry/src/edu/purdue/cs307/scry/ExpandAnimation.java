@@ -44,13 +44,14 @@ public class ExpandAnimation extends Animation{
             // Invalidating the layout, making us seeing the changes we made
             mView.requestLayout();
         }  else if (!mWasEndedAlready) {
-            LP.bottomMargin = marginEnd;
-            mView.requestLayout();
+
 
             if (visibility) {
                 mView.setVisibility(View.GONE);
             }
             mWasEndedAlready = true;
+            LP.bottomMargin = marginEnd;
+            mView.requestLayout();
         }
     }
 }

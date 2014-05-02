@@ -159,9 +159,7 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 
 		});
 
-		if (t.getCategory().equals("Movie/Television")
-
-				|| t.getCategory().equals("Movie")) {
+		if (t.getCategory().equals("Movies/Television") || t.getCategory().equals("Movie")) {
 			RottenTomatoe movie;
 			String movieName = t.toString();
 			movieName = movieName.substring(6);
@@ -262,7 +260,7 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 				}
 				if (PreviousToolbar != null) {
 					ExpandAnimation tempExpandAni = new ExpandAnimation(
-							PreviousToolbar, 500);
+							PreviousToolbar, 800);
 					PreviousToolbar.startAnimation(tempExpandAni);
 				}
 
@@ -277,7 +275,6 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
 					PreviousToolbar = toolbar;
 				}
 
-				Log.wtf("This Sucks", "in on click");
 			}
 			});
 		//});
